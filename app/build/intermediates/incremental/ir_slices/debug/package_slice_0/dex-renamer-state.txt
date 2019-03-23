@@ -1,0 +1,4 @@
+#Sat Mar 23 20:45:08 CST 2019
+base.0=/run/media/alvis/data-disk-mov/backup/workspace/Android-studio/MyTodo-remake/app/build/intermediates/transforms/dexMerger/debug/0
+path.0=classes.dex
+renamed.0=classes.dex

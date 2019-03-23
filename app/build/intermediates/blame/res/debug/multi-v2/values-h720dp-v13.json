@@ -1,0 +1,19 @@
+{
+    "logs": [
+        {
+            "outputFile": "/run/media/alvis/data-disk-mov/backup/workspace/Android-studio/MyTodo-remake/app/build/intermediates/incremental/mergeDebugResources/merged.dir/values-h720dp-v13/values-h720dp-v13.xml",
+            "map": [
+                {
+                    "source": "/home/alvis/.gradle/caches/transforms-1/files-1.1/appcompat-v7-28.0.0.aar/4f8abd13659fbabdc6bc4be4b1d6772a/res/values-h720dp-v13/values-h720dp-v13.xml",
+                    "from": {
+                        "startLines": "2",
+                        "startColumns": "4",
+                        "startOffsets": "55",
+                        "endColumns": "66",
+                        "endOffsets": "117"
+                    }
+                }
+            ]
+        }
+    ]
+}

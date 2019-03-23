@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="size_font_main_title">30sp</dimen>
+    <dimen name="size_all_user_icon">64dp</dimen>
+    <dimen name="size_height_userinfo_area">100dp</dimen>
+    <dimen name="size_all_img_btn_add_task">64dp</dimen>
+    <dimen name="distance_btn_to_right_bottom">20dp</dimen>
+    <dimen name="size_height_status_bar_mysetting">20dp</dimen>
+    <dimen name="size_font_user_name">16sp</dimen>
+</resources>

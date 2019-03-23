@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v4.widget.DrawerLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/drawer_layout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    >
+
+    <!--This is the main context show in normal time-->
+    <RelativeLayout
+        android:id="@+id/main_context"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <RelativeLayout
+            android:id="@+id/main_toolbar_area"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <ImageView
+                android:id="@+id/main_replace_to_status_bar"
+                android:background="@color/color_toolbar"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/size_height_status_bar_mysetting" />
+
+            <android.support.v7.widget.Toolbar
+                android:id="@+id/main_toolbar"
+                android:background="@color/color_toolbar"
+                android:layout_below="@id/main_replace_to_status_bar"
+                app:navigationIcon="@mipmap/ic_launcher_round"
+                android:layout_width="match_parent"
+                android:layout_height="?attr/actionBarSize">
+
+                <TextView
+                    android:id="@+id/main_toolbar_title"
+                    android:text="@string/str_main_title"
+                    android:textColor="@color/color_black"
+                    android:textSize="@dimen/size_font_main_title"
+                    android:textStyle="bold"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+
+            </android.support.v7.widget.Toolbar>
+
+        </RelativeLayout>
+
+
+
+        <RelativeLayout
+            android:id="@+id/main_client_area"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <ListView
+                android:id="@+id/main_task_list"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
+
+
+            <ImageView
+                android:id="@+id/main_btn_add_task"
+                android:layout_alignParentBottom="true"
+                android:layout_alignParentEnd="true"
+                android:background="@drawable/img_add_task"
+                android:layout_marginEnd="@dimen/distance_btn_to_right_bottom"
+                android:layout_marginBottom="@dimen/distance_btn_to_right_bottom"
+                android:layout_width="@dimen/size_all_img_btn_add_task"
+                android:layout_height="@dimen/size_all_img_btn_add_task" />
+
+        </RelativeLayout>
+
+    </RelativeLayout>
+
+    <!--insert the drawer layout-->
+    <include
+        layout="@layout/drawer_main"/>
+
+</android.support.v4.widget.DrawerLayout>
