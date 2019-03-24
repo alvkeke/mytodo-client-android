@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <ImageView
+            android:id="@+id/taskItem_importance"
+            android:layout_width="10dp"
+            android:layout_height="match_parent" />
+
+        <TextView
+            android:id="@+id/taskItem_taskContent"
+            android:text="TEST"
+            android:textColor="@color/color_black"
+            android:textSize="18sp"
+            android:layout_marginStart="10dp"
+            android:layout_toEndOf="@id/taskItem_importance"
+            android:layout_centerVertical="true"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+        <TextView
+            android:id="@+id/taskItem_taskTime"
+            android:text="TEST"
+            android:textColor="@color/color_red"
+            android:textSize="10sp"
+            android:layout_marginStart="10dp"
+            android:layout_toEndOf="@id/taskItem_importance"
+            android:layout_below="@id/taskItem_taskContent"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+
+
+    </RelativeLayout>
+
+</android.support.constraint.ConstraintLayout>

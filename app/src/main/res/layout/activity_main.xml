@@ -20,13 +20,13 @@
 
             <ImageView
                 android:id="@+id/main_replace_to_status_bar"
-                android:background="@color/color_toolbar"
+                android:background="@color/colorPrimaryDark"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/size_height_status_bar_mysetting" />
 
             <android.support.v7.widget.Toolbar
                 android:id="@+id/main_toolbar"
-                android:background="@color/color_toolbar"
+                android:background="@color/colorPrimary"
                 android:layout_below="@id/main_replace_to_status_bar"
                 app:navigationIcon="@mipmap/ic_launcher_round"
                 android:layout_width="match_parent"

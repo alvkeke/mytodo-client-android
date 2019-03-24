@@ -385,9 +385,7 @@ color colorAccent
 color colorPrimary
 color colorPrimaryDark
 color color_black
-color color_drawer_userinfo_area
 color color_red
-color color_toolbar
 color dim_foreground_disabled_material_dark
 color dim_foreground_disabled_material_light
 color dim_foreground_material_dark
@@ -682,6 +680,7 @@ id action_text
 id actions
 id activity_chooser_view_content
 id add
+id addTask_task_content
 id alertTitle
 id all
 id always
@@ -803,6 +802,9 @@ id tabMode
 id tag_transition_group
 id tag_unhandled_key_event_manager
 id tag_unhandled_key_listeners
+id taskItem_importance
+id taskItem_taskContent
+id taskItem_taskTime
 id text
 id text2
 id textSpacerNoButtons
@@ -852,6 +854,7 @@ layout abc_search_dropdown_item_icons_2line
 layout abc_search_view
 layout abc_select_dialog_material
 layout abc_tooltip
+layout activity_add_task
 layout activity_main
 layout drawer_main
 layout notification_action
@@ -864,6 +867,7 @@ layout select_dialog_item_material
 layout select_dialog_multichoice_material
 layout select_dialog_singlechoice_material
 layout support_simple_spinner_dropdown_item
+layout task_item_layout
 mipmap ic_launcher
 mipmap ic_launcher_round
 string abc_action_bar_home_description

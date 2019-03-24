@@ -13,14 +13,14 @@
 
         <ImageView
             android:id="@+id/drawer_replace_to_status"
-            android:background="@color/color_drawer_userinfo_area"
+            android:background="@color/colorPrimaryDark"
             android:layout_width="match_parent"
             android:layout_height="@dimen/size_height_status_bar_mysetting" />
 
         <RelativeLayout
             android:id="@+id/drawer_user_info_area"
             android:layout_below="@id/drawer_replace_to_status"
-            android:background="@color/color_drawer_userinfo_area"
+            android:background="@color/colorPrimary"
             android:layout_width="match_parent"
             android:layout_height="@dimen/size_height_userinfo_area">
 
