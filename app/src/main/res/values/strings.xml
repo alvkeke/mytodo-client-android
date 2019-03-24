@@ -1,4 +1,5 @@
 <resources>
     <string name="app_name">MyTodo</string>
     <string name="str_main_title">Title</string>
+    <string name="str_test">TEST</string>
 </resources>

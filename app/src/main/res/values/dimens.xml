@@ -4,7 +4,10 @@
     <dimen name="size_all_user_icon">64dp</dimen>
     <dimen name="size_height_userinfo_area">100dp</dimen>
     <dimen name="size_all_img_btn_add_task">64dp</dimen>
-    <dimen name="distance_btn_to_right_bottom">20dp</dimen>
+    <dimen name="distance_add_task_btn_to_right_bottom">20dp</dimen>
     <dimen name="size_height_status_bar_mysetting">20dp</dimen>
     <dimen name="size_font_user_name">16sp</dimen>
+    <dimen name="size_all_project_icon">32dp</dimen>
+    <dimen name="distance_project_margin">5dp</dimen>
+    <dimen name="size_font_project_name">15sp</dimen>
 </resources>

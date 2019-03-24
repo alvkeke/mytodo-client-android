@@ -7,7 +7,6 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
-
 import java.util.ArrayList;
 
 
@@ -19,6 +18,10 @@ public class TaskListAdapter extends BaseAdapter {
     TaskListAdapter(ArrayList<TaskItem> e, Context context){
         tasks = e;
         this.mInflater = LayoutInflater.from(context);
+    }
+
+    void changeTaskList(ArrayList<TaskItem> e){
+        tasks = e;
     }
 
     @Override
@@ -36,7 +39,7 @@ public class TaskListAdapter extends BaseAdapter {
         return tasks.get(position).getId();
     }
 
-    public final class ViewHolder{
+    static class ViewHolder{
         ImageView ivImportance;
         TextView tvTaskContent;
         TextView tvTaskTime;
@@ -45,7 +48,7 @@ public class TaskListAdapter extends BaseAdapter {
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
 
-        ViewHolder holder = null;
+        ViewHolder holder;
 
         if(convertView == null){
             holder = new ViewHolder();
@@ -54,6 +57,7 @@ public class TaskListAdapter extends BaseAdapter {
             holder.ivImportance = convertView.findViewById(R.id.taskItem_importance);
             holder.tvTaskContent = convertView.findViewById(R.id.taskItem_taskContent);
             holder.tvTaskTime = convertView.findViewById(R.id.taskItem_taskTime);
+            convertView.setTag(holder);
         }else{
             holder = (ViewHolder)convertView.getTag();
         }

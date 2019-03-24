@@ -12,6 +12,7 @@
 
         <TextView
             android:id="@+id/addTask_task_content"
+            android:text="@string/str_test"
             android:layout_marginStart="15dp"
             android:layout_marginTop="15dp"
             android:layout_marginEnd="15dp"

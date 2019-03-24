@@ -386,6 +386,7 @@ color colorPrimary
 color colorPrimaryDark
 color color_black
 color color_red
+color color_white
 color dim_foreground_disabled_material_dark
 color dim_foreground_disabled_material_light
 color dim_foreground_material_dark
@@ -516,7 +517,8 @@ dimen compat_notification_large_icon_max_height
 dimen compat_notification_large_icon_max_width
 dimen disabled_alpha_material_dark
 dimen disabled_alpha_material_light
-dimen distance_btn_to_right_bottom
+dimen distance_add_task_btn_to_right_bottom
+dimen distance_project_margin
 dimen highlight_alpha_material_colored
 dimen highlight_alpha_material_dark
 dimen highlight_alpha_material_light
@@ -540,8 +542,10 @@ dimen notification_subtext_size
 dimen notification_top_pad
 dimen notification_top_pad_large_text
 dimen size_all_img_btn_add_task
+dimen size_all_project_icon
 dimen size_all_user_icon
 dimen size_font_main_title
+dimen size_font_project_name
 dimen size_font_user_name
 dimen size_height_status_bar_mysetting
 dimen size_height_userinfo_area
@@ -736,6 +740,7 @@ id image
 id info
 id invisible
 id italic
+id iv_pro_icon
 id left
 id line1
 id line3
@@ -815,6 +820,7 @@ id titleDividerNoCustom
 id title_template
 id top
 id topPanel
+id tv_pro_name
 id uniform
 id up
 id useLogo
@@ -863,6 +869,7 @@ layout notification_template_custom_big
 layout notification_template_icon_group
 layout notification_template_part_chronometer
 layout notification_template_part_time
+layout pro_item_layout
 layout select_dialog_item_material
 layout select_dialog_multichoice_material
 layout select_dialog_singlechoice_material
@@ -913,6 +920,7 @@ string app_name
 string search_menu_title
 string status_bar_notification_info_overflow
 string str_main_title
+string str_test
 style AlertDialog_AppCompat
 style AlertDialog_AppCompat_Light
 style Animation_AppCompat_Dialog

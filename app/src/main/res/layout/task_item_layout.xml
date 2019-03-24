@@ -14,7 +14,7 @@
 
         <TextView
             android:id="@+id/taskItem_taskContent"
-            android:text="TEST"
+            android:text="@string/str_test"
             android:textColor="@color/color_black"
             android:textSize="18sp"
             android:layout_marginStart="10dp"
@@ -25,7 +25,7 @@
 
         <TextView
             android:id="@+id/taskItem_taskTime"
-            android:text="TEST"
+            android:text="@string/str_test"
             android:textColor="@color/color_red"
             android:textSize="10sp"
             android:layout_marginStart="10dp"

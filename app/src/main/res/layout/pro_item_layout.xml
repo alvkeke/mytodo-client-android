@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <ImageView
+            android:id="@+id/iv_pro_icon"
+            android:background="@color/color_black"
+            android:layout_centerVertical="true"
+            android:layout_marginStart="@dimen/distance_project_margin"
+            android:layout_marginTop="@dimen/distance_project_margin"
+            android:layout_marginBottom="@dimen/distance_project_margin"
+            android:layout_width="@dimen/size_all_project_icon"
+            android:layout_height="@dimen/size_all_project_icon" />
+
+        <TextView
+            android:id="@+id/tv_pro_name"
+            android:text="@string/str_test"
+            android:textColor="@color/color_black"
+            android:textSize="@dimen/size_font_project_name"
+            android:layout_centerVertical="true"
+            android:layout_toEndOf="@id/iv_pro_icon"
+            android:layout_marginStart="@dimen/distance_project_margin"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+    </RelativeLayout>
+
+</android.support.constraint.ConstraintLayout>

@@ -64,8 +64,8 @@
                 android:layout_alignParentBottom="true"
                 android:layout_alignParentEnd="true"
                 android:background="@drawable/img_add_task"
-                android:layout_marginEnd="@dimen/distance_btn_to_right_bottom"
-                android:layout_marginBottom="@dimen/distance_btn_to_right_bottom"
+                android:layout_marginEnd="@dimen/distance_add_task_btn_to_right_bottom"
+                android:layout_marginBottom="@dimen/distance_add_task_btn_to_right_bottom"
                 android:layout_width="@dimen/size_all_img_btn_add_task"
                 android:layout_height="@dimen/size_all_img_btn_add_task" />
 

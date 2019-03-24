@@ -58,13 +58,20 @@ public class MainActivity extends AppCompatActivity {
 
         //设置系统标题栏透明
         getWindow().setStatusBarColor(Color.TRANSPARENT);
-        getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN | View.SYSTEM_UI_FLAG_LAYOUT_STABLE);
-
-        tasks = new ArrayList<>();
+        getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN |
+                View.SYSTEM_UI_FLAG_LAYOUT_STABLE);
 
         setStatusBarHeight();
 
+        tasks = new ArrayList<>();
 
+        ProjectListAdapter proAdapter = new ProjectListAdapter(this);
+        lvProject.setAdapter(proAdapter);
+
+
+
+
+        //设置事件响应
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -85,7 +92,8 @@ public class MainActivity extends AppCompatActivity {
 
     void setStatusBarHeight(){
         int systemStatusBarHeight = 0;
-        int resId = getApplicationContext().getResources().getIdentifier("status_bar_height", "dimen", "android");
+        int resId = getApplicationContext().getResources().getIdentifier("status_bar_height",
+                "dimen", "android");
         if(resId > 0){
             systemStatusBarHeight = getApplicationContext().getResources().getDimensionPixelSize(resId);
         }
