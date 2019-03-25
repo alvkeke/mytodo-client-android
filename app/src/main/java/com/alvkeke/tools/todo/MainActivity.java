@@ -32,7 +32,7 @@ public class MainActivity extends AppCompatActivity {
     ListView lvTaskRank;
     ListView lvProject;
 
-    ArrayList<TaskItem> tasks;
+    ArrayList<TaskItem> projects;
 
 
     @Override
@@ -63,11 +63,13 @@ public class MainActivity extends AppCompatActivity {
 
         setStatusBarHeight();
 
-        tasks = new ArrayList<>();
+        projects = new ArrayList<>();
 
-        DefaultTaskListAdapter proAdapter = new DefaultTaskListAdapter(this);
+        DefaultTaskListAdapter defaultProAdapter = new DefaultTaskListAdapter(this);
+        lvTaskRank.setAdapter(defaultProAdapter);
+
+        ProjectListAdapter proAdapter = new ProjectListAdapter(this);
         lvProject.setAdapter(proAdapter);
-
 
 
 

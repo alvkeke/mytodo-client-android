@@ -8,28 +8,30 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-public class DefaultTaskListAdapter extends BaseAdapter {
+import java.util.ArrayList;
 
+public class ProjectListAdapter extends BaseAdapter {
+
+    private ArrayList<Project> tasks;
     private LayoutInflater mInflater;
 
-    DefaultTaskListAdapter(Context context){
+    ProjectListAdapter(Context context){
         mInflater = LayoutInflater.from(context);
-
     }
 
     @Override
     public int getCount() {
-        return 3;
+        return tasks == null?0:tasks.size();
     }
 
     @Override
     public Object getItem(int position) {
-        return null;
+        return tasks.get(position);
     }
 
     @Override
     public long getItemId(int position) {
-        return 0;
+        return tasks.get(position).getId();
     }
 
     static class ViewHolder{
@@ -39,7 +41,6 @@ public class DefaultTaskListAdapter extends BaseAdapter {
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-
         ViewHolder holder;
         if(convertView == null){
             holder = new ViewHolder();
@@ -55,18 +56,8 @@ public class DefaultTaskListAdapter extends BaseAdapter {
             holder = (ViewHolder)convertView.getTag();
         }
 
-        switch (position){
-            case 0:
-                holder.proName.setText("全部任务");
-                break;
-            case 1:
-                holder.proName.setText("今日任务");
+        holder.proName.setText(Long.toString(getItemId(position)));
 
-                break;
-            case 2:
-                holder.proName.setText("近七日任务");
-                break;
-        }
 
         return convertView;
     }
