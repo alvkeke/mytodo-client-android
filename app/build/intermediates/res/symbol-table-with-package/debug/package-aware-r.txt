@@ -385,6 +385,7 @@ color colorAccent
 color colorPrimary
 color colorPrimaryDark
 color color_black
+color color_pink
 color color_red
 color color_white
 color dim_foreground_disabled_material_dark
@@ -544,6 +545,7 @@ dimen notification_top_pad_large_text
 dimen size_all_img_btn_add_task
 dimen size_all_project_icon
 dimen size_all_user_icon
+dimen size_font_divider_text
 dimen size_font_main_title
 dimen size_font_project_name
 dimen size_font_user_name
@@ -712,9 +714,11 @@ id default_activity_button
 id dimensions
 id direct
 id disableHome
+id drawer_bottom_area
 id drawer_head
 id drawer_layout
 id drawer_lv_auto_rank
+id drawer_lv_divider
 id drawer_lv_projects
 id drawer_replace_to_status
 id drawer_tx_user_name
@@ -921,6 +925,7 @@ string search_menu_title
 string status_bar_notification_info_overflow
 string str_main_title
 string str_test
+string str_user_project
 style AlertDialog_AppCompat
 style AlertDialog_AppCompat_Light
 style Animation_AppCompat_Dialog

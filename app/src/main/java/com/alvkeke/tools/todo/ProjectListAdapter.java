@@ -12,26 +12,27 @@ import java.util.ArrayList;
 
 public class ProjectListAdapter extends BaseAdapter {
 
-    private ArrayList<Project> tasks;
+    private ArrayList<Project> projects;
     private LayoutInflater mInflater;
 
-    ProjectListAdapter(Context context){
+    ProjectListAdapter(Context context, ArrayList<Project> projects){
         mInflater = LayoutInflater.from(context);
+        this.projects = projects;
     }
 
     @Override
     public int getCount() {
-        return tasks == null?0:tasks.size();
+        return projects == null?0: projects.size();
     }
 
     @Override
     public Object getItem(int position) {
-        return tasks.get(position);
+        return projects.get(position);
     }
 
     @Override
     public long getItemId(int position) {
-        return tasks.get(position).getId();
+        return projects.get(position).getId();
     }
 
     static class ViewHolder{

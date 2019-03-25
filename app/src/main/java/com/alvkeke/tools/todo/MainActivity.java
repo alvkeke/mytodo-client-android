@@ -32,7 +32,7 @@ public class MainActivity extends AppCompatActivity {
     ListView lvTaskRank;
     ListView lvProject;
 
-    ArrayList<TaskItem> projects;
+    ArrayList<Project> projects;
 
 
     @Override
@@ -68,8 +68,13 @@ public class MainActivity extends AppCompatActivity {
         DefaultTaskListAdapter defaultProAdapter = new DefaultTaskListAdapter(this);
         lvTaskRank.setAdapter(defaultProAdapter);
 
-        ProjectListAdapter proAdapter = new ProjectListAdapter(this);
+        ProjectListAdapter proAdapter = new ProjectListAdapter(this, projects);
         lvProject.setAdapter(proAdapter);
+
+        //TODO:delete the code below, these code are for test
+        for(int i = 0; i<10;i++) {
+            projects.add(new Project(Integer.toString(i)));
+        }
 
 
 
