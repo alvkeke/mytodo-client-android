@@ -65,7 +65,7 @@ public class MainActivity extends AppCompatActivity {
 
         tasks = new ArrayList<>();
 
-        ProjectListAdapter proAdapter = new ProjectListAdapter(this);
+        DefaultTaskListAdapter proAdapter = new DefaultTaskListAdapter(this);
         lvProject.setAdapter(proAdapter);
 
 

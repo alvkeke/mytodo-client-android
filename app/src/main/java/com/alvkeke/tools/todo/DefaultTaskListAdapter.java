@@ -8,11 +8,11 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-public class ProjectListAdapter extends BaseAdapter {
+public class DefaultTaskListAdapter extends BaseAdapter {
 
     LayoutInflater mInflater;
 
-    ProjectListAdapter(Context context){
+    DefaultTaskListAdapter(Context context){
         mInflater = LayoutInflater.from(context);
 
     }
