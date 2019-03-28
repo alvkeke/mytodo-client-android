@@ -1,7 +1,7 @@
 {
     "logs": [
         {
-            "outputFile": "/home/alvis/desktop/MyTodo-remake/app/build/intermediates/incremental/mergeDebugResources/merged.dir/values-h720dp-v13/values-h720dp-v13.xml",
+            "outputFile": "/home/alvis/desktop/mytodo-client-android-remake/app/build/intermediates/incremental/mergeDebugResources/merged.dir/values-h720dp-v13/values-h720dp-v13.xml",
             "map": [
                 {
                     "source": "/home/alvis/.gradle/caches/transforms-1/files-1.1/appcompat-v7-28.0.0.aar/4f8abd13659fbabdc6bc4be4b1d6772a/res/values-h720dp-v13/values-h720dp-v13.xml",

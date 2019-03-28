@@ -519,6 +519,7 @@ dimen compat_notification_large_icon_max_width
 dimen disabled_alpha_material_dark
 dimen disabled_alpha_material_light
 dimen distance_add_task_btn_to_right_bottom
+dimen distance_project_list_to_start
 dimen distance_project_margin
 dimen highlight_alpha_material_colored
 dimen highlight_alpha_material_dark

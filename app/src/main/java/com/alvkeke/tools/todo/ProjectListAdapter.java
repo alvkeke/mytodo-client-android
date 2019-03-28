@@ -57,7 +57,7 @@ public class ProjectListAdapter extends BaseAdapter {
             holder = (ViewHolder)convertView.getTag();
         }
 
-        holder.proName.setText(Long.toString(getItemId(position)));
+        holder.proName.setText(projects.get(position).getName());
 
 
         return convertView;
