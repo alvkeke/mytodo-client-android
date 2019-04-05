@@ -28,7 +28,7 @@
                 android:id="@+id/main_toolbar"
                 android:background="@color/colorPrimary"
                 android:layout_below="@id/main_replace_to_status_bar"
-                app:navigationIcon="@mipmap/ic_launcher_round"
+                app:navigationIcon="@drawable/ic_navigation"
                 android:layout_width="match_parent"
                 android:layout_height="?attr/actionBarSize">
 
@@ -50,6 +50,7 @@
 
         <RelativeLayout
             android:id="@+id/main_client_area"
+            android:layout_below="@id/main_toolbar_area"
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 

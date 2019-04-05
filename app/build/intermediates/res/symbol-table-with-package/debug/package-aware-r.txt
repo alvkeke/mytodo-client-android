@@ -646,6 +646,7 @@ drawable abc_textfield_search_material
 drawable abc_vector_test
 drawable ic_launcher_background
 drawable ic_launcher_foreground
+drawable ic_navigation
 drawable img_add_task
 drawable notification_action_background
 drawable notification_bg

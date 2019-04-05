@@ -1296,6 +1296,10 @@
         "source": "/home/alvis/.gradle/caches/transforms-1/files-1.1/appcompat-v7-28.0.0.aar/4f8abd13659fbabdc6bc4be4b1d6772a/res/drawable-mdpi-v4/abc_ic_star_black_16dp.png"
     },
     {
+        "merged": "/home/alvis/desktop/mytodo-client-android-remake/app/build/intermediates/res/merged/debug/drawable_ic_navigation.xml.flat",
+        "source": "/home/alvis/desktop/mytodo-client-android-remake/app/src/main/res/drawable/ic_navigation.xml"
+    },
+    {
         "merged": "/home/alvis/desktop/mytodo-client-android-remake/app/build/intermediates/res/merged/debug/drawable-xhdpi-v4_abc_list_longpressed_holo.9.png.flat",
         "source": "/home/alvis/.gradle/caches/transforms-1/files-1.1/appcompat-v7-28.0.0.aar/4f8abd13659fbabdc6bc4be4b1d6772a/res/drawable-xhdpi-v4/abc_list_longpressed_holo.9.png"
     },
