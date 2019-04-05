@@ -32,12 +32,21 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
 
+        <Spinner
+            android:id="@+id/addTask_project_select"
+            android:minWidth="150dp"
+            android:layout_below="@id/addTask_task_content"
+            android:layout_alignParentEnd="true"
+            android:layout_marginEnd="@dimen/distance_addTask_margin"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+
         <TextView
             android:id="@+id/addTask_label_remind_me"
             android:text="@string/label_remind_me"
             android:textColor="@color/color_black"
             android:textSize="18sp"
-            android:layout_below="@id/addTask_task_content"
+            android:layout_below="@id/addTask_project_select"
             android:layout_toStartOf="@id/addTask_remind_me"
             android:layout_marginTop="@dimen/distance_addTask_margin"
             android:layout_marginStart="@dimen/distance_addTask_margin"
@@ -46,7 +55,7 @@
 
         <Switch
             android:id="@+id/addTask_remind_me"
-            android:layout_below="@id/addTask_task_content"
+            android:layout_alignBaseline="@id/addTask_label_remind_me"
             android:layout_alignParentEnd="true"
             android:layout_marginEnd="@dimen/distance_addTask_margin"
             android:layout_marginStart="@dimen/distance_addTask_margin"
@@ -54,8 +63,9 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
 
+
         <RelativeLayout
-            android:id="@+id/addTask_reminder_setting"
+            android:id="@+id/addTask_reminder_setting_area"
             android:layout_below="@id/addTask_remind_me"
             android:visibility="gone"
             android:layout_width="match_parent"
@@ -63,10 +73,10 @@
 
             <EditText
                 android:id="@+id/addTask_et_remind_time"
+                android:gravity="center"
                 android:layout_marginStart="@dimen/distance_addTask_margin"
                 android:layout_toStartOf="@id/remind_divider"
                 android:layout_alignParentStart="true"
-                android:editable="false"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" />
 
@@ -81,10 +91,10 @@
 
             <EditText
                 android:id="@+id/addTask_et_remind_date"
+                android:gravity="center"
                 android:layout_alignParentEnd="true"
                 android:layout_marginEnd="@dimen/distance_addTask_margin"
                 android:layout_toEndOf="@id/remind_divider"
-                android:editable="false"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" />
 

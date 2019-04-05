@@ -2,18 +2,17 @@ package com.alvkeke.tools.todo;
 
 import android.content.Intent;
 import android.graphics.Color;
+import android.support.annotation.Nullable;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-
 import java.util.ArrayList;
 import java.util.Objects;
 
@@ -91,12 +90,33 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(MainActivity.this, AddTaskActivity.class);
-                startActivity(intent);
+                startActivityForResult(intent, Constants.REQUEST_CODE_ADD_TASK);
             }
         });
 
     }
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if(requestCode == Constants.REQUEST_CODE_ADD_TASK){
+            if(resultCode == Constants.RESULT_CODE_ADD_TASK){
+                if(data != null) {
+                    String task = data.getStringExtra("task");
+                    Boolean isRemind = data.getBooleanExtra("isRemind", false);
+                    int year = data.getIntExtra("year", -1);
+                    int month = data.getIntExtra("month", -1);
+                    int dayOfMonth = data.getIntExtra("dayOfMonth", -1);
+                    int hour = data.getIntExtra("hour", -1);
+                    int minute = data.getIntExtra("minute", -1);
+
+                    //TODO: Delete this code below;
+                    System.out.println(task + isRemind + year + month + dayOfMonth + hour + minute);
+                }
+
+            }
+        }
+    }
 
     @Override
     public void onBackPressed() {

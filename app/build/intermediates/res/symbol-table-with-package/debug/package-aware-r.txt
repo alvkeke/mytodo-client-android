@@ -695,8 +695,9 @@ id addTask_et_remind_date
 id addTask_et_remind_time
 id addTask_label_remind_me
 id addTask_label_task_content
+id addTask_project_select
 id addTask_remind_me
-id addTask_reminder_setting
+id addTask_reminder_setting_area
 id addTask_task_content
 id alertTitle
 id all
