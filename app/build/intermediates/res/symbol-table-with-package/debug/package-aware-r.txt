@@ -518,6 +518,7 @@ dimen compat_notification_large_icon_max_height
 dimen compat_notification_large_icon_max_width
 dimen disabled_alpha_material_dark
 dimen disabled_alpha_material_light
+dimen distance_addTask_margin
 dimen distance_add_task_btn_to_right_bottom
 dimen distance_project_list_to_start
 dimen distance_project_margin
@@ -688,6 +689,14 @@ id action_text
 id actions
 id activity_chooser_view_content
 id add
+id addTask_btn_cancel
+id addTask_btn_ok
+id addTask_et_remind_date
+id addTask_et_remind_time
+id addTask_label_remind_me
+id addTask_label_task_content
+id addTask_remind_me
+id addTask_reminder_setting
 id addTask_task_content
 id alertTitle
 id all
@@ -776,6 +785,7 @@ id percent
 id progress_circular
 id progress_horizontal
 id radio
+id remind_divider
 id right
 id right_icon
 id right_side
@@ -923,11 +933,16 @@ string abc_shareactionprovider_share_with
 string abc_shareactionprovider_share_with_application
 string abc_toolbar_collapse_description
 string app_name
+string label_remind_me
+string label_task_content
 string search_menu_title
 string status_bar_notification_info_overflow
 string str_main_title
+string str_reminder_divider_between_time_and_date
 string str_test
 string str_user_project
+string title_btn_cancel
+string title_btn_ok
 style AlertDialog_AppCompat
 style AlertDialog_AppCompat_Light
 style Animation_AppCompat_Dialog

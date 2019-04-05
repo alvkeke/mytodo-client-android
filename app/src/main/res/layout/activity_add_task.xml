@@ -11,12 +11,105 @@
         android:layout_height="match_parent">
 
         <TextView
-            android:id="@+id/addTask_task_content"
-            android:text="@string/str_test"
-            android:layout_marginStart="15dp"
-            android:layout_marginTop="15dp"
-            android:layout_marginEnd="15dp"
+            android:id="@+id/addTask_label_task_content"
+            android:text="@string/label_task_content"
+            android:textColor="@color/color_black"
+            android:textSize="18sp"
+            android:layout_marginStart="@dimen/distance_addTask_margin"
+            android:layout_marginTop="@dimen/distance_addTask_margin"
+            android:layout_marginEnd="@dimen/distance_addTask_margin"
             android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+        <EditText
+            android:id="@+id/addTask_task_content"
+            android:layout_below="@id/addTask_label_task_content"
+            android:layout_marginStart="@dimen/distance_addTask_margin"
+            android:layout_marginTop="@dimen/distance_addTask_margin"
+            android:layout_marginEnd="@dimen/distance_addTask_margin"
+            android:inputType="textMultiLine"
+            android:maxLines="10"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+        <TextView
+            android:id="@+id/addTask_label_remind_me"
+            android:text="@string/label_remind_me"
+            android:textColor="@color/color_black"
+            android:textSize="18sp"
+            android:layout_below="@id/addTask_task_content"
+            android:layout_toStartOf="@id/addTask_remind_me"
+            android:layout_marginTop="@dimen/distance_addTask_margin"
+            android:layout_marginStart="@dimen/distance_addTask_margin"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+        <Switch
+            android:id="@+id/addTask_remind_me"
+            android:layout_below="@id/addTask_task_content"
+            android:layout_alignParentEnd="true"
+            android:layout_marginEnd="@dimen/distance_addTask_margin"
+            android:layout_marginStart="@dimen/distance_addTask_margin"
+            android:layout_marginTop="@dimen/distance_addTask_margin"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+        <RelativeLayout
+            android:id="@+id/addTask_reminder_setting"
+            android:layout_below="@id/addTask_remind_me"
+            android:visibility="gone"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <EditText
+                android:id="@+id/addTask_et_remind_time"
+                android:layout_marginStart="@dimen/distance_addTask_margin"
+                android:layout_toStartOf="@id/remind_divider"
+                android:layout_alignParentStart="true"
+                android:editable="false"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+            <TextView
+                android:id="@+id/remind_divider"
+                android:text="@string/str_reminder_divider_between_time_and_date"
+                android:textColor="#DCBC1A"
+                android:layout_centerHorizontal="true"
+                android:layout_alignBaseline="@id/addTask_et_remind_time"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+            <EditText
+                android:id="@+id/addTask_et_remind_date"
+                android:layout_alignParentEnd="true"
+                android:layout_marginEnd="@dimen/distance_addTask_margin"
+                android:layout_toEndOf="@id/remind_divider"
+                android:editable="false"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+        </RelativeLayout>
+
+
+
+        <Button
+            android:id="@+id/addTask_btn_cancel"
+            android:text="@string/title_btn_cancel"
+            android:layout_toStartOf="@id/addTask_btn_ok"
+            android:layout_alignParentBottom="true"
+            android:layout_marginEnd="@dimen/distance_addTask_margin"
+            android:layout_marginBottom="@dimen/distance_addTask_margin"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+        <Button
+            android:id="@+id/addTask_btn_ok"
+            android:text="@string/title_btn_ok"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentBottom="true"
+            android:layout_marginEnd="@dimen/distance_addTask_margin"
+            android:layout_marginBottom="@dimen/distance_addTask_margin"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
 
     </RelativeLayout>
