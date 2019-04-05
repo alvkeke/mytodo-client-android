@@ -7,6 +7,7 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.ListView;
@@ -96,6 +97,21 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
+
+    @Override
+    public void onBackPressed() {
+
+        /*
+        * when the back button was pressed
+        * if the drawer is open, then close the drawer
+        * */
+        if(drawerLayout.isDrawerOpen(GravityCompat.START)) {
+            drawerLayout.closeDrawer(GravityCompat.START);
+        }else{
+            super.onBackPressed();
+        }
+
+    }
 
     void setStatusBarHeight(){
         int systemStatusBarHeight = 0;
