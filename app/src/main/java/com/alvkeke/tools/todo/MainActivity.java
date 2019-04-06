@@ -97,6 +97,8 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(MainActivity.this, AddTaskActivity.class);
+                ArrayList<String> projectsInfo = Functions.stringListFromProjectList(projects);
+                intent.putStringArrayListExtra("projectsInfo", projectsInfo);
                 startActivityForResult(intent, Constants.REQUEST_CODE_ADD_TASK);
             }
         });
@@ -111,7 +113,7 @@ public class MainActivity extends AppCompatActivity {
                 if(data != null) {
 
                     //TODO: change the defaultValue of the project Id.
-                    long proId = data.getLongExtra("proId", projects.get(0).getId());
+                    long proId = data.getLongExtra("projectId", -1);
 
                     Project project = Functions.findProjectInProjectList(projects, proId);
                     if(project == null){

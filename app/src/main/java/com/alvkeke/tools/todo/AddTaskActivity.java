@@ -69,19 +69,24 @@ public class AddTaskActivity extends AppCompatActivity {
 
         //TODO: Delete the codes below;
         ArrayList<Project> list = new ArrayList<>();
-        list.add(new Project("123", this.getResources().getColor(R.color.color_black)));
+        Intent intent = getIntent();
+        final ArrayList<String> proList = intent.getStringArrayListExtra("projectsInfo");
+        for(String s : proList){
+            String[] proInfo = s.split(":");
+            list.add(new Project(Long.valueOf(proInfo[0]), proInfo[1], Integer.valueOf(proInfo[2])));
+        }
+        //list.add(new Project("123", this.getResources().getColor(R.color.color_black)));
 
-
-        ProjectListAdapter projectListAdapter = new ProjectListAdapter(this, list);
+        final ProjectListAdapter projectListAdapter = new ProjectListAdapter(this, list);
         projectSelector.setAdapter(projectListAdapter);
 
+        //这里用项目列表来代替任务等级的列表,通过参数上的不同来区分这任务等级和项目列表的不同
         ArrayList<Project> levelList = new ArrayList<>();
         levelList.add(new Project("普通", this.getResources().getColor(R.color.level_none)));
         levelList.add(new Project("优先", this.getResources().getColor(R.color.level_low)));
         levelList.add(new Project("重要", this.getResources().getColor(R.color.level_mid)));
         levelList.add(new Project("紧急", this.getResources().getColor(R.color.level_high)));
 
-        //这里用项目列表来代替任务等级的列表,通过参数上的不同来区分这任务等级和项目列表的不同
         ProjectListAdapter levelListAdapter = new ProjectListAdapter(this, levelList);
         levelSelector.setAdapter(levelListAdapter);
 
@@ -162,16 +167,6 @@ public class AddTaskActivity extends AppCompatActivity {
                 }else{
                     Intent intent = getIntent();
 
-
-                    /*
-                    *   Boolean isRemind;
-                        int year;
-                        int month;
-                        int dayOfMonth;
-
-                        int hour;
-                        int minute;
-                    * */
                     intent.putExtra("task", etTaskContent.getText().toString());
                     intent.putExtra("isRemind", isRemind);
                     intent.putExtra("year", year);
@@ -179,6 +174,8 @@ public class AddTaskActivity extends AppCompatActivity {
                     intent.putExtra("dayOfMonth", dayOfMonth);
                     intent.putExtra("hour", hour);
                     intent.putExtra("minute", minute);
+                    intent.putExtra("level", levelSelector.getSelectedItemPosition());
+                    intent.putExtra("projectId", projectSelector.getSelectedItemId());
 
                     setResult(Constants.RESULT_CODE_ADD_TASK, intent);
                     AddTaskActivity.this.finish();

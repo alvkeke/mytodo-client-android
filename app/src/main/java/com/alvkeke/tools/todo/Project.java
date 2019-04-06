@@ -17,6 +17,13 @@ class Project {
         this.Id = new Date().getTime();
     }
 
+    Project(long projectId, String name, int color){
+        this.name = name;
+        this.tasks = new ArrayList<>();
+        this.color = color;
+        this.Id = projectId;
+    }
+
     void changeName(String name){
         this.name = name;
     }

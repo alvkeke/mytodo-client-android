@@ -20,6 +20,17 @@ class Functions {
         return null;
     }
 
+    static ArrayList<String> stringListFromProjectList(ArrayList<Project> list){
+        ArrayList<String> strings = new ArrayList<>();
+
+        for(Project e : list){
+            String projectInfo = e.getId() + ":" + e.getName() + ":" + e.getColor();
+            strings.add(projectInfo);
+        }
+
+        return strings;
+    }
+
     /*Task List Handler Functions*/
 
     ArrayList<TaskItem> getTodayTaskList(ArrayList<Project> allProjects){
