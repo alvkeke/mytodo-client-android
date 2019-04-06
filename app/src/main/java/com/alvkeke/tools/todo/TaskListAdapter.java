@@ -87,13 +87,10 @@ public class TaskListAdapter extends BaseAdapter {
 
         long time = tasks.get(position).getTime();
         if(time > 0) {
-            String timeStr = Functions.formatTime(time);
+            String timeStr = Functions.autoFormatDate(time);
             holder.tvTaskTime.setText(timeStr);
         }else{
-            //holder.tvTaskTime.setText("");
-
-            String timeStr = Functions.formatTime(time);
-            holder.tvTaskTime.setText(timeStr);
+            holder.tvTaskTime.setText("");
         }
 
         return convertView;
