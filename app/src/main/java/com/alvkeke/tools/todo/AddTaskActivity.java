@@ -59,8 +59,8 @@ public class AddTaskActivity extends AppCompatActivity {
         year = -1;
         month = -1;
         dayOfMonth = -1;
-        hour = -1;
-        minute = -1;
+        hour = 0;
+        minute = 0;
 
         etRemindTime.setFocusable(false);
         etRemindDate.setFocusable(false);
@@ -82,8 +82,10 @@ public class AddTaskActivity extends AppCompatActivity {
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if(isChecked){
                     reminderSettingArea.setVisibility(View.VISIBLE);
+                    isRemind = true;
                 }else{
                     reminderSettingArea.setVisibility(View.INVISIBLE);
+                    isRemind = false;
                 }
             }
         });
@@ -92,8 +94,14 @@ public class AddTaskActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
+                /*
                 if(hour == -1){ hour = calender.get(Calendar.HOUR_OF_DAY); }
                 if(minute == -1){ minute = calender.get(Calendar.MINUTE); }
+                */
+                if(etRemindTime.getText().toString().isEmpty()){
+                    hour = calender.get(Calendar.HOUR_OF_DAY);
+                    minute = calender.get(Calendar.MINUTE);
+                }
 
                 TimePickerDialog timeDialog = new TimePickerDialog(AddTaskActivity.this, new TimePickerDialog.OnTimeSetListener() {
                     @Override
@@ -138,8 +146,10 @@ public class AddTaskActivity extends AppCompatActivity {
         btnOk.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(etTaskContent.getText().toString().isEmpty()){
+                if(etTaskContent.getText().toString().isEmpty()) {
                     Toast.makeText(getApplicationContext(), "任务内容不能为空", Toast.LENGTH_SHORT).show();
+                }else if(etRemindDate.getText().toString().isEmpty() && isRemind){
+                    Toast.makeText(getApplicationContext(), "日期不能为空", Toast.LENGTH_SHORT).show();
                 }else{
                     Intent intent = getIntent();
 

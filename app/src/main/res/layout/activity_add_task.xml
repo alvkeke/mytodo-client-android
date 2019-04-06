@@ -33,6 +33,16 @@
             android:layout_height="wrap_content" />
 
         <Spinner
+            android:id="@+id/addTask_level_select"
+            android:minWidth="150dp"
+            android:layout_below="@id/addTask_task_content"
+            android:layout_alignParentStart="true"
+            android:layout_marginEnd="@dimen/distance_addTask_margin"
+            android:layout_marginStart="@dimen/distance_addTask_margin"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+
+        <Spinner
             android:id="@+id/addTask_project_select"
             android:minWidth="150dp"
             android:layout_below="@id/addTask_task_content"

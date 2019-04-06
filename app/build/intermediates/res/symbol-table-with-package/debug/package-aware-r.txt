@@ -398,6 +398,10 @@ color foreground_material_dark
 color foreground_material_light
 color highlighted_text_material_dark
 color highlighted_text_material_light
+color level_high
+color level_low
+color level_mid
+color level_none
 color material_blue_grey_800
 color material_blue_grey_900
 color material_blue_grey_950
@@ -550,9 +554,12 @@ dimen size_all_user_icon
 dimen size_font_divider_text
 dimen size_font_main_title
 dimen size_font_project_name
+dimen size_font_task_content
+dimen size_font_task_time
 dimen size_font_user_name
 dimen size_height_status_bar_mysetting
 dimen size_height_userinfo_area
+dimen size_width_importance_show
 dimen tooltip_corner_radius
 dimen tooltip_horizontal_padding
 dimen tooltip_margin
@@ -695,6 +702,7 @@ id addTask_et_remind_date
 id addTask_et_remind_time
 id addTask_label_remind_me
 id addTask_label_task_content
+id addTask_level_select
 id addTask_project_select
 id addTask_remind_me
 id addTask_reminder_setting_area

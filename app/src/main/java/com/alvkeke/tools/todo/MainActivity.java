@@ -13,7 +13,10 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
+
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.Objects;
 
 public class MainActivity extends AppCompatActivity {
@@ -33,6 +36,10 @@ public class MainActivity extends AppCompatActivity {
     ListView lvProject;
 
     ArrayList<Project> projects;
+    ProjectListAdapter proAdapter;
+    TaskListAdapter taskAdapter;
+
+    ArrayList<TaskItem> taskList_Show;
 
 
     @Override
@@ -64,18 +71,18 @@ public class MainActivity extends AppCompatActivity {
         setStatusBarHeight();
 
         projects = new ArrayList<>();
+        //TODO:delete the code below, these code are for test
+        projects.add(new Project("Project"));
+        taskList_Show = projects.get(0).getTaskList();
 
         DefaultTaskListAdapter defaultProAdapter = new DefaultTaskListAdapter(this);
         lvTaskRank.setAdapter(defaultProAdapter);
 
-        ProjectListAdapter proAdapter = new ProjectListAdapter(this, projects);
+        proAdapter = new ProjectListAdapter(this, projects);
         lvProject.setAdapter(proAdapter);
 
-        //TODO:delete the code below, these code are for test
-        for(int i = 0; i<10;i++) {
-            projects.add(new Project(Integer.toString(i)));
-        }
-
+        taskAdapter = new TaskListAdapter(this, taskList_Show);
+        lvTaskList.setAdapter(taskAdapter);
 
 
         //设置事件响应
@@ -102,16 +109,32 @@ public class MainActivity extends AppCompatActivity {
         if(requestCode == Constants.REQUEST_CODE_ADD_TASK){
             if(resultCode == Constants.RESULT_CODE_ADD_TASK){
                 if(data != null) {
-                    String task = data.getStringExtra("task");
-                    Boolean isRemind = data.getBooleanExtra("isRemind", false);
-                    int year = data.getIntExtra("year", -1);
-                    int month = data.getIntExtra("month", -1);
-                    int dayOfMonth = data.getIntExtra("dayOfMonth", -1);
-                    int hour = data.getIntExtra("hour", -1);
-                    int minute = data.getIntExtra("minute", -1);
 
-                    //TODO: Delete this code below;
-                    System.out.println(task + isRemind + year + month + dayOfMonth + hour + minute);
+                    //TODO: change the defaultValue of the project Id.
+                    long proId = data.getLongExtra("proId", projects.get(0).getId());
+
+                    Project project = Functions.findProjectInProjectList(projects, proId);
+                    if(project == null){
+                        Toast.makeText(this, "信息出错：找不到项目", Toast.LENGTH_SHORT).show();
+                        return;
+                    }
+
+                    String task = data.getStringExtra("task");
+                    int level = data.getIntExtra("level", 0);
+                    boolean isRemind = data.getBooleanExtra("isRemind", false);
+                    long time = -1;
+                    if(isRemind) {
+                        int year = data.getIntExtra("year", 1900);
+                        int month = data.getIntExtra("month", 1);
+                        int dayOfMonth = data.getIntExtra("dayOfMonth", 0);
+                        int hour = data.getIntExtra("hour", 0);
+                        int minute = data.getIntExtra("minute", 0);
+
+                        time = new Date(year-1900, month-1, dayOfMonth, hour, minute).getTime();
+                    }
+
+                    projects.get(0).addTask(new TaskItem(proId, task, time, level));
+                    taskAdapter.notifyDataSetChanged();
                 }
 
             }

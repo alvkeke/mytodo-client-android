@@ -9,17 +9,16 @@
 
         <ImageView
             android:id="@+id/taskItem_importance"
-            android:layout_width="10dp"
+            android:layout_width="@dimen/size_width_importance_show"
             android:layout_height="match_parent" />
 
         <TextView
             android:id="@+id/taskItem_taskContent"
             android:text="@string/str_test"
             android:textColor="@color/color_black"
-            android:textSize="18sp"
+            android:textSize="@dimen/size_font_task_content"
             android:layout_marginStart="10dp"
             android:layout_toEndOf="@id/taskItem_importance"
-            android:layout_centerVertical="true"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
 
@@ -27,14 +26,13 @@
             android:id="@+id/taskItem_taskTime"
             android:text="@string/str_test"
             android:textColor="@color/color_red"
-            android:textSize="10sp"
-            android:layout_marginStart="10dp"
+            android:textSize="@dimen/size_font_task_time"
             android:layout_toEndOf="@id/taskItem_importance"
             android:layout_below="@id/taskItem_taskContent"
+            android:layout_marginStart="10dp"
+            android:layout_marginBottom="5dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
-
-
 
     </RelativeLayout>
 

@@ -13,4 +13,7 @@
     <dimen name="size_font_divider_text">15sp</dimen>
     <dimen name="distance_project_list_to_start">40dp</dimen>
     <dimen name="distance_addTask_margin">30dp</dimen>
+    <dimen name="size_width_importance_show">5dp</dimen>
+    <dimen name="size_font_task_content">18sp</dimen>
+    <dimen name="size_font_task_time">10sp</dimen>
 </resources>

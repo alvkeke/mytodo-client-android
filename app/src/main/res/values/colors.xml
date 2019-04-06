@@ -7,4 +7,8 @@
     <color name="color_red">#FF0000</color>
     <color name="color_white">#FFF</color>
     <color name="color_pink">#F5AFD4</color>
+    <color name="level_high">#FF0000</color>
+    <color name="level_mid">#FF9900</color>
+    <color name="level_low">#FFee00</color>
+    <color name="level_none">#0000</color>
 </resources>

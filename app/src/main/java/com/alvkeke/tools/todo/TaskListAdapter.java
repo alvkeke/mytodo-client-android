@@ -12,12 +12,14 @@ import java.util.ArrayList;
 
 public class TaskListAdapter extends BaseAdapter {
 
-    ArrayList<TaskItem> tasks;
-    LayoutInflater mInflater;
+    private ArrayList<TaskItem> tasks;
+    private LayoutInflater mInflater;
+    private Context context;
 
-    TaskListAdapter(ArrayList<TaskItem> e, Context context){
+    TaskListAdapter(Context context, ArrayList<TaskItem> e){
         tasks = e;
         this.mInflater = LayoutInflater.from(context);
+        this.context = context;
     }
 
     void changeTaskList(ArrayList<TaskItem> e){
@@ -26,6 +28,9 @@ public class TaskListAdapter extends BaseAdapter {
 
     @Override
     public int getCount() {
+        if(tasks == null){
+            return 0;
+        }
         return tasks.size();
     }
 
@@ -63,6 +68,33 @@ public class TaskListAdapter extends BaseAdapter {
         }
 
         holder.tvTaskContent.setText(tasks.get(position).getTaskContent());
+
+        int level = tasks.get(position).getLevel();
+        switch (level){
+            case 1:
+                holder.ivImportance.setBackgroundColor(context.getResources().getColor(R.color.level_low));
+                break;
+            case 2:
+                holder.ivImportance.setBackgroundColor(context.getResources().getColor(R.color.level_mid));
+                break;
+            case 3:
+                holder.ivImportance.setBackgroundColor(convertView.getResources().getColor(R.color.level_high));
+                break;
+                default:
+                    holder.ivImportance.setBackgroundColor(context.getResources().getColor(R.color.level_none));
+                    break;
+        }
+
+        long time = tasks.get(position).getTime();
+        if(time > 0) {
+            String timeStr = Functions.formatTime(time);
+            holder.tvTaskTime.setText(timeStr);
+        }else{
+            //holder.tvTaskTime.setText("");
+
+            String timeStr = Functions.formatTime(time);
+            holder.tvTaskTime.setText(timeStr);
+        }
 
         return convertView;
     }

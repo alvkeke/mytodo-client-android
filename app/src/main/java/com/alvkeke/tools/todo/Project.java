@@ -3,7 +3,7 @@ package com.alvkeke.tools.todo;
 import java.util.ArrayList;
 import java.util.Date;
 
-public class Project {
+class Project {
 
     private String name;
     private ArrayList<TaskItem> tasks;
@@ -20,11 +20,24 @@ public class Project {
         this.name = name;
     }
 
-    public long getId() {
+    long getId() {
         return Id;
     }
 
-    public String getName() {
+    String getName() {
         return name;
     }
+
+    void addTask(TaskItem e){
+        tasks.add(e);
+    }
+
+    TaskItem getTask(int pos){
+        return tasks.get(pos);
+    }
+
+    ArrayList<TaskItem> getTaskList(){
+        return tasks;
+    }
+
 }
