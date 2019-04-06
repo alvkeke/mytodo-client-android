@@ -9,6 +9,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
@@ -72,7 +73,9 @@ public class MainActivity extends AppCompatActivity {
 
         projects = new ArrayList<>();
         //TODO:delete the code below, these code are for test
-        projects.add(new Project("Project", Color.BLACK));
+        projects.add(new Project(1,"Project1", Color.BLACK));
+        projects.add(new Project(2,"Project2", Color.BLACK));
+        projects.get(1).addTask(new TaskItem(2, "todo"));
         taskList_Show = projects.get(0).getTaskList();
 
         DefaultTaskListAdapter defaultProAdapter = new DefaultTaskListAdapter(this);
@@ -86,6 +89,48 @@ public class MainActivity extends AppCompatActivity {
 
 
         //设置事件响应
+
+        ivUserIcon.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+            }
+        });
+
+        lvTaskRank.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                switch (position){
+                    case 0:
+                        
+                        break;
+                    case 1:
+
+                        break;
+                    case 2:
+
+                        break;
+                }
+
+                taskAdapter.changeTaskList(taskList_Show);
+                taskAdapter.notifyDataSetChanged();
+
+                drawerLayout.closeDrawer(GravityCompat.START);
+            }
+        });
+
+        lvProject.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                taskList_Show = projects.get(position).getTaskList();
+                taskAdapter.changeTaskList(taskList_Show);
+                taskAdapter.notifyDataSetChanged();
+
+                drawerLayout.closeDrawer(GravityCompat.START);
+            }
+
+        });
+
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -135,7 +180,7 @@ public class MainActivity extends AppCompatActivity {
                         time = new Date(year-1900, month-1, dayOfMonth, hour, minute).getTime();
                     }
 
-                    projects.get(0).addTask(new TaskItem(proId, task, time, level));
+                    project.addTask(new TaskItem(proId, task, time, level));
                     taskAdapter.notifyDataSetChanged();
                 }
 
