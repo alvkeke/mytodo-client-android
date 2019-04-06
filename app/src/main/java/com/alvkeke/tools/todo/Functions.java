@@ -25,9 +25,8 @@ class Functions {
 
     /*Time Format Functions*/
     static String formatTime(long time){
-        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-DD", Locale.CHINA);
-        String retDate = simpleDateFormat.format(new Date(time));
-        return retDate;
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd", Locale.CHINA);
+        return simpleDateFormat.format(new Date(time));
     }
 
 

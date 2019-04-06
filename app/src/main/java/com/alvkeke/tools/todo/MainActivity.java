@@ -144,10 +144,6 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public void onBackPressed() {
 
-        /*
-        * when the back button was pressed
-        * if the drawer is open, then close the drawer
-        * */
         if(drawerLayout.isDrawerOpen(GravityCompat.START)) {
             drawerLayout.closeDrawer(GravityCompat.START);
         }else{
