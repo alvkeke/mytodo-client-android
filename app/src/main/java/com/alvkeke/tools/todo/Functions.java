@@ -2,6 +2,7 @@ package com.alvkeke.tools.todo;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
 
@@ -33,12 +34,35 @@ class Functions {
 
     /*Task List Handler Functions*/
 
-    ArrayList<TaskItem> getTodayTaskList(ArrayList<Project> allProjects){
+    static ArrayList<TaskItem> getAllTaskList(ArrayList<Project> projects){
+        ArrayList<TaskItem> taskItems = new ArrayList<>();
+
+        for (Project p : projects){
+            taskItems.addAll(p.getTaskList());
+        }
+
+        return taskItems;
+    }
+
+    static ArrayList<TaskItem> getTodayTaskList(ArrayList<Project> allProjects){
         ArrayList<TaskItem> taskItems = new ArrayList<>();
 
         for(Project p : allProjects){
             for(TaskItem t : p.getTaskList()){
                 if(isToday(t.getTime())){
+                    taskItems.add(t);
+                }
+            }
+        }
+
+        return taskItems;
+    }
+
+    static ArrayList<TaskItem> getRecentTaskList(ArrayList<Project> projects){
+        ArrayList<TaskItem> taskItems = new ArrayList<>();
+        for (Project p: projects){
+            for (TaskItem t : p.getTaskList()){
+                if(isRecent(t.getTime())){
                     taskItems.add(t);
                 }
             }
@@ -55,9 +79,20 @@ class Functions {
         return format.format(today).equals(formatDate(time));
     }
 
-    private static boolean isRencent(long time){
+    private static boolean isRecent(long time){
+        Calendar calendar = Calendar.getInstance();
+        calendar.set(Calendar.HOUR_OF_DAY, 0);
+        //清空hour时,必须使用set来进行,否则因为AM/PM的缘故,会出现一些奇怪的问题
+        calendar.clear(Calendar.MINUTE);
+        calendar.clear(Calendar.SECOND);
+        calendar.clear(Calendar.MILLISECOND);
+        long today = calendar.getTimeInMillis();
 
-        return false;
+        calendar.add(Calendar.DAY_OF_MONTH, 7);
+        long lastDay = calendar.getTimeInMillis();
+
+        return time >= today && time < lastDay;
+
     }
 
     private static String formatDate(long time){

@@ -67,7 +67,8 @@ public class AddTaskActivity extends AppCompatActivity {
         etRemindDate.setFocusable(false);
 
 
-        //TODO: Delete the codes below;
+        //获取从MainActivity中传入的项目信息(字符串列表),并从中提取信息,
+        // 用于显示在用户选择项目的下拉列表框
         ArrayList<Project> list = new ArrayList<>();
         Intent intent = getIntent();
         final ArrayList<String> proList = intent.getStringArrayListExtra("projectsInfo");
@@ -75,7 +76,6 @@ public class AddTaskActivity extends AppCompatActivity {
             String[] proInfo = s.split(":");
             list.add(new Project(Long.valueOf(proInfo[0]), proInfo[1], Integer.valueOf(proInfo[2])));
         }
-        //list.add(new Project("123", this.getResources().getColor(R.color.color_black)));
 
         final ProjectListAdapter projectListAdapter = new ProjectListAdapter(this, list);
         projectSelector.setAdapter(projectListAdapter);
@@ -138,21 +138,23 @@ public class AddTaskActivity extends AppCompatActivity {
             public void onClick(View v) {
 
                 if(year==-1){ year = calender.get(Calendar.YEAR); }
-                if( month == -1){ month = calender.get(Calendar.MONTH) +1; }
+                if( month == -1){ month = calender.get(Calendar.MONTH); }
                 if( dayOfMonth == -1){ dayOfMonth = calender.get(Calendar.DAY_OF_MONTH); }
 
                 DatePickerDialog dataDialog = new DatePickerDialog(AddTaskActivity.this, new DatePickerDialog.OnDateSetListener() {
                     @Override
                     public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
                         AddTaskActivity.this.year = year;
-                        AddTaskActivity.this.month = month+1;
+                        AddTaskActivity.this.month = month;
                         AddTaskActivity.this.dayOfMonth = dayOfMonth;
 
-                        String dateShow = AddTaskActivity.this.year + "-" +
-                                AddTaskActivity.this.month + "-" + AddTaskActivity.this.dayOfMonth;
+                        String dateShow =
+                                AddTaskActivity.this.year + "-" +
+                                (AddTaskActivity.this.month+1) + "-" +
+                                AddTaskActivity.this.dayOfMonth;
                         etRemindDate.setText(dateShow);
                     }
-                }, year, month-1, dayOfMonth);
+                }, year, month, dayOfMonth);
                 dataDialog.show();
             }
         });

@@ -17,7 +17,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
-import java.util.Date;
+import java.util.Calendar;
 import java.util.Objects;
 
 public class MainActivity extends AppCompatActivity {
@@ -75,8 +75,7 @@ public class MainActivity extends AppCompatActivity {
         //TODO:delete the code below, these code are for test
         projects.add(new Project(1,"Project1", Color.BLACK));
         projects.add(new Project(2,"Project2", Color.BLACK));
-        projects.get(1).addTask(new TaskItem(2, "todo"));
-        taskList_Show = projects.get(0).getTaskList();
+        taskList_Show = Functions.getAllTaskList(projects);
 
         DefaultTaskListAdapter defaultProAdapter = new DefaultTaskListAdapter(this);
         lvTaskRank.setAdapter(defaultProAdapter);
@@ -102,13 +101,13 @@ public class MainActivity extends AppCompatActivity {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 switch (position){
                     case 0:
-                        
+                        taskList_Show = Functions.getAllTaskList(projects);
                         break;
                     case 1:
-
+                        taskList_Show = Functions.getTodayTaskList(projects);
                         break;
                     case 2:
-
+                        taskList_Show = Functions.getRecentTaskList(projects);
                         break;
                 }
 
@@ -172,12 +171,19 @@ public class MainActivity extends AppCompatActivity {
                     long time = -1;
                     if(isRemind) {
                         int year = data.getIntExtra("year", 1900);
-                        int month = data.getIntExtra("month", 1);
+                        int month = data.getIntExtra("month", 0);
                         int dayOfMonth = data.getIntExtra("dayOfMonth", 0);
                         int hour = data.getIntExtra("hour", 0);
                         int minute = data.getIntExtra("minute", 0);
 
-                        time = new Date(year-1900, month-1, dayOfMonth, hour, minute).getTime();
+                        Calendar calendar = Calendar.getInstance();
+                        calendar.set(Calendar.YEAR, year);
+                        calendar.set(Calendar.MONTH, month);
+                        calendar.set(Calendar.DAY_OF_MONTH, dayOfMonth);
+                        calendar.set(Calendar.HOUR_OF_DAY, hour);
+                        calendar.set(Calendar.MINUTE, minute);
+
+                        time = calendar.getTimeInMillis();
                     }
 
                     project.addTask(new TaskItem(proId, task, time, level));

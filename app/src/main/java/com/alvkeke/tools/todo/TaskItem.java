@@ -10,30 +10,20 @@ public class TaskItem {
     private long proId;
     private long Id;
 
-    TaskItem(long proId, String todo){
+    TaskItem(long proId, String todo, long time, int level){
         this.proId = proId;
         content = todo;
-
-        this.Id = generateId();
-    }
-
-    TaskItem(long proId, String todo, long time){
-        content = todo;
-        this.time = time;
-        this.Id = generateId();
-    }
-
-    TaskItem(long proId, String todo, int level){
-        content = todo;
-        this.level = level;
-        this.Id = generateId();
-    }
-
-    TaskItem(long proId, String todo, long time, int level){
-        content = todo;
         this.time = time;
         this.level = level;
         this.Id = generateId();
+    }
+
+    TaskItem(long proId, long taskId, String todo, long time, int level){
+        this.proId = proId;
+        content = todo;
+        this.time = time;
+        this.level = level;
+        this.Id = taskId;
     }
 
     private long generateId(){
