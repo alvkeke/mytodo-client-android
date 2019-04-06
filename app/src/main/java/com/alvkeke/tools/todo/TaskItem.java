@@ -40,7 +40,7 @@ public class TaskItem {
         return new Date().getTime();
     }
 
-    public int getLevel() {
+    int getLevel() {
         return level;
     }
 
@@ -52,11 +52,11 @@ public class TaskItem {
         return proId;
     }
 
-    public long getTime() {
+    long getTime() {
         return time;
     }
 
-    public String getTaskContent() {
+    String getTaskContent() {
         return content;
     }
 

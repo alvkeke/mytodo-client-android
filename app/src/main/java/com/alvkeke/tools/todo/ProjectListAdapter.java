@@ -58,7 +58,7 @@ public class ProjectListAdapter extends BaseAdapter {
         }
 
         holder.proName.setText(projects.get(position).getName());
-
+        holder.icon.setBackgroundColor(projects.get(position).getColor());
 
         return convertView;
     }

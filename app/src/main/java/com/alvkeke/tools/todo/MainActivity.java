@@ -72,7 +72,7 @@ public class MainActivity extends AppCompatActivity {
 
         projects = new ArrayList<>();
         //TODO:delete the code below, these code are for test
-        projects.add(new Project("Project"));
+        projects.add(new Project("Project", Color.BLACK));
         taskList_Show = projects.get(0).getTaskList();
 
         DefaultTaskListAdapter defaultProAdapter = new DefaultTaskListAdapter(this);

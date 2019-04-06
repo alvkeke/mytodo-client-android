@@ -7,12 +7,13 @@ class Project {
 
     private String name;
     private ArrayList<TaskItem> tasks;
+    private int color;
     private long Id;
 
-    Project(String name){
+    Project(String name, int color){
         this.name = name;
         this.tasks = new ArrayList<>();
-
+        this.color = color;
         this.Id = new Date().getTime();
     }
 
@@ -26,6 +27,10 @@ class Project {
 
     String getName() {
         return name;
+    }
+
+    public int getColor() {
+        return color;
     }
 
     void addTask(TaskItem e){

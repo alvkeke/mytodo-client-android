@@ -29,6 +29,7 @@ public class AddTaskActivity extends AppCompatActivity {
     Button btnCancel;
     RelativeLayout reminderSettingArea;
     Spinner projectSelector;
+    Spinner levelSelector;
 
     Boolean isRemind;
     int year;
@@ -51,7 +52,7 @@ public class AddTaskActivity extends AppCompatActivity {
         btnCancel = findViewById(R.id.addTask_btn_cancel);
         reminderSettingArea = findViewById(R.id.addTask_reminder_setting_area);
         projectSelector = findViewById(R.id.addTask_project_select);
-
+        levelSelector = findViewById(R.id.addTask_level_select);
 
         final Calendar calender = Calendar.getInstance();
 
@@ -68,13 +69,21 @@ public class AddTaskActivity extends AppCompatActivity {
 
         //TODO: Delete the codes below;
         ArrayList<Project> list = new ArrayList<>();
-        list.add(new Project("123"));
-        list.add(new Project("123"));
-        list.add(new Project("123"));
-        list.add(new Project("123"));
+        list.add(new Project("123", this.getResources().getColor(R.color.color_black)));
+
 
         ProjectListAdapter projectListAdapter = new ProjectListAdapter(this, list);
         projectSelector.setAdapter(projectListAdapter);
+
+        ArrayList<Project> levelList = new ArrayList<>();
+        levelList.add(new Project("普通", this.getResources().getColor(R.color.level_none)));
+        levelList.add(new Project("优先", this.getResources().getColor(R.color.level_low)));
+        levelList.add(new Project("重要", this.getResources().getColor(R.color.level_mid)));
+        levelList.add(new Project("紧急", this.getResources().getColor(R.color.level_high)));
+
+        //这里用项目列表来代替任务等级的列表,通过参数上的不同来区分这任务等级和项目列表的不同
+        ProjectListAdapter levelListAdapter = new ProjectListAdapter(this, levelList);
+        levelSelector.setAdapter(levelListAdapter);
 
 
         reminderSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
