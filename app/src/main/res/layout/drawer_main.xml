@@ -70,28 +70,42 @@
     <ListView
         android:id="@+id/drawer_lv_projects"
         android:layout_below="@id/drawer_lv_divider"
-        android:layout_above="@id/drawer_bottom_area"
+        android:layout_above="@id/drawer_bottom_divider"
         android:layout_marginStart="@dimen/distance_project_list_to_start"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>
 
+    <TextView
+        android:id="@+id/drawer_bottom_divider"
+        android:layout_above="@id/drawer_bottom_area"
+        android:background="@color/color_black"
+        android:layout_width="match_parent"
+        android:layout_height="1dp" />
 
     <RelativeLayout
         android:id="@+id/drawer_bottom_area"
-        android:background="@color/color_black"
         android:layout_alignParentBottom="true"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
         <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+            android:id="@+id/drawer_bottom_btn"
+            android:layout_marginTop="10dp"
+            android:layout_marginStart="10dp"
+            android:layout_marginBottom="10dp"
+            android:layout_width="@dimen/size_all_project_icon"
+            android:layout_height="@dimen/size_all_project_icon"
+            android:contentDescription="@string/image_button" />
 
         <TextView
+            android:id="@+id/drawer_bottom_label"
             android:text="@string/str_test"
             android:textStyle="bold"
-            android:textColor="#FFF"
-            android:textSize="@dimen/size_font_main_title"
+            android:textColor="@color/color_black"
+            android:textSize="@dimen/size_font_project_name"
+            android:layout_toEndOf="@id/drawer_bottom_btn"
+            android:layout_marginStart="10dp"
+            android:layout_centerVertical="true"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
 

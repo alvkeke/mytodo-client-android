@@ -85,16 +85,15 @@ public class MainActivity extends AppCompatActivity {
         projects.get(0).addTask(new TaskItem(1, "todo1.3", -1, 0));
         projects.get(0).addTask(new TaskItem(1, "todo1.4", -1, 0));
         projects.get(0).addTask(new TaskItem(1, "todo1.5", -1, 0));
-        projects.get(0).addTask(new TaskItem(1, "todo1.6", -1, 0));
 
         projects.get(1).addTask(new TaskItem(2, "todo2.1", -1, 0));
         projects.get(1).addTask(new TaskItem(2, "todo2.2", -1, 0));
         projects.get(1).addTask(new TaskItem(2, "todo2.3", -1, 0));
         projects.get(1).addTask(new TaskItem(2, "todo2.4", -1, 0));
         projects.get(1).addTask(new TaskItem(2, "todo2.5", -1, 0));
-        projects.get(1).addTask(new TaskItem(2, "todo2.6", -1, 0));
 
 
+        //TODO:change to user setting store local.
         taskList_Show = Functions.getAllTaskList(projects);
         currentTaskList = TASK_LIST_ALL_TASK;
 
@@ -113,7 +112,7 @@ public class MainActivity extends AppCompatActivity {
         ivUserIcon.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                //TODO:add user login feature
             }
         });
 

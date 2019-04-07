@@ -735,6 +735,9 @@ id dimensions
 id direct
 id disableHome
 id drawer_bottom_area
+id drawer_bottom_btn
+id drawer_bottom_divider
+id drawer_bottom_label
 id drawer_head
 id drawer_layout
 id drawer_lv_auto_rank
@@ -942,6 +945,7 @@ string abc_shareactionprovider_share_with
 string abc_shareactionprovider_share_with_application
 string abc_toolbar_collapse_description
 string app_name
+string image_button
 string label_remind_me
 string label_task_content
 string search_menu_title

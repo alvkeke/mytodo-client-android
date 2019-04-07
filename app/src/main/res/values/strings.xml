@@ -8,4 +8,5 @@
     <string name="title_btn_ok">完成</string>
     <string name="title_btn_cancel">取消</string>
     <string name="str_reminder_divider_between_time_and_date">\@</string>
+    <string name="image_button">image button</string>
 </resources>
