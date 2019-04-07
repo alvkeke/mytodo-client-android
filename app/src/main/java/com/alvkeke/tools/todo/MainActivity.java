@@ -20,6 +20,8 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Objects;
 
+import static com.alvkeke.tools.todo.Constants.*;
+
 public class MainActivity extends AppCompatActivity {
 
     DrawerLayout drawerLayout;
@@ -41,6 +43,8 @@ public class MainActivity extends AppCompatActivity {
     TaskListAdapter taskAdapter;
 
     ArrayList<TaskItem> taskList_Show;
+
+    int currentTaskList;
 
 
     @Override
@@ -75,7 +79,24 @@ public class MainActivity extends AppCompatActivity {
         //TODO:delete the code below, these code are for test
         projects.add(new Project(1,"Project1", Color.BLACK));
         projects.add(new Project(2,"Project2", Color.BLACK));
+
+        projects.get(0).addTask(new TaskItem(1, "todo1.1", -1, 0));
+        projects.get(0).addTask(new TaskItem(1, "todo1.2", -1, 0));
+        projects.get(0).addTask(new TaskItem(1, "todo1.3", -1, 0));
+        projects.get(0).addTask(new TaskItem(1, "todo1.4", -1, 0));
+        projects.get(0).addTask(new TaskItem(1, "todo1.5", -1, 0));
+        projects.get(0).addTask(new TaskItem(1, "todo1.6", -1, 0));
+
+        projects.get(1).addTask(new TaskItem(2, "todo2.1", -1, 0));
+        projects.get(1).addTask(new TaskItem(2, "todo2.2", -1, 0));
+        projects.get(1).addTask(new TaskItem(2, "todo2.3", -1, 0));
+        projects.get(1).addTask(new TaskItem(2, "todo2.4", -1, 0));
+        projects.get(1).addTask(new TaskItem(2, "todo2.5", -1, 0));
+        projects.get(1).addTask(new TaskItem(2, "todo2.6", -1, 0));
+
+
         taskList_Show = Functions.getAllTaskList(projects);
+        currentTaskList = TASK_LIST_ALL_TASK;
 
         DefaultTaskListAdapter defaultProAdapter = new DefaultTaskListAdapter(this);
         lvTaskRank.setAdapter(defaultProAdapter);
@@ -111,6 +132,8 @@ public class MainActivity extends AppCompatActivity {
                         break;
                 }
 
+                currentTaskList = position + 1;
+
                 taskAdapter.changeTaskList(taskList_Show);
                 taskAdapter.notifyDataSetChanged();
 
@@ -125,6 +148,7 @@ public class MainActivity extends AppCompatActivity {
                 taskAdapter.changeTaskList(taskList_Show);
                 taskAdapter.notifyDataSetChanged();
 
+                currentTaskList = TASK_LIST_USER_PROJECT;
                 drawerLayout.closeDrawer(GravityCompat.START);
             }
 
@@ -143,7 +167,7 @@ public class MainActivity extends AppCompatActivity {
                 Intent intent = new Intent(MainActivity.this, AddTaskActivity.class);
                 ArrayList<String> projectsInfo = Functions.stringListFromProjectList(projects);
                 intent.putStringArrayListExtra("projectsInfo", projectsInfo);
-                startActivityForResult(intent, Constants.REQUEST_CODE_ADD_TASK);
+                startActivityForResult(intent, REQUEST_CODE_ADD_TASK);
             }
         });
 
@@ -152,8 +176,8 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if(requestCode == Constants.REQUEST_CODE_ADD_TASK){
-            if(resultCode == Constants.RESULT_CODE_ADD_TASK){
+        if(requestCode == REQUEST_CODE_ADD_TASK){
+            if(resultCode == RESULT_CODE_ADD_TASK){
                 if(data != null) {
 
                     //TODO: change the defaultValue of the project Id.
@@ -187,6 +211,22 @@ public class MainActivity extends AppCompatActivity {
                     }
 
                     project.addTask(new TaskItem(proId, task, time, level));
+
+                    //新建任务时,刷新当前显示的列表
+                    switch (currentTaskList){
+                        case TASK_LIST_ALL_TASK:
+                            taskList_Show = Functions.getAllTaskList(projects);
+                            break;
+                        case TASK_LIST_TODAY_TASK:
+                            taskList_Show = Functions.getTodayTaskList(projects);
+                            break;
+                        case TASK_LIST_RECENT_TASK:
+                            taskList_Show = Functions.getRecentTaskList(projects);
+                            break;
+                    }
+
+                    taskAdapter.changeTaskList(taskList_Show);
+
                     taskAdapter.notifyDataSetChanged();
                 }
 
