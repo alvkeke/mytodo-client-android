@@ -1,5 +1,8 @@
 package com.alvkeke.tools.todo;
 
+import android.content.Context;
+import android.content.Intent;
+
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -30,6 +33,17 @@ class Functions {
         }
 
         return strings;
+    }
+
+    static ArrayList<Project> projectListFromStringList(final ArrayList<String> list){
+        ArrayList<Project> projects = new ArrayList<>();
+
+        for(String s : list){
+            String[] proInfo = s.split(":");
+            projects.add(new Project(Long.valueOf(proInfo[0]), proInfo[1], Integer.valueOf(proInfo[2])));
+        }
+
+        return projects;
     }
 
     /*Task List Handler Functions*/

@@ -37,6 +37,7 @@ public class MainActivity extends AppCompatActivity {
     TextView tvUsername;
     ListView lvTaskRank;
     ListView lvProject;
+    RelativeLayout btnProjectSetting;
 
     ArrayList<Project> projects;
     ProjectListAdapter proAdapter;
@@ -65,6 +66,7 @@ public class MainActivity extends AppCompatActivity {
         tvUsername = findViewById(R.id.drawer_tx_user_name);
         lvTaskRank = findViewById(R.id.drawer_lv_auto_rank);
         lvProject = findViewById(R.id.drawer_lv_projects);
+        btnProjectSetting = findViewById(R.id.drawer_bottom_area);
 
         Objects.requireNonNull(getSupportActionBar()).hide();
 
@@ -153,6 +155,17 @@ public class MainActivity extends AppCompatActivity {
 
         });
 
+        btnProjectSetting.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(MainActivity.this, ProjectSettingActivity.class);
+                //todo: put the projects information into the ProjectSettingActivity.
+                ArrayList<String> projectsInfo = Functions.stringListFromProjectList(projects);
+                intent.putStringArrayListExtra("projectsInfo", projectsInfo);
+                startActivityForResult(intent, REQUEST_CODE_SETTING_PROJECT);
+            }
+        });
+
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -228,6 +241,10 @@ public class MainActivity extends AppCompatActivity {
 
                     taskAdapter.notifyDataSetChanged();
                 }
+
+            }
+        }else if(requestCode == REQUEST_CODE_SETTING_PROJECT){
+            if(resultCode == RESULT_CODE_SETTING_PROJECT){
 
             }
         }

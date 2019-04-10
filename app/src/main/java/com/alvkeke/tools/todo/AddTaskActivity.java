@@ -69,15 +69,10 @@ public class AddTaskActivity extends AppCompatActivity {
 
         //获取从MainActivity中传入的项目信息(字符串列表),并从中提取信息,
         // 用于显示在用户选择项目的下拉列表框
-        ArrayList<Project> list = new ArrayList<>();
-        Intent intent = getIntent();
-        final ArrayList<String> proList = intent.getStringArrayListExtra("projectsInfo");
-        for(String s : proList){
-            String[] proInfo = s.split(":");
-            list.add(new Project(Long.valueOf(proInfo[0]), proInfo[1], Integer.valueOf(proInfo[2])));
-        }
 
-        final ProjectListAdapter projectListAdapter = new ProjectListAdapter(this, list);
+        ArrayList<String> projectsInfo = getIntent().getStringArrayListExtra("projectsInfo");
+        ArrayList<Project> list = Functions.projectListFromStringList(projectsInfo);
+        ProjectListAdapter projectListAdapter = new ProjectListAdapter(this, list);
         projectSelector.setAdapter(projectListAdapter);
 
         //这里用项目列表来代替任务等级的列表,通过参数上的不同来区分这任务等级和项目列表的不同

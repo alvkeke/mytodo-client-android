@@ -655,6 +655,7 @@ drawable abc_vector_test
 drawable ic_launcher_background
 drawable ic_launcher_foreground
 drawable ic_navigation
+drawable ic_project_setting_24dp
 drawable img_add_task
 drawable notification_action_background
 drawable notification_bg
@@ -773,6 +774,7 @@ id line1
 id line3
 id listMode
 id list_item
+id lvProjects
 id main_btn_add_task
 id main_client_area
 id main_context
@@ -890,6 +892,7 @@ layout abc_select_dialog_material
 layout abc_tooltip
 layout activity_add_task
 layout activity_main
+layout activity_project_setting
 layout drawer_main
 layout notification_action
 layout notification_action_tombstone
@@ -946,6 +949,7 @@ string abc_shareactionprovider_share_with_application
 string abc_toolbar_collapse_description
 string app_name
 string image_button
+string label_project_setting
 string label_remind_me
 string label_task_content
 string search_menu_title
