@@ -158,6 +158,7 @@ public class MainActivity extends AppCompatActivity {
         btnProjectSetting.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                drawerLayout.closeDrawer(GravityCompat.START);
                 Intent intent = new Intent(MainActivity.this, ProjectSettingActivity.class);
                 //todo: put the projects information into the ProjectSettingActivity.
                 ArrayList<String> projectsInfo = Functions.stringListFromProjectList(projects);
