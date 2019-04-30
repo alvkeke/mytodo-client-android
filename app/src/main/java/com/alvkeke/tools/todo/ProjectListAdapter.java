@@ -26,13 +26,22 @@ public class ProjectListAdapter extends BaseAdapter {
     }
 
     @Override
-    public Object getItem(int position) {
+    public Project getItem(int position) {
         return projects.get(position);
     }
 
     @Override
     public long getItemId(int position) {
         return projects.get(position).getId();
+    }
+
+    public Project findItem(Long id){
+        for(Project e : projects){
+            if(e.getId() == id){
+                return e;
+            }
+        }
+        return null;
     }
 
     static class ViewHolder{

@@ -10,4 +10,7 @@
     <string name="str_reminder_divider_between_time_and_date">\@</string>
     <string name="image_button">image button</string>
     <string name="label_project_setting">项目设置</string>
+    <string name="label_project_setting_finish">完成设置</string>
+    <string name="label_project_name">项目名称</string>
+    <string name="label_project_color">项目颜色</string>
 </resources>

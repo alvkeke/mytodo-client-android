@@ -28,6 +28,8 @@ class Project {
         this.name = name;
     }
 
+    void changeColor(int Color){this.color = Color;}
+
     long getId() {
         return Id;
     }

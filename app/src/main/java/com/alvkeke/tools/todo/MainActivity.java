@@ -2,6 +2,7 @@ package com.alvkeke.tools.todo;
 
 import android.content.Intent;
 import android.graphics.Color;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
@@ -46,6 +47,7 @@ public class MainActivity extends AppCompatActivity {
     ArrayList<TaskItem> taskList_Show;
 
     int currentTaskList;
+    boolean proSettingMode;
 
 
     @Override
@@ -76,6 +78,10 @@ public class MainActivity extends AppCompatActivity {
                 View.SYSTEM_UI_FLAG_LAYOUT_STABLE);
 
         setStatusBarHeight();
+
+
+        //设置初始化设置
+        exitProjectSettingMode();
 
         projects = new ArrayList<>();
         //TODO:delete the code below, these code are for test
@@ -111,6 +117,27 @@ public class MainActivity extends AppCompatActivity {
 
         //设置事件响应
 
+        drawerLayout.addDrawerListener(new DrawerLayout.DrawerListener() {
+            @Override
+            public void onDrawerSlide(@NonNull View view, float v) {
+
+            }
+
+            @Override
+            public void onDrawerOpened(@NonNull View view) {
+            }
+
+            @Override
+            public void onDrawerClosed(@NonNull View view) {
+                exitProjectSettingMode();
+            }
+
+            @Override
+            public void onDrawerStateChanged(int i) {
+
+            }
+        });
+
         ivUserIcon.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -145,12 +172,21 @@ public class MainActivity extends AppCompatActivity {
         lvProject.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                taskList_Show = projects.get(position).getTaskList();
-                taskAdapter.changeTaskList(taskList_Show);
-                taskAdapter.notifyDataSetChanged();
+                if(!proSettingMode) {
+                    taskList_Show = projects.get(position).getTaskList();
+                    taskAdapter.changeTaskList(taskList_Show);
+                    taskAdapter.notifyDataSetChanged();
 
-                currentTaskList = TASK_LIST_USER_PROJECT;
-                drawerLayout.closeDrawer(GravityCompat.START);
+                    currentTaskList = TASK_LIST_USER_PROJECT;
+                    drawerLayout.closeDrawer(GravityCompat.START);
+                }else{
+                    Intent intentProSetting = new Intent(MainActivity.this, ProjectSettingActivity.class);
+                    intentProSetting.putExtra("proId", id);
+                    intentProSetting.putExtra("proName", proAdapter.getItem(position).getName());
+                    intentProSetting.putExtra("proColor", proAdapter.getItem(position).getColor());
+
+                    startActivityForResult(intentProSetting, Constants.REQUEST_CODE_SETTING_PROJECT);
+                }
             }
 
         });
@@ -158,12 +194,12 @@ public class MainActivity extends AppCompatActivity {
         btnProjectSetting.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                drawerLayout.closeDrawer(GravityCompat.START);
-                Intent intent = new Intent(MainActivity.this, ProjectSettingActivity.class);
-                //todo: put the projects information into the ProjectSettingActivity.
-                ArrayList<String> projectsInfo = Functions.stringListFromProjectList(projects);
-                intent.putStringArrayListExtra("projectsInfo", projectsInfo);
-                startActivityForResult(intent, REQUEST_CODE_SETTING_PROJECT);
+                if(!proSettingMode) {
+                    enterProjectSettingMode();
+                }else{
+                    exitProjectSettingMode();
+                }
+
             }
         });
 
@@ -246,7 +282,20 @@ public class MainActivity extends AppCompatActivity {
             }
         }else if(requestCode == REQUEST_CODE_SETTING_PROJECT){
             if(resultCode == RESULT_CODE_SETTING_PROJECT){
+                if(data != null) {
+                    Long proId = data.getLongExtra("proId", -1);
+                    int proColor = data.getIntExtra("proColor", 0);
+                    String proName = data.getStringExtra("proName");
 
+                    Project project = proAdapter.findItem(proId);
+                    if(project != null){
+                        project.changeName(proName);
+                        //todo:在完成修改项目颜色之后取消这行代码的注释
+                        //project.changeColor(proColor);
+                    }
+
+                }
+                proAdapter.notifyDataSetChanged();
             }
         }
     }
@@ -277,6 +326,19 @@ public class MainActivity extends AppCompatActivity {
         params = (RelativeLayout.LayoutParams)drawerStatusBar.getLayoutParams();
         params.height = systemStatusBarHeight;
         drawerStatusBar.setLayoutParams(params);
+
+    }
+
+    void enterProjectSettingMode(){
+        proSettingMode = true;
+        TextView tvTitle = (TextView)btnProjectSetting.getChildAt(1);
+        tvTitle.setText(R.string.label_project_setting_finish);
+    }
+
+    void exitProjectSettingMode(){
+        proSettingMode = false;
+        TextView tvTitle = (TextView)btnProjectSetting.getChildAt(1);
+        tvTitle.setText(R.string.label_project_setting);
 
     }
 

@@ -774,7 +774,6 @@ id line1
 id line3
 id listMode
 id list_item
-id lvProjects
 id main_btn_add_task
 id main_client_area
 id main_context
@@ -796,6 +795,11 @@ id packed
 id parent
 id parentPanel
 id percent
+id pro_setting_btn_cancel
+id pro_setting_btn_ok
+id pro_setting_et_proName
+id pro_setting_label_proColor
+id pro_setting_label_proName
 id progress_circular
 id progress_horizontal
 id radio
@@ -949,7 +953,10 @@ string abc_shareactionprovider_share_with_application
 string abc_toolbar_collapse_description
 string app_name
 string image_button
+string label_project_color
+string label_project_name
 string label_project_setting
+string label_project_setting_finish
 string label_remind_me
 string label_task_content
 string search_menu_title
