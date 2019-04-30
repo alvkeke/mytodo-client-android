@@ -84,7 +84,7 @@ public class MainActivity extends AppCompatActivity {
         exitProjectSettingMode();
 
         projects = new ArrayList<>();
-        //TODO:delete the code below, these code are for test
+        //TODO:删除一下仅供测试使用的代码,将载入项目和任务的过程更改为从本地储存或网络储存中加载
         projects.add(new Project(1,"Project1", Color.BLACK));
         projects.add(new Project(2,"Project2", Color.BLACK));
 
@@ -101,7 +101,7 @@ public class MainActivity extends AppCompatActivity {
         projects.get(1).addTask(new TaskItem(2, "todo2.5", -1, 0));
 
 
-        //TODO:change to user setting store local.
+        //TODO:修改为加载本地储存的用户设置
         taskList_Show = Functions.getAllTaskList(projects);
         currentTaskList = TASK_LIST_ALL_TASK;
 
@@ -141,7 +141,7 @@ public class MainActivity extends AppCompatActivity {
         ivUserIcon.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //TODO:add user login feature
+                //TODO:添加用户登录的功能
             }
         });
 
@@ -229,7 +229,6 @@ public class MainActivity extends AppCompatActivity {
             if(resultCode == RESULT_CODE_ADD_TASK){
                 if(data != null) {
 
-                    //TODO: change the defaultValue of the project Id.
                     long proId = data.getLongExtra("projectId", -1);
 
                     Project project = Functions.findProjectInProjectList(projects, proId);
