@@ -1,4 +1,4 @@
-#Sat Apr 20 23:27:23 CST 2019
-base.0=/home/alvis/desktop/mytodo-client-android-remake/app/build/intermediates/transforms/dexMerger/debug/4
+#Thu May 16 23:18:05 CST 2019
+base.0=/run/media/alvis/debian-root/home/alvis/desktop/mytodo-client-android-remake/app/build/intermediates/transforms/dexMerger/debug/4
 path.0=classes.dex
 renamed.0=classes.dex

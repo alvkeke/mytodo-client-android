@@ -11,4 +11,5 @@
     <color name="level_mid">#FF9900</color>
     <color name="level_low">#FFee00</color>
     <color name="level_none">#0000</color>
+    <color name="testColor">#22000000</color>
 </resources>

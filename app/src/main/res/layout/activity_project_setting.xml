@@ -13,17 +13,17 @@
         <TextView
             android:id="@+id/pro_setting_label_proName"
             android:text="@string/label_project_name"
-            android:layout_marginStart="20dp"
-            android:layout_marginTop="20dp"
+            android:layout_marginStart="@dimen/distance_pro_setting_margin"
+            android:layout_marginTop="@dimen/distance_pro_setting_margin"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
 
         <EditText
             android:id="@+id/pro_setting_et_proName"
             android:layout_below="@id/pro_setting_label_proName"
-            android:layout_marginStart="20dp"
-            android:layout_marginEnd="20dp"
-            android:layout_marginTop="20dp"
+            android:layout_marginStart="@dimen/distance_pro_setting_margin"
+            android:layout_marginEnd="@dimen/distance_pro_setting_margin"
+            android:layout_marginTop="@dimen/distance_pro_setting_margin"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:inputType="text" />
@@ -32,8 +32,8 @@
             android:id="@+id/pro_setting_label_proColor"
             android:text="@string/label_project_color"
             android:layout_below="@id/pro_setting_et_proName"
-            android:layout_marginStart="20dp"
-            android:layout_marginTop="20dp"
+            android:layout_marginStart="@dimen/distance_pro_setting_margin"
+            android:layout_marginTop="@dimen/distance_pro_setting_margin"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
 
@@ -41,18 +41,27 @@
             android:id="@+id/pro_setting_btn_cancel"
             android:text="@string/title_btn_cancel"
             android:layout_alignParentBottom="true"
-            android:layout_marginStart="20dp"
-            android:layout_marginBottom="20dp"
+            android:layout_marginStart="@dimen/distance_pro_setting_margin"
+            android:layout_marginBottom="@dimen/distance_pro_setting_margin"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
+
+        <ImageView
+            android:id="@+id/pro_setting_color_selector"
+            android:layout_below="@id/pro_setting_label_proColor"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="@dimen/distance_pro_setting_margin"
+            android:background="@color/testColor"
+            android:layout_width="200dp"
+            android:layout_height="200dp" />
 
         <Button
             android:id="@+id/pro_setting_btn_ok"
             android:text="@string/title_btn_ok"
             android:layout_alignParentBottom="true"
             android:layout_alignParentEnd="true"
-            android:layout_marginEnd="20dp"
-            android:layout_marginBottom="20dp"
+            android:layout_marginEnd="@dimen/distance_pro_setting_margin"
+            android:layout_marginBottom="@dimen/distance_pro_setting_margin"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
 

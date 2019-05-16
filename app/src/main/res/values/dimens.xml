@@ -16,4 +16,5 @@
     <dimen name="size_width_importance_show">5dp</dimen>
     <dimen name="size_font_task_content">18sp</dimen>
     <dimen name="size_font_task_time">10sp</dimen>
+    <dimen name="distance_pro_setting_margin">20dp</dimen>
 </resources>

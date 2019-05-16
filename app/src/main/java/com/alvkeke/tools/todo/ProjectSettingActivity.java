@@ -1,12 +1,15 @@
 package com.alvkeke.tools.todo;
 
+import android.app.ActionBar;
 import android.content.Intent;
 import android.graphics.Color;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.ListView;
 
 import java.util.ArrayList;
@@ -14,6 +17,7 @@ import java.util.ArrayList;
 public class ProjectSettingActivity extends AppCompatActivity {
 
     private EditText etProjectName;
+    private ImageView ivColorSelector;
     private Button btnOk;
     private Button btnCancel;
     private Intent intent;
@@ -24,6 +28,7 @@ public class ProjectSettingActivity extends AppCompatActivity {
         setContentView(R.layout.activity_project_setting);
 
         etProjectName = findViewById(R.id.pro_setting_et_proName);
+        ivColorSelector = findViewById(R.id.pro_setting_color_selector);
         btnOk = findViewById(R.id.pro_setting_btn_ok);
         btnCancel = findViewById(R.id.pro_setting_btn_cancel);
 

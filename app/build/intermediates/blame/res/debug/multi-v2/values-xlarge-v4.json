@@ -1,10 +1,10 @@
 {
     "logs": [
         {
-            "outputFile": "/home/alvis/desktop/mytodo-client-android-remake/app/build/intermediates/incremental/mergeDebugResources/merged.dir/values-xlarge-v4/values-xlarge-v4.xml",
+            "outputFile": "/run/media/alvis/debian-root/home/alvis/desktop/mytodo-client-android-remake/app/build/intermediates/incremental/mergeDebugResources/merged.dir/values-xlarge-v4/values-xlarge-v4.xml",
             "map": [
                 {
-                    "source": "/home/alvis/.gradle/caches/transforms-1/files-1.1/appcompat-v7-28.0.0.aar/4f8abd13659fbabdc6bc4be4b1d6772a/res/values-xlarge-v4/values-xlarge-v4.xml",
+                    "source": "/home/alvis/.gradle/caches/transforms-2/files-2.1/123fb92b386ce509e9f21b0a8c1054e7/res/values-xlarge-v4/values-xlarge-v4.xml",
                     "from": {
                         "startLines": "2,3,4,5,6,7",
                         "startColumns": "4,4,4,4,4,4",
