@@ -310,12 +310,6 @@ public class MainActivity extends AppCompatActivity {
         }else if (requestCode == REQUEST_CODE_ADD_PROJECT){
             //if(resultCode == RESULT_CODE_ADD_PROJECT){
                 if(data != null){
-                    //TODO:利用返回值新建一个项目
-                    /*
-                    intent.putExtra("proId", proId);
-                    intent.putExtra("proName", etProjectName.getText().toString());
-                    intent.putExtra("proColor", colorSelector.getColor());
-                    */
                     long id = data.getLongExtra("proId", -1);
                     String proName = data.getStringExtra("proName");
                     int color = data.getIntExtra("proColor", 0);
