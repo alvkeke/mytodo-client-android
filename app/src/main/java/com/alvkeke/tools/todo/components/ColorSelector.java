@@ -3,11 +3,7 @@ package com.alvkeke.tools.todo.components;
 import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Color;
-import android.graphics.ComposeShader;
 import android.graphics.Paint;
-import android.graphics.PorterDuff;
-import android.graphics.RadialGradient;
-import android.graphics.Shader;
 import android.graphics.SweepGradient;
 import android.support.v7.widget.AppCompatImageView;
 import android.util.AttributeSet;
@@ -20,10 +16,8 @@ public class ColorSelector extends AppCompatImageView {
     int centerX;
     int centerY;
 
-    int touchCircleY;
-    int touchCircleX;
-
-    float[] colorHSV;
+    float touchCircleY;
+    float touchCircleX;
 
     Paint colorWheelPaint;
     Paint selectPain;
@@ -52,7 +46,6 @@ public class ColorSelector extends AppCompatImageView {
         setBackgroundColor(Color.TRANSPARENT);
         colorWheelPaint = new Paint();
         selectPain = new Paint();
-        colorHSV = new float[2];
 
 
         int colorCount = 12;
@@ -104,30 +97,31 @@ public class ColorSelector extends AppCompatImageView {
         switch (event.getAction()) {
             case MotionEvent.ACTION_DOWN:
             case MotionEvent.ACTION_MOVE:
-                int x = (int) event.getX();
-                int y = (int) event.getY();
-                int cx = x - centerX;
-                int cy = y - centerY;
+                float x = event.getX();
+                float y = event.getY();
+                float cx = x - centerX;
+                float cy = y - centerY;
                 double d = Math.sqrt(cx * cx + cy * cy);
 
                 if (d <= radius) {
-                    colorHSV[0] = (float) (Math.toDegrees(Math.atan2(cy, cx)) + 180f);
-                    colorHSV[1] = Math.max(0f, Math.min(1f, (float) (d / radius)));
-
                     touchCircleY = y;
                     touchCircleX = x;
-
-                    float angle = (float)Math.atan2(cy, cx);
-                    float unit = angle/(2*3.141592653f);
-                    if(unit <0){
-                        unit+=1;
-                    }
-
-                    mColor = interpColor(colors, unit);
-
-                    postInvalidate();
-
+                }else {
+                    double angle = Math.atan2(cy, cx);
+                    touchCircleY = (float) ((radius*Math.sin(angle)) + centerY);
+                    touchCircleX = (float) ((radius*Math.cos(angle)) + centerX);
                 }
+
+                float angle = (float)Math.atan2(touchCircleY - centerY, touchCircleX - centerX);
+                float unit = angle/(2*3.141592653f);
+                if(unit <0){
+                    unit+=1;
+                }
+
+                mColor = interpColor(colors, unit);
+
+                postInvalidate();
+
 
                 break;
             case MotionEvent.ACTION_UP:
@@ -153,7 +147,7 @@ public class ColorSelector extends AppCompatImageView {
         super.onSizeChanged(w, h, oldw, oldh);
         centerX = w / 2;
         centerY = h / 2;
-        radius = Math.min(centerX, centerY);
+        radius = Math.min(centerX, centerY) - 16;
         //生成色轮
         createColorWheel();
     }
@@ -164,7 +158,11 @@ public class ColorSelector extends AppCompatImageView {
 
         canvas.drawCircle(centerX, centerY, radius, colorWheelPaint);
         if(touchCircleX != 0 && touchCircleY != 0) {
-            canvas.drawCircle(touchCircleX, touchCircleY, 10, selectPain);
+            //canvas.drawCircle(touchCircleX, touchCircleY, 10, selectPain);
+            for(int i = 0; i<360; i+=5){
+                canvas.drawArc(touchCircleX-15, touchCircleY-15, touchCircleX+15,
+                        touchCircleY+15, i, 80, false, selectPain);
+            }
         }
     }
 
