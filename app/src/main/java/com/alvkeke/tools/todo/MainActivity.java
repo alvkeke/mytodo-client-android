@@ -323,6 +323,7 @@ public class MainActivity extends AppCompatActivity {
                     projects.add(new Project(id, proName, color));
                 }
                 proAdapter.notifyDataSetChanged();
+                exitProjectSettingMode();
             //}
         }
     }
