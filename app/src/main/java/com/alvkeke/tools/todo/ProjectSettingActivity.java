@@ -2,12 +2,13 @@ package com.alvkeke.tools.todo;
 
 import android.content.Intent;
 import android.graphics.Color;
+import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-
+import com.alvkeke.tools.todo.Constants.*;
 import com.alvkeke.tools.todo.components.ColorSelector;
 
 public class ProjectSettingActivity extends AppCompatActivity {
@@ -42,11 +43,19 @@ public class ProjectSettingActivity extends AppCompatActivity {
         btnOk.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //todo:完成所有设置的返回值
                 intent.putExtra("proId", proId);
                 intent.putExtra("proName", etProjectName.getText().toString());
                 intent.putExtra("proColor", colorSelector.getColor());
-                setResult(Constants.RESULT_CODE_SETTING_PROJECT, intent);
+                /*
+                switch (requestCode) {
+                    case Constants.REQUEST_CODE_SETTING_PROJECT:
+                        setResult(Constants.RESULT_CODE_SETTING_PROJECT, intent);
+                    break;
+                    case Constants.REQUEST_CODE_ADD_PROJECT:
+                        setResult(Constants.RESULT_CODE_ADD_PROJECT, intent);
+                }*/
+                setResult(0, intent);
+
                 finish();
             }
         });

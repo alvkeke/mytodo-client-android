@@ -39,6 +39,7 @@ public class MainActivity extends AppCompatActivity {
     ListView lvTaskRank;
     ListView lvProject;
     RelativeLayout btnProjectSetting;
+    ImageView btnAddProject;
 
     ArrayList<Project> projects;
     ProjectListAdapter proAdapter;
@@ -69,6 +70,7 @@ public class MainActivity extends AppCompatActivity {
         lvTaskRank = findViewById(R.id.drawer_lv_auto_rank);
         lvProject = findViewById(R.id.drawer_lv_projects);
         btnProjectSetting = findViewById(R.id.drawer_bottom_area);
+        btnAddProject = findViewById(R.id.drawer_btn_add_project);
 
         Objects.requireNonNull(getSupportActionBar()).hide();
 
@@ -203,6 +205,14 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        btnAddProject.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intentAddProj = new Intent(MainActivity.this, ProjectSettingActivity.class);
+                startActivityForResult(intentAddProj, REQUEST_CODE_ADD_PROJECT);
+            }
+        });
+
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -280,7 +290,7 @@ public class MainActivity extends AppCompatActivity {
 
             }
         }else if(requestCode == REQUEST_CODE_SETTING_PROJECT){
-            if(resultCode == RESULT_CODE_SETTING_PROJECT){
+            //if(resultCode == RESULT_CODE_SETTING_PROJECT){
                 if(data != null) {
                     Long proId = data.getLongExtra("proId", -1);
                     int proColor = data.getIntExtra("proColor", 0);
@@ -289,13 +299,31 @@ public class MainActivity extends AppCompatActivity {
                     Project project = proAdapter.findItem(proId);
                     if(project != null){
                         project.changeName(proName);
-                        //todo:在完成修改项目颜色之后取消这行代码的注释
-                        project.changeColor(proColor);
+                        if(proColor!= 0) {
+                            project.changeColor(proColor);
+                        }
                     }
 
                 }
                 proAdapter.notifyDataSetChanged();
-            }
+            //}
+        }else if (requestCode == REQUEST_CODE_ADD_PROJECT){
+            //if(resultCode == RESULT_CODE_ADD_PROJECT){
+                if(data != null){
+                    //TODO:利用返回值新建一个项目
+                    /*
+                    intent.putExtra("proId", proId);
+                    intent.putExtra("proName", etProjectName.getText().toString());
+                    intent.putExtra("proColor", colorSelector.getColor());
+                    */
+                    long id = data.getLongExtra("proId", -1);
+                    String proName = data.getStringExtra("proName");
+                    int color = data.getIntExtra("proColor", 0);
+                    //proAdapter.addProject(new Project(id, proName, color));
+                    projects.add(new Project(id, proName, color));
+                }
+                proAdapter.notifyDataSetChanged();
+            //}
         }
     }
 
@@ -332,13 +360,16 @@ public class MainActivity extends AppCompatActivity {
         proSettingMode = true;
         TextView tvTitle = (TextView)btnProjectSetting.getChildAt(1);
         tvTitle.setText(R.string.label_project_setting_finish);
+        btnProjectSetting.setBackgroundColor(0x44000000);
+        btnAddProject.setVisibility(View.VISIBLE);
     }
 
     void exitProjectSettingMode(){
         proSettingMode = false;
         TextView tvTitle = (TextView)btnProjectSetting.getChildAt(1);
         tvTitle.setText(R.string.label_project_setting);
-
+        btnProjectSetting.setBackgroundColor(0x00000000);
+        btnAddProject.setVisibility(View.GONE);
     }
 
 }

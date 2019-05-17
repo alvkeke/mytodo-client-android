@@ -13,6 +13,7 @@ import android.widget.EditText;
 import android.widget.RelativeLayout;
 import android.widget.Spinner;
 import android.widget.Switch;
+import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
@@ -22,6 +23,7 @@ import java.util.Calendar;
 public class AddTaskActivity extends AppCompatActivity {
 
     Switch reminderSwitch;
+    TextView labelReminder;
     EditText etTaskContent;
     EditText etRemindTime;
     EditText etRemindDate;
@@ -45,6 +47,7 @@ public class AddTaskActivity extends AppCompatActivity {
         setContentView(R.layout.activity_add_task);
 
         reminderSwitch = findViewById(R.id.addTask_remind_me);
+        labelReminder = findViewById(R.id.addTask_label_remind_me);
         etTaskContent = findViewById(R.id.addTask_task_content);
         etRemindDate = findViewById(R.id.addTask_et_remind_date);
         etRemindTime = findViewById(R.id.addTask_et_remind_time);
@@ -85,6 +88,13 @@ public class AddTaskActivity extends AppCompatActivity {
         ProjectListAdapter levelListAdapter = new ProjectListAdapter(this, levelList);
         levelSelector.setAdapter(levelListAdapter);
 
+
+        labelReminder.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                reminderSwitch.setChecked(!reminderSwitch.isChecked());
+            }
+        });
 
         reminderSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override

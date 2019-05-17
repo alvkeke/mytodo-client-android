@@ -654,6 +654,7 @@ drawable abc_textfield_search_activated_mtrl_alpha
 drawable abc_textfield_search_default_mtrl_alpha
 drawable abc_textfield_search_material
 drawable abc_vector_test
+drawable ic_add_project
 drawable ic_launcher_background
 drawable ic_launcher_foreground
 drawable ic_navigation
@@ -741,6 +742,7 @@ id drawer_bottom_area
 id drawer_bottom_btn
 id drawer_bottom_divider
 id drawer_bottom_label
+id drawer_btn_add_project
 id drawer_head
 id drawer_layout
 id drawer_lv_auto_rank

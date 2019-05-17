@@ -35,7 +35,7 @@ public class ProjectListAdapter extends BaseAdapter {
         return projects.get(position).getId();
     }
 
-    public Project findItem(Long id){
+    Project findItem(Long id){
         for(Project e : projects){
             if(e.getId() == id){
                 return e;
