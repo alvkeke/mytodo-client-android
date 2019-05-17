@@ -290,7 +290,7 @@ public class MainActivity extends AppCompatActivity {
                     if(project != null){
                         project.changeName(proName);
                         //todo:在完成修改项目颜色之后取消这行代码的注释
-                        //project.changeColor(proColor);
+                        project.changeColor(proColor);
                     }
 
                 }
