@@ -141,9 +141,9 @@ public class ColorSelector extends AppCompatImageView {
     void createColorWheel(){
 
         SweepGradient sweepGradient = new SweepGradient(centerX, centerY, colors, null);
-        RadialGradient radialGradient = new RadialGradient(centerX, centerY,
-                radius, 0xFFFFFFFF, 0x00000000, Shader.TileMode.CLAMP);
-        Shader composeShader = new ComposeShader(sweepGradient, radialGradient, PorterDuff.Mode.SRC_OVER);
+        //RadialGradient radialGradient = new RadialGradient(centerX, centerY,
+        //        radius, 0xFFFFFFFF, 0x00000000, Shader.TileMode.CLAMP);
+        //Shader composeShader = new ComposeShader(sweepGradient, radialGradient, PorterDuff.Mode.SRC_OVER);
 
         colorWheelPaint.setShader(sweepGradient);
     }
