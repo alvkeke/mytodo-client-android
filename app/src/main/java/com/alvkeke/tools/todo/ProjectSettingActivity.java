@@ -8,6 +8,8 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
+
 import com.alvkeke.tools.todo.Constants.*;
 import com.alvkeke.tools.todo.components.ColorSelector;
 
@@ -43,20 +45,17 @@ public class ProjectSettingActivity extends AppCompatActivity {
         btnOk.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                intent.putExtra("proId", proId);
-                intent.putExtra("proName", etProjectName.getText().toString());
-                intent.putExtra("proColor", colorSelector.getColor());
-                /*
-                switch (requestCode) {
-                    case Constants.REQUEST_CODE_SETTING_PROJECT:
-                        setResult(Constants.RESULT_CODE_SETTING_PROJECT, intent);
-                    break;
-                    case Constants.REQUEST_CODE_ADD_PROJECT:
-                        setResult(Constants.RESULT_CODE_ADD_PROJECT, intent);
-                }*/
-                setResult(0, intent);
+                if(!etProjectName.getText().toString().isEmpty()) {
+                    intent.putExtra("proId", proId);
+                    intent.putExtra("proName", etProjectName.getText().toString());
+                    intent.putExtra("proColor", colorSelector.getColor());
 
-                finish();
+                    setResult(0, intent);
+
+                    finish();
+                }else{
+                    Toast.makeText(getApplicationContext(), "项目名称不能为空", Toast.LENGTH_LONG).show();
+                }
             }
         });
 
