@@ -13,4 +13,5 @@
     <string name="label_project_setting_finish">完成设置</string>
     <string name="label_project_name">项目名称</string>
     <string name="label_project_color">项目颜色</string>
+    <string name="title_delete_project">删除项目</string>
 </resources>

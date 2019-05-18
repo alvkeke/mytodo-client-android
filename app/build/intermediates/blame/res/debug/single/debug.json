@@ -1260,6 +1260,10 @@
         "source": "/home/alvis/.gradle/caches/transforms-2/files-2.1/123fb92b386ce509e9f21b0a8c1054e7/res/drawable-xxhdpi-v4/abc_scrubber_control_to_pressed_mtrl_005.png"
     },
     {
+        "merged": "/run/media/alvis/debian-root/home/alvis/desktop/mytodo-client-android-remake/app/build/intermediates/res/merged/debug/menu_project_setting_menu.xml.flat",
+        "source": "/run/media/alvis/debian-root/home/alvis/desktop/mytodo-client-android-remake/app/src/main/res/menu/project_setting_menu.xml"
+    },
+    {
         "merged": "/run/media/alvis/debian-root/home/alvis/desktop/mytodo-client-android-remake/app/build/intermediates/res/merged/debug/mipmap-xxhdpi_ic_launcher_round.png.flat",
         "source": "/run/media/alvis/debian-root/home/alvis/desktop/mytodo-client-android-remake/app/src/main/res/mipmap-xxhdpi/ic_launcher_round.png"
     },

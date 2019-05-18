@@ -9,6 +9,7 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ImageView;
@@ -232,6 +233,25 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
+    void flashCurrentTaskList(){
+
+        switch (currentTaskList){
+            case TASK_LIST_ALL_TASK:
+                taskList_Show = Functions.getAllTaskList(projects);
+                break;
+            case TASK_LIST_TODAY_TASK:
+                taskList_Show = Functions.getTodayTaskList(projects);
+                break;
+            case TASK_LIST_RECENT_TASK:
+                taskList_Show = Functions.getRecentTaskList(projects);
+                break;
+        }
+
+        taskAdapter.changeTaskList(taskList_Show);
+
+        taskAdapter.notifyDataSetChanged();
+    }
+
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -271,45 +291,43 @@ public class MainActivity extends AppCompatActivity {
                     project.addTask(new TaskItem(proId, task, time, level));
 
                     //新建任务时,刷新当前显示的列表
-                    switch (currentTaskList){
-                        case TASK_LIST_ALL_TASK:
-                            taskList_Show = Functions.getAllTaskList(projects);
-                            break;
-                        case TASK_LIST_TODAY_TASK:
-                            taskList_Show = Functions.getTodayTaskList(projects);
-                            break;
-                        case TASK_LIST_RECENT_TASK:
-                            taskList_Show = Functions.getRecentTaskList(projects);
-                            break;
-                    }
-
-                    taskAdapter.changeTaskList(taskList_Show);
-
-                    taskAdapter.notifyDataSetChanged();
+                    flashCurrentTaskList();
                 }
 
             }
         }else if(requestCode == REQUEST_CODE_SETTING_PROJECT){
-            //if(resultCode == RESULT_CODE_SETTING_PROJECT){
-                if(data != null) {
-                    Long proId = data.getLongExtra("proId", -1);
-                    int proColor = data.getIntExtra("proColor", 0);
-                    String proName = data.getStringExtra("proName");
-
-                    Project project = proAdapter.findItem(proId);
-                    if(project != null){
-                        project.changeName(proName);
-                        if(proColor!= 0) {
-                            project.changeColor(proColor);
-                        }
+            switch (resultCode){
+                case RESULT_CANCEL:
+                    break;
+                case RESULT_DELETE_PROJECT:
+                    if(data != null){
+                        long proId = data.getLongExtra("proId", -1);
+                        Project p = proAdapter.findItem(proId);
+                        Log.e("delete project", String.valueOf(projects.remove(p)));
                     }
+                    break;
+                    default:
+                        if (data != null) {
+                        Long proId = data.getLongExtra("proId", -1);
+                        int proColor = data.getIntExtra("proColor", 0);
+                        String proName = data.getStringExtra("proName");
 
-                }
-                proAdapter.notifyDataSetChanged();
-            //}
+                        Project project = proAdapter.findItem(proId);
+                        if (project != null) {
+                            project.changeName(proName);
+                            if (proColor != 0) {
+                                project.changeColor(proColor);
+                            }
+                        }
+
+                        }
+            }
+            proAdapter.notifyDataSetChanged();
+            flashCurrentTaskList();
+
         }else if (requestCode == REQUEST_CODE_ADD_PROJECT){
-            //if(resultCode == RESULT_CODE_ADD_PROJECT){
-                if(data != null){
+            if(resultCode != RESULT_CANCEL) {
+                if (data != null) {
                     long id = data.getLongExtra("proId", -1);
                     String proName = data.getStringExtra("proName");
                     int color = data.getIntExtra("proColor", 0);
@@ -318,7 +336,7 @@ public class MainActivity extends AppCompatActivity {
                 }
                 proAdapter.notifyDataSetChanged();
                 exitProjectSettingMode();
-            //}
+            }
         }
     }
 
