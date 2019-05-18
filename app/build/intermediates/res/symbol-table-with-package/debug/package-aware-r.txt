@@ -655,11 +655,15 @@ drawable abc_textfield_search_default_mtrl_alpha
 drawable abc_textfield_search_material
 drawable abc_vector_test
 drawable ic_add_project
+drawable ic_add_project_pressed
+drawable ic_add_project_selector
+drawable ic_add_task
+drawable ic_add_task_pressed
+drawable ic_add_task_selector
 drawable ic_launcher_background
 drawable ic_launcher_foreground
 drawable ic_navigation
 drawable ic_project_setting_24dp
-drawable img_add_task
 drawable notification_action_background
 drawable notification_bg
 drawable notification_bg_low
