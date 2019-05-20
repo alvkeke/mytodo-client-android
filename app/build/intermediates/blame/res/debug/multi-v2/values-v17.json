@@ -1,10 +1,10 @@
 {
     "logs": [
         {
-            "outputFile": "/run/media/alvis/debian-root/home/alvis/desktop/mytodo-client-android-remake/app/build/intermediates/incremental/mergeDebugResources/merged.dir/values-v17/values-v17.xml",
+            "outputFile": "/home/alvis/desktop/mytodo-client-android-remake/app/build/intermediates/incremental/mergeDebugResources/merged.dir/values-v17/values-v17.xml",
             "map": [
                 {
-                    "source": "/home/alvis/.gradle/caches/transforms-2/files-2.1/123fb92b386ce509e9f21b0a8c1054e7/res/values-v17/values-v17.xml",
+                    "source": "/home/alvis/.gradle/caches/transforms-2/files-2.1/6bf59c6aec3677b3a73782c553226086/res/values-v17/values-v17.xml",
                     "from": {
                         "startLines": "2,5,9,12,15,18,22,25,29,33,37,40,43,46,50,53,57",
                         "startColumns": "4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4",

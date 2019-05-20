@@ -1,20 +1,10 @@
 {
     "logs": [
         {
-            "outputFile": "/run/media/alvis/debian-root/home/alvis/desktop/mytodo-client-android-remake/app/build/intermediates/incremental/mergeDebugResources/merged.dir/values-v16/values-v16.xml",
+            "outputFile": "/home/alvis/desktop/mytodo-client-android-remake/app/build/intermediates/incremental/mergeDebugResources/merged.dir/values-v16/values-v16.xml",
             "map": [
                 {
-                    "source": "/home/alvis/.gradle/caches/transforms-2/files-2.1/0add200517b478caf14c5569ad47f297/res/values-v16/values-v16.xml",
-                    "from": {
-                        "startLines": "2",
-                        "startColumns": "4",
-                        "startOffsets": "55",
-                        "endColumns": "65",
-                        "endOffsets": "116"
-                    }
-                },
-                {
-                    "source": "/home/alvis/.gradle/caches/transforms-2/files-2.1/123fb92b386ce509e9f21b0a8c1054e7/res/values-v16/values-v16.xml",
+                    "source": "/home/alvis/.gradle/caches/transforms-2/files-2.1/6bf59c6aec3677b3a73782c553226086/res/values-v16/values-v16.xml",
                     "from": {
                         "startLines": "2",
                         "startColumns": "4",
@@ -30,6 +20,16 @@
                         "endLines": "6",
                         "endColumns": "12",
                         "endOffsets": "289"
+                    }
+                },
+                {
+                    "source": "/home/alvis/.gradle/caches/transforms-2/files-2.1/1889b2deb5761f83f166fb1d6ccf7da7/res/values-v16/values-v16.xml",
+                    "from": {
+                        "startLines": "2",
+                        "startColumns": "4",
+                        "startOffsets": "55",
+                        "endColumns": "65",
+                        "endOffsets": "116"
                     }
                 }
             ]

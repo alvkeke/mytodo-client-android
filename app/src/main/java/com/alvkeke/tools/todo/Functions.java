@@ -1,7 +1,7 @@
 package com.alvkeke.tools.todo;
 
-import android.content.Context;
-import android.content.Intent;
+import com.alvkeke.tools.todo.MainFeatures.Project;
+import com.alvkeke.tools.todo.MainFeatures.TaskItem;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -9,11 +9,11 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
 
-class Functions {
+public class Functions {
 
     /*Project List Handler Functions*/
 
-    static Project findProjectInProjectList(ArrayList<Project> list, long ProId){
+    public static Project findProjectInProjectList(ArrayList<Project> list, long ProId){
 
         for (Project e : list){
             if(e.getId() == ProId){
@@ -24,7 +24,7 @@ class Functions {
         return null;
     }
 
-    static ArrayList<String> stringListFromProjectList(ArrayList<Project> list){
+    public static ArrayList<String> stringListFromProjectList(ArrayList<Project> list){
         ArrayList<String> strings = new ArrayList<>();
 
         for(Project e : list){
@@ -35,7 +35,7 @@ class Functions {
         return strings;
     }
 
-    static ArrayList<Project> projectListFromStringList(final ArrayList<String> list){
+    public static ArrayList<Project> projectListFromStringList(final ArrayList<String> list){
         ArrayList<Project> projects = new ArrayList<>();
 
         for(String s : list){
@@ -48,7 +48,7 @@ class Functions {
 
     /*Task List Handler Functions*/
 
-    static ArrayList<TaskItem> getAllTaskList(ArrayList<Project> projects){
+    public static ArrayList<TaskItem> getAllTaskList(ArrayList<Project> projects){
         ArrayList<TaskItem> taskItems = new ArrayList<>();
 
         for (Project p : projects){
@@ -58,7 +58,7 @@ class Functions {
         return taskItems;
     }
 
-    static ArrayList<TaskItem> getTodayTaskList(ArrayList<Project> allProjects){
+    public static ArrayList<TaskItem> getTodayTaskList(ArrayList<Project> allProjects){
         ArrayList<TaskItem> taskItems = new ArrayList<>();
 
         for(Project p : allProjects){
@@ -72,7 +72,7 @@ class Functions {
         return taskItems;
     }
 
-    static ArrayList<TaskItem> getRecentTaskList(ArrayList<Project> projects){
+    public static ArrayList<TaskItem> getRecentTaskList(ArrayList<Project> projects){
         ArrayList<TaskItem> taskItems = new ArrayList<>();
         for (Project p: projects){
             for (TaskItem t : p.getTaskList()){
@@ -124,7 +124,7 @@ class Functions {
         return simpleDateFormat.format(new Date(time));
     }
 
-    static String autoFormatDate(long time){
+    public static String autoFormatDate(long time){
 
         if(isToday(time)){
             //这里判断等于“00:00”是判断有没有设置指定的提醒时间，如果没有，则只显示日期，如果有则连同时间一起显示

@@ -1,4 +1,4 @@
-package com.alvkeke.tools.todo;
+package com.alvkeke.tools.todo.MainFeatures;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -8,11 +8,13 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.alvkeke.tools.todo.R;
+
 public class DefaultTaskListAdapter extends BaseAdapter {
 
     private LayoutInflater mInflater;
 
-    DefaultTaskListAdapter(Context context){
+    public DefaultTaskListAdapter(Context context){
         mInflater = LayoutInflater.from(context);
 
     }

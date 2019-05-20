@@ -1,4 +1,4 @@
-package com.alvkeke.tools.todo;
+package com.alvkeke.tools.todo.MainFeatures;
 
 import java.util.Date;
 
@@ -10,7 +10,7 @@ public class TaskItem {
     private long proId;
     private long Id;
 
-    TaskItem(long proId, String todo, long time, int level){
+    public TaskItem(long proId, String todo, long time, int level){
         this.proId = proId;
         content = todo;
         this.time = time;
@@ -18,7 +18,7 @@ public class TaskItem {
         this.Id = generateId();
     }
 
-    TaskItem(long proId, long taskId, String todo, long time, int level){
+    public TaskItem(long proId, long taskId, String todo, long time, int level){
         this.proId = proId;
         content = todo;
         this.time = time;
@@ -30,7 +30,7 @@ public class TaskItem {
         return new Date().getTime();
     }
 
-    int getLevel() {
+    public int getLevel() {
         return level;
     }
 
@@ -42,11 +42,11 @@ public class TaskItem {
         return proId;
     }
 
-    long getTime() {
+    public long getTime() {
         return time;
     }
 
-    String getTaskContent() {
+    public String getTaskContent() {
         return content;
     }
 

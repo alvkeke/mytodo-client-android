@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ProjectSettingActivity">
+    tools:context=".MainFeatures.ProjectSettingActivity">
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -46,7 +46,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
 
-        <com.alvkeke.tools.todo.components.ColorSelector
+        <com.alvkeke.tools.todo.Compoents.ColorSelector
             android:id="@+id/pro_setting_color_selector"
             android:layout_below="@id/pro_setting_label_proColor"
             android:layout_centerHorizontal="true"

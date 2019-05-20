@@ -18,6 +18,14 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.alvkeke.tools.todo.MainFeatures.AddTaskActivity;
+import com.alvkeke.tools.todo.MainFeatures.DefaultTaskListAdapter;
+import com.alvkeke.tools.todo.MainFeatures.Project;
+import com.alvkeke.tools.todo.MainFeatures.ProjectListAdapter;
+import com.alvkeke.tools.todo.MainFeatures.ProjectSettingActivity;
+import com.alvkeke.tools.todo.MainFeatures.TaskItem;
+import com.alvkeke.tools.todo.MainFeatures.TaskListAdapter;
+
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Objects;
@@ -288,6 +296,7 @@ public class MainActivity extends AppCompatActivity {
                         time = calendar.getTimeInMillis();
                     }
 
+                    //TODO:保存到本地，建立一个函数专门储存任务
                     project.addTask(new TaskItem(proId, task, time, level));
 
                     //新建任务时,刷新当前显示的列表
@@ -305,20 +314,23 @@ public class MainActivity extends AppCompatActivity {
                         Project p = proAdapter.findItem(proId);
                         Log.e("delete project", String.valueOf(projects.remove(p)));
                     }
+                    exitProjectSettingMode();
                     break;
+
                     default:
                         if (data != null) {
-                        Long proId = data.getLongExtra("proId", -1);
-                        int proColor = data.getIntExtra("proColor", 0);
-                        String proName = data.getStringExtra("proName");
+                            Long proId = data.getLongExtra("proId", -1);
+                            int proColor = data.getIntExtra("proColor", 0);
+                            String proName = data.getStringExtra("proName");
 
-                        Project project = proAdapter.findItem(proId);
-                        if (project != null) {
-                            project.changeName(proName);
-                            if (proColor != 0) {
-                                project.changeColor(proColor);
+                            Project project = proAdapter.findItem(proId);
+                            if (project != null) {
+                                project.changeName(proName);
+                                if (proColor != 0) {
+                                    project.changeColor(proColor);
+                                }
+                                //TODO:建立一个函数专门修改项目信息，并保存到本地
                             }
-                        }
 
                         }
             }
@@ -333,6 +345,7 @@ public class MainActivity extends AppCompatActivity {
                     int color = data.getIntExtra("proColor", 0);
                     //proAdapter.addProject(new Project(id, proName, color));
                     projects.add(new Project(id, proName, color));
+                    //TODO:保存到本地，建立一个函数专门储存项目
                 }
                 proAdapter.notifyDataSetChanged();
                 exitProjectSettingMode();

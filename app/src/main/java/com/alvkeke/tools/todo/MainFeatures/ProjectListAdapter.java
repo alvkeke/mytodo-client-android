@@ -1,4 +1,4 @@
-package com.alvkeke.tools.todo;
+package com.alvkeke.tools.todo.MainFeatures;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -8,6 +8,8 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.alvkeke.tools.todo.R;
+
 import java.util.ArrayList;
 
 public class ProjectListAdapter extends BaseAdapter {
@@ -15,7 +17,7 @@ public class ProjectListAdapter extends BaseAdapter {
     private ArrayList<Project> projects;
     private LayoutInflater mInflater;
 
-    ProjectListAdapter(Context context, ArrayList<Project> projects){
+    public ProjectListAdapter(Context context, ArrayList<Project> projects){
         mInflater = LayoutInflater.from(context);
         this.projects = projects;
     }
@@ -35,7 +37,7 @@ public class ProjectListAdapter extends BaseAdapter {
         return projects.get(position).getId();
     }
 
-    Project findItem(Long id){
+    public Project findItem(Long id){
         for(Project e : projects){
             if(e.getId() == id){
                 return e;

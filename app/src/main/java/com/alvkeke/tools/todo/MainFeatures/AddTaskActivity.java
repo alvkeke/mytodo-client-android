@@ -1,4 +1,4 @@
-package com.alvkeke.tools.todo;
+package com.alvkeke.tools.todo.MainFeatures;
 
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
@@ -16,6 +16,10 @@ import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
+
+import com.alvkeke.tools.todo.Constants;
+import com.alvkeke.tools.todo.Functions;
+import com.alvkeke.tools.todo.R;
 
 import java.util.ArrayList;
 import java.util.Calendar;

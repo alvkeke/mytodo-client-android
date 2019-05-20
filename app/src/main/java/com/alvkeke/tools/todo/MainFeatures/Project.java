@@ -1,9 +1,9 @@
-package com.alvkeke.tools.todo;
+package com.alvkeke.tools.todo.MainFeatures;
 
 import java.util.ArrayList;
 import java.util.Date;
 
-class Project {
+public class Project {
 
     private String name;
     private ArrayList<TaskItem> tasks;
@@ -17,24 +17,24 @@ class Project {
         this.Id = new Date().getTime();
     }
 
-    Project(long projectId, String name, int color){
+    public Project(long projectId, String name, int color){
         this.name = name;
         this.tasks = new ArrayList<>();
         this.color = color;
         this.Id = projectId;
     }
 
-    void changeName(String name){
+    public void changeName(String name){
         this.name = name;
     }
 
-    void changeColor(int Color){this.color = Color;}
+    public void changeColor(int Color){this.color = Color;}
 
-    long getId() {
+    public long getId() {
         return Id;
     }
 
-    String getName() {
+    public String getName() {
         return name;
     }
 
@@ -42,15 +42,15 @@ class Project {
         return color;
     }
 
-    void addTask(TaskItem e){
+    public void addTask(TaskItem e){
         tasks.add(e);
     }
 
-    TaskItem getTask(int pos){
+    public TaskItem getTask(int pos){
         return tasks.get(pos);
     }
 
-    ArrayList<TaskItem> getTaskList(){
+    public ArrayList<TaskItem> getTaskList(){
         return tasks;
     }
 

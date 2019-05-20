@@ -1,4 +1,4 @@
-package com.alvkeke.tools.todo;
+package com.alvkeke.tools.todo.MainFeatures;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -7,6 +7,10 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
+
+import com.alvkeke.tools.todo.Functions;
+import com.alvkeke.tools.todo.R;
+
 import java.util.ArrayList;
 
 
@@ -16,13 +20,13 @@ public class TaskListAdapter extends BaseAdapter {
     private LayoutInflater mInflater;
     private Context context;
 
-    TaskListAdapter(Context context, ArrayList<TaskItem> e){
+    public TaskListAdapter(Context context, ArrayList<TaskItem> e){
         tasks = e;
         this.mInflater = LayoutInflater.from(context);
         this.context = context;
     }
 
-    void changeTaskList(ArrayList<TaskItem> e){
+    public void changeTaskList(ArrayList<TaskItem> e){
         tasks = e;
     }
 
