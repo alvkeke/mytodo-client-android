@@ -70,14 +70,14 @@ MERGED from [com.android.support:versionedparcelable:28.0.0] /home/alvis/.gradle
 		ADDED from /home/alvis/desktop/mytodo-client-android-remake/app/src/main/AndroidManifest.xml:6:9-35
 	android:theme
 		ADDED from /home/alvis/desktop/mytodo-client-android-remake/app/src/main/AndroidManifest.xml:11:9-40
-activity#com.alvkeke.tools.todo.MainFeatures.ProjectSettingActivity
-ADDED from /home/alvis/desktop/mytodo-client-android-remake/app/src/main/AndroidManifest.xml:12:9-73
+activity#com.alvkeke.tools.todo.ProjectSettingActivity
+ADDED from /home/alvis/desktop/mytodo-client-android-remake/app/src/main/AndroidManifest.xml:12:9-60
 	android:name
-		ADDED from /home/alvis/desktop/mytodo-client-android-remake/app/src/main/AndroidManifest.xml:12:19-70
-activity#com.alvkeke.tools.todo.MainFeatures.AddTaskActivity
-ADDED from /home/alvis/desktop/mytodo-client-android-remake/app/src/main/AndroidManifest.xml:13:9-66
+		ADDED from /home/alvis/desktop/mytodo-client-android-remake/app/src/main/AndroidManifest.xml:12:19-57
+activity#com.alvkeke.tools.todo.AddTaskActivity
+ADDED from /home/alvis/desktop/mytodo-client-android-remake/app/src/main/AndroidManifest.xml:13:9-53
 	android:name
-		ADDED from /home/alvis/desktop/mytodo-client-android-remake/app/src/main/AndroidManifest.xml:13:19-63
+		ADDED from /home/alvis/desktop/mytodo-client-android-remake/app/src/main/AndroidManifest.xml:13:19-50
 activity#com.alvkeke.tools.todo.MainActivity
 ADDED from /home/alvis/desktop/mytodo-client-android-remake/app/src/main/AndroidManifest.xml:14:9-20:20
 	android:name

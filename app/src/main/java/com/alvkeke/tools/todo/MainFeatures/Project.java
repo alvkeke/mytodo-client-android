@@ -10,7 +10,7 @@ public class Project {
     private int color;
     private long Id;
 
-    Project(String name, int color){
+    public Project(String name, int color){
         this.name = name;
         this.tasks = new ArrayList<>();
         this.color = color;

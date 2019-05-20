@@ -18,8 +18,8 @@
         android:supportsRtl="true"
         android:testOnly="true"
         android:theme="@style/AppTheme" >
-        <activity android:name="com.alvkeke.tools.todo.MainFeatures.ProjectSettingActivity" />
-        <activity android:name="com.alvkeke.tools.todo.MainFeatures.AddTaskActivity" />
+        <activity android:name="com.alvkeke.tools.todo.ProjectSettingActivity" />
+        <activity android:name="com.alvkeke.tools.todo.AddTaskActivity" />
         <activity android:name="com.alvkeke.tools.todo.MainActivity" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

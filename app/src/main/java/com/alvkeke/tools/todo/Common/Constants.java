@@ -1,4 +1,4 @@
-package com.alvkeke.tools.todo;
+package com.alvkeke.tools.todo.Common;
 
 public class Constants {
     public static final int REQUEST_CODE_ADD_TASK = 1;

@@ -1,4 +1,4 @@
-package com.alvkeke.tools.todo.MainFeatures;
+package com.alvkeke.tools.todo;
 
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -13,8 +13,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 import com.alvkeke.tools.todo.Compoents.ColorSelector;
-import com.alvkeke.tools.todo.Constants;
-import com.alvkeke.tools.todo.R;
+import com.alvkeke.tools.todo.Common.Constants;
 
 
 public class ProjectSettingActivity extends AppCompatActivity {
