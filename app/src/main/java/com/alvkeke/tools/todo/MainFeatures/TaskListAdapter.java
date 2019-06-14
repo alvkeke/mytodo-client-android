@@ -8,7 +8,6 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.alvkeke.tools.todo.Common.Functions;
 import com.alvkeke.tools.todo.R;
 
 import java.util.ArrayList;

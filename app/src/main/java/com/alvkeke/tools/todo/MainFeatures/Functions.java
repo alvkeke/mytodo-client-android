@@ -1,7 +1,4 @@
-package com.alvkeke.tools.todo.Common;
-
-import com.alvkeke.tools.todo.MainFeatures.Project;
-import com.alvkeke.tools.todo.MainFeatures.TaskItem;
+package com.alvkeke.tools.todo.MainFeatures;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -12,6 +9,8 @@ import java.util.Locale;
 public class Functions {
 
     /*Project List Handler Functions*/
+
+    public static long generateId(){return new Date().getTime();}
 
     public static Project findProjectInProjectList(ArrayList<Project> list, long ProId){
 

@@ -1,6 +1,7 @@
 package com.alvkeke.tools.todo;
 
 import android.content.Intent;
+import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Color;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -19,13 +20,15 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.alvkeke.tools.todo.Common.Constants;
-import com.alvkeke.tools.todo.Common.Functions;
+import com.alvkeke.tools.todo.DataStore.F;
+import com.alvkeke.tools.todo.MainFeatures.Functions;
 import com.alvkeke.tools.todo.MainFeatures.DefaultTaskListAdapter;
 import com.alvkeke.tools.todo.MainFeatures.Project;
 import com.alvkeke.tools.todo.MainFeatures.ProjectListAdapter;
 import com.alvkeke.tools.todo.MainFeatures.TaskItem;
 import com.alvkeke.tools.todo.MainFeatures.TaskListAdapter;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Objects;
@@ -55,6 +58,8 @@ public class MainActivity extends AppCompatActivity {
     TaskListAdapter taskAdapter;
 
     ArrayList<TaskItem> taskList_Show;
+
+    SQLiteDatabase db;
 
     int currentTaskList;
     boolean proSettingMode;
@@ -95,24 +100,19 @@ public class MainActivity extends AppCompatActivity {
         exitProjectSettingMode();
 
         projects = new ArrayList<>();
-        //TODO:删除一下仅供测试使用的代码,将载入项目和任务的过程更改为从本地储存或网络储存中加载
-        projects.add(new Project(1,"Project1", Color.BLACK));
-        projects.add(new Project(2,"Project2", Color.BLACK));
 
-        projects.get(0).addTask(new TaskItem(1, "todo1.1", -1, 0));
-        projects.get(0).addTask(new TaskItem(1, "todo1.2", -1, 0));
-        projects.get(0).addTask(new TaskItem(1, "todo1.3", -1, 0));
-        projects.get(0).addTask(new TaskItem(1, "todo1.4", -1, 0));
-        projects.get(0).addTask(new TaskItem(1, "todo1.5", -1, 0));
+        File dir = getExternalFilesDir("test");
+        if(!Objects.requireNonNull(dir).exists()) {
+            dir.mkdir();
+        }
 
-        projects.get(1).addTask(new TaskItem(2, "todo2.1", -1, 0));
-        projects.get(1).addTask(new TaskItem(2, "todo2.2", -1, 0));
-        projects.get(1).addTask(new TaskItem(2, "todo2.3", -1, 0));
-        projects.get(1).addTask(new TaskItem(2, "todo2.4", -1, 0));
-        projects.get(1).addTask(new TaskItem(2, "todo2.5", -1, 0));
+        File dbfile = new File(dir, "database.db");
+        db = SQLiteDatabase.openOrCreateDatabase(dbfile, null);
+
+        F.restoreProject(db, projects);
 
 
-        //TODO:修改为加载本地储存的用户设置
+        //:修改为加载本地储存的用户设置
         taskList_Show = Functions.getAllTaskList(projects);
         currentTaskList = TASK_LIST_ALL_TASK;
 
@@ -296,8 +296,10 @@ public class MainActivity extends AppCompatActivity {
                         time = calendar.getTimeInMillis();
                     }
 
-                    //TODO:保存到本地，建立一个函数专门储存任务
-                    project.addTask(new TaskItem(proId, task, time, level));
+                    //:保存到本地，建立一个函数专门储存任务
+                    TaskItem taskItem = new TaskItem(proId, Functions.generateId(), task, time, level);
+                    project.addTask(taskItem);
+                    F.createTask(db, taskItem);
 
                     //新建任务时,刷新当前显示的列表
                     flashCurrentTaskList();
@@ -328,8 +330,11 @@ public class MainActivity extends AppCompatActivity {
                                 project.changeName(proName);
                                 if (proColor != 0) {
                                     project.changeColor(proColor);
+                                }else{
+                                    proColor = project.getColor();
                                 }
-                                //TODO:建立一个函数专门修改项目信息，并保存到本地
+                                //:建立一个函数专门修改项目信息，并保存到本地
+                                F.modifyProject(db, proId, proName, proColor);
                             }
 
                         }
@@ -344,8 +349,10 @@ public class MainActivity extends AppCompatActivity {
                     String proName = data.getStringExtra("proName");
                     int color = data.getIntExtra("proColor", 0);
                     //proAdapter.addProject(new Project(id, proName, color));
-                    projects.add(new Project(id, proName, color));
-                    //TODO:保存到本地，建立一个函数专门储存项目
+                    Project project = new Project(id, proName, color);
+                    projects.add(project);
+                    //:保存到本地，建立一个函数专门储存项目
+                    F.createProject(db, project);
                 }
                 proAdapter.notifyDataSetChanged();
                 exitProjectSettingMode();
@@ -359,7 +366,12 @@ public class MainActivity extends AppCompatActivity {
         if(drawerLayout.isDrawerOpen(GravityCompat.START)) {
             drawerLayout.closeDrawer(GravityCompat.START);
         }else{
-            super.onBackPressed();
+            //super.onBackPressed();
+            //以下代码模拟Home键按下。
+            Intent intent = new Intent(Intent.ACTION_MAIN);
+            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            intent.addCategory(Intent.CATEGORY_HOME);
+            startActivity(intent);
         }
 
     }

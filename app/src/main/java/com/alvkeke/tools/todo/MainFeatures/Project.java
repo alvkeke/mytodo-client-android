@@ -1,7 +1,6 @@
 package com.alvkeke.tools.todo.MainFeatures;
 
 import java.util.ArrayList;
-import java.util.Date;
 
 public class Project {
 
@@ -9,13 +8,6 @@ public class Project {
     private ArrayList<TaskItem> tasks;
     private int color;
     private long Id;
-
-    public Project(String name, int color){
-        this.name = name;
-        this.tasks = new ArrayList<>();
-        this.color = color;
-        this.Id = new Date().getTime();
-    }
 
     public Project(long projectId, String name, int color){
         this.name = name;

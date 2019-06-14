@@ -18,7 +18,7 @@ import android.widget.TimePicker;
 import android.widget.Toast;
 
 import com.alvkeke.tools.todo.Common.Constants;
-import com.alvkeke.tools.todo.Common.Functions;
+import com.alvkeke.tools.todo.MainFeatures.Functions;
 import com.alvkeke.tools.todo.MainFeatures.Project;
 import com.alvkeke.tools.todo.MainFeatures.ProjectListAdapter;
 
@@ -85,10 +85,10 @@ public class AddTaskActivity extends AppCompatActivity {
 
         //这里用项目列表来代替任务等级的列表,通过参数上的不同来区分这任务等级和项目列表的不同
         ArrayList<Project> levelList = new ArrayList<>();
-        levelList.add(new Project("普通", this.getResources().getColor(R.color.level_none)));
-        levelList.add(new Project("优先", this.getResources().getColor(R.color.level_low)));
-        levelList.add(new Project("重要", this.getResources().getColor(R.color.level_mid)));
-        levelList.add(new Project("紧急", this.getResources().getColor(R.color.level_high)));
+        levelList.add(new Project(-1,"普通", this.getResources().getColor(R.color.level_none)));
+        levelList.add(new Project(-1,"优先", this.getResources().getColor(R.color.level_low)));
+        levelList.add(new Project(-1,"重要", this.getResources().getColor(R.color.level_mid)));
+        levelList.add(new Project(-1,"紧急", this.getResources().getColor(R.color.level_high)));
 
         ProjectListAdapter levelListAdapter = new ProjectListAdapter(this, levelList);
         levelSelector.setAdapter(levelListAdapter);

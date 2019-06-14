@@ -1,53 +1,29 @@
 <?xml version="1.0" encoding="utf-8"?>
 <instant-run
     abi="arm64-v8a,armeabi-v7a,armeabi"
-    api-level="28"
+    api-level="24"
     build-mode="COLD"
     density="xxhdpi"
     format="10"
-    ir-eligibility="CLASS_ADDED"
+    ir-eligibility="COMPATIBLE"
     plugin-version="3.4.1"
-    timestamp="1558361814457"
+    timestamp="1560533755054"
     token="-6696432332714214996"
     verifier="COLD_SWAP_REQUESTED" >
 
     <task
         name="javac"
-        duration="260" />
+        duration="83" />
     <task
         name="instant-run-dex"
         duration="0" />
     <task
         name="instant-run-transform"
-        duration="36" />
+        duration="18" />
     <task
         name="verifier"
-        duration="3" />
+        duration="6" />
 
-    <artifact
-        location="/home/alvis/desktop/mytodo-client-android-remake/app/build/intermediates/split-apk/debug/dep/dependencies.apk"
-        type="SPLIT" />
-    <artifact
-        location="/home/alvis/desktop/mytodo-client-android-remake/app/build/intermediates/split-apk/debug/slices/slice_5.apk"
-        type="SPLIT" />
-    <artifact
-        location="/home/alvis/desktop/mytodo-client-android-remake/app/build/intermediates/split-apk/debug/slices/slice_4.apk"
-        type="SPLIT" />
-    <artifact
-        location="/home/alvis/desktop/mytodo-client-android-remake/app/build/intermediates/split-apk/debug/slices/slice_2.apk"
-        type="SPLIT" />
-    <artifact
-        location="/home/alvis/desktop/mytodo-client-android-remake/app/build/intermediates/split-apk/debug/slices/slice_1.apk"
-        type="SPLIT" />
-    <artifact
-        location="/home/alvis/desktop/mytodo-client-android-remake/app/build/intermediates/split-apk/debug/slices/slice_0.apk"
-        type="SPLIT" />
-    <artifact
-        location="/home/alvis/desktop/mytodo-client-android-remake/app/build/intermediates/split-apk/debug/slices/slice_6.apk"
-        type="SPLIT" />
-    <artifact
-        location="/home/alvis/desktop/mytodo-client-android-remake/app/build/intermediates/split-apk/debug/slices/slice_3.apk"
-        type="SPLIT" />
     <artifact
         location="/home/alvis/desktop/mytodo-client-android-remake/app/build/intermediates/split-apk/debug/slices/slice_9.apk"
         type="SPLIT" />
@@ -55,22 +31,39 @@
         location="/home/alvis/desktop/mytodo-client-android-remake/app/build/intermediates/split-apk/debug/slices/slice_7.apk"
         type="SPLIT" />
     <artifact
-        location="/home/alvis/desktop/mytodo-client-android-remake/app/build/intermediates/split-apk/debug/slices/slice_8.apk"
+        location="/home/alvis/desktop/mytodo-client-android-remake/app/build/intermediates/split-apk/debug/slices/slice_0.apk"
         type="SPLIT" />
     <artifact
-        location="/home/alvis/desktop/mytodo-client-android-remake/app/build/intermediates/instant-run-apk/debug/app-debug.apk"
-        type="SPLIT_MAIN" />
+        location="/home/alvis/desktop/mytodo-client-android-remake/app/build/intermediates/split-apk/debug/slices/slice_3.apk"
+        type="SPLIT" />
 
     <build
         build-mode="FULL"
-        ir-eligibility="CLASS_ADDED"
-        timestamp="1558361540785"
-        verifier="COLD_SWAP_REQUESTED" >
+        timestamp="1560521240578"
+        verifier="FULL_BUILD_REQUESTED" >
         <artifact
-            location="/home/alvis/desktop/mytodo-client-android-remake/app/build/intermediates/resources/instant-run/debug/resources-debug.apk"
+            location="/home/alvis/desktop/mytodo-client-android-remake/app/build/intermediates/split-apk/debug/slices/slice_7.apk"
+            type="SPLIT" />
+        <artifact
+            location="/home/alvis/desktop/mytodo-client-android-remake/app/build/intermediates/split-apk/debug/slices/slice_9.apk"
+            type="SPLIT" />
+        <artifact
+            location="/home/alvis/desktop/mytodo-client-android-remake/app/build/intermediates/split-apk/debug/slices/slice_8.apk"
+            type="SPLIT" />
+        <artifact
+            location="/home/alvis/desktop/mytodo-client-android-remake/app/build/intermediates/split-apk/debug/slices/slice_6.apk"
+            type="SPLIT" />
+        <artifact
+            location="/home/alvis/desktop/mytodo-client-android-remake/app/build/intermediates/split-apk/debug/slices/slice_1.apk"
+            type="SPLIT" />
+        <artifact
+            location="/home/alvis/desktop/mytodo-client-android-remake/app/build/intermediates/split-apk/debug/slices/slice_0.apk"
             type="SPLIT" />
         <artifact
             location="/home/alvis/desktop/mytodo-client-android-remake/app/build/intermediates/split-apk/debug/dep/dependencies.apk"
+            type="SPLIT" />
+        <artifact
+            location="/home/alvis/desktop/mytodo-client-android-remake/app/build/intermediates/split-apk/debug/slices/slice_2.apk"
             type="SPLIT" />
         <artifact
             location="/home/alvis/desktop/mytodo-client-android-remake/app/build/intermediates/split-apk/debug/slices/slice_5.apk"
@@ -79,28 +72,7 @@
             location="/home/alvis/desktop/mytodo-client-android-remake/app/build/intermediates/split-apk/debug/slices/slice_4.apk"
             type="SPLIT" />
         <artifact
-            location="/home/alvis/desktop/mytodo-client-android-remake/app/build/intermediates/split-apk/debug/slices/slice_2.apk"
-            type="SPLIT" />
-        <artifact
-            location="/home/alvis/desktop/mytodo-client-android-remake/app/build/intermediates/split-apk/debug/slices/slice_1.apk"
-            type="SPLIT" />
-        <artifact
-            location="/home/alvis/desktop/mytodo-client-android-remake/app/build/intermediates/split-apk/debug/slices/slice_6.apk"
-            type="SPLIT" />
-        <artifact
             location="/home/alvis/desktop/mytodo-client-android-remake/app/build/intermediates/split-apk/debug/slices/slice_3.apk"
-            type="SPLIT" />
-        <artifact
-            location="/home/alvis/desktop/mytodo-client-android-remake/app/build/intermediates/split-apk/debug/slices/slice_0.apk"
-            type="SPLIT" />
-        <artifact
-            location="/home/alvis/desktop/mytodo-client-android-remake/app/build/intermediates/split-apk/debug/slices/slice_9.apk"
-            type="SPLIT" />
-        <artifact
-            location="/home/alvis/desktop/mytodo-client-android-remake/app/build/intermediates/split-apk/debug/slices/slice_7.apk"
-            type="SPLIT" />
-        <artifact
-            location="/home/alvis/desktop/mytodo-client-android-remake/app/build/intermediates/split-apk/debug/slices/slice_8.apk"
             type="SPLIT" />
         <artifact
             location="/home/alvis/desktop/mytodo-client-android-remake/app/build/intermediates/instant-run-apk/debug/app-debug.apk"
@@ -108,33 +80,9 @@
     </build>
     <build
         build-mode="COLD"
-        ir-eligibility="CLASS_ADDED"
-        timestamp="1558361814457"
+        ir-eligibility="COMPATIBLE"
+        timestamp="1560533755054"
         verifier="COLD_SWAP_REQUESTED" >
-        <artifact
-            location="/home/alvis/desktop/mytodo-client-android-remake/app/build/intermediates/split-apk/debug/dep/dependencies.apk"
-            type="SPLIT" />
-        <artifact
-            location="/home/alvis/desktop/mytodo-client-android-remake/app/build/intermediates/split-apk/debug/slices/slice_5.apk"
-            type="SPLIT" />
-        <artifact
-            location="/home/alvis/desktop/mytodo-client-android-remake/app/build/intermediates/split-apk/debug/slices/slice_4.apk"
-            type="SPLIT" />
-        <artifact
-            location="/home/alvis/desktop/mytodo-client-android-remake/app/build/intermediates/split-apk/debug/slices/slice_2.apk"
-            type="SPLIT" />
-        <artifact
-            location="/home/alvis/desktop/mytodo-client-android-remake/app/build/intermediates/split-apk/debug/slices/slice_1.apk"
-            type="SPLIT" />
-        <artifact
-            location="/home/alvis/desktop/mytodo-client-android-remake/app/build/intermediates/split-apk/debug/slices/slice_0.apk"
-            type="SPLIT" />
-        <artifact
-            location="/home/alvis/desktop/mytodo-client-android-remake/app/build/intermediates/split-apk/debug/slices/slice_6.apk"
-            type="SPLIT" />
-        <artifact
-            location="/home/alvis/desktop/mytodo-client-android-remake/app/build/intermediates/split-apk/debug/slices/slice_3.apk"
-            type="SPLIT" />
         <artifact
             location="/home/alvis/desktop/mytodo-client-android-remake/app/build/intermediates/split-apk/debug/slices/slice_9.apk"
             type="SPLIT" />
@@ -142,11 +90,11 @@
             location="/home/alvis/desktop/mytodo-client-android-remake/app/build/intermediates/split-apk/debug/slices/slice_7.apk"
             type="SPLIT" />
         <artifact
-            location="/home/alvis/desktop/mytodo-client-android-remake/app/build/intermediates/split-apk/debug/slices/slice_8.apk"
+            location="/home/alvis/desktop/mytodo-client-android-remake/app/build/intermediates/split-apk/debug/slices/slice_0.apk"
             type="SPLIT" />
         <artifact
-            location="/home/alvis/desktop/mytodo-client-android-remake/app/build/intermediates/instant-run-apk/debug/app-debug.apk"
-            type="SPLIT_MAIN" />
+            location="/home/alvis/desktop/mytodo-client-android-remake/app/build/intermediates/split-apk/debug/slices/slice_3.apk"
+            type="SPLIT" />
     </build>
 
 </instant-run>

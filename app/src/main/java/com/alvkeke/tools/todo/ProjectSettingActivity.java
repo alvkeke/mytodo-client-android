@@ -3,17 +3,19 @@ package com.alvkeke.tools.todo;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
+import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
-import com.alvkeke.tools.todo.Compoents.ColorSelector;
+
 import com.alvkeke.tools.todo.Common.Constants;
+import com.alvkeke.tools.todo.Compoents.ColorSelector;
+import com.alvkeke.tools.todo.MainFeatures.Functions;
 
 
 public class ProjectSettingActivity extends AppCompatActivity {
@@ -41,6 +43,9 @@ public class ProjectSettingActivity extends AppCompatActivity {
 
         proName = intent.getStringExtra("proName");
         proId = intent.getLongExtra("proId", -1);
+        if (proId == -1){
+            proId = Functions.generateId();
+        }
         int proColor = intent.getIntExtra("proColor", Color.TRANSPARENT);
 
         etProjectName.setText(proName);
