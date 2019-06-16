@@ -34,6 +34,8 @@ public class ProjectSettingActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_project_setting);
 
+        setTitle("项目设置");
+
         etProjectName = findViewById(R.id.pro_setting_et_proName);
         colorSelector = findViewById(R.id.pro_setting_color_selector);
         btnOk = findViewById(R.id.pro_setting_btn_ok);

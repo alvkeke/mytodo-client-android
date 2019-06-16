@@ -37,9 +37,11 @@ public class Functions {
     public static ArrayList<Project> projectListFromStringList(final ArrayList<String> list){
         ArrayList<Project> projects = new ArrayList<>();
 
-        for(String s : list){
-            String[] proInfo = s.split(":");
-            projects.add(new Project(Long.valueOf(proInfo[0]), proInfo[1], Integer.valueOf(proInfo[2])));
+        if(list != null) {
+            for (String s : list) {
+                String[] proInfo = s.split(":");
+                projects.add(new Project(Long.valueOf(proInfo[0]), proInfo[1], Integer.valueOf(proInfo[2])));
+            }
         }
 
         return projects;
@@ -108,7 +110,7 @@ public class Functions {
 
     }
 
-    private static String formatDate(long time){
+    public static String formatDate(long time){
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd", Locale.CHINA);
         return simpleDateFormat.format(new Date(time));
     }
@@ -118,12 +120,12 @@ public class Functions {
         return simpleDateFormat.format(new Date(time));
     }
 
-    private static String formatTime(long time){
+    public static String formatTime(long time){
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("HH:mm", Locale.CHINA);
         return simpleDateFormat.format(new Date(time));
     }
 
-    public static String autoFormatDate(long time){
+    static String autoFormatDate(long time){
 
         if(isToday(time)){
             //这里判断等于“00:00”是判断有没有设置指定的提醒时间，如果没有，则只显示日期，如果有则连同时间一起显示

@@ -1,16 +1,21 @@
 package com.alvkeke.tools.todo.MainFeatures;
 
 import android.content.Context;
+import android.graphics.Color;
+import android.util.SparseBooleanArray;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.alvkeke.tools.todo.MainActivity;
 import com.alvkeke.tools.todo.R;
 
 import java.util.ArrayList;
+import java.util.MissingFormatArgumentException;
 
 
 public class TaskListAdapter extends BaseAdapter {
@@ -48,6 +53,7 @@ public class TaskListAdapter extends BaseAdapter {
     }
 
     static class ViewHolder{
+        RelativeLayout background;
         ImageView ivImportance;
         TextView tvTaskContent;
         TextView tvTaskTime;
@@ -62,6 +68,7 @@ public class TaskListAdapter extends BaseAdapter {
             holder = new ViewHolder();
             convertView = mInflater.inflate(R.layout.task_item_layout, null);
 
+            holder.background = convertView.findViewById(R.id.taskItem_background);
             holder.ivImportance = convertView.findViewById(R.id.taskItem_importance);
             holder.tvTaskContent = convertView.findViewById(R.id.taskItem_taskContent);
             holder.tvTaskTime = convertView.findViewById(R.id.taskItem_taskTime);
@@ -83,9 +90,9 @@ public class TaskListAdapter extends BaseAdapter {
             case 3:
                 holder.ivImportance.setBackgroundColor(convertView.getResources().getColor(R.color.level_high));
                 break;
-                default:
-                    holder.ivImportance.setBackgroundColor(context.getResources().getColor(R.color.level_none));
-                    break;
+            default:
+                holder.ivImportance.setBackgroundColor(context.getResources().getColor(R.color.level_none));
+                break;
         }
 
         long time = tasks.get(position).getTime();
@@ -94,6 +101,13 @@ public class TaskListAdapter extends BaseAdapter {
             holder.tvTaskTime.setText(timeStr);
         }else{
             holder.tvTaskTime.setText("");
+        }
+
+        SparseBooleanArray array = ((MainActivity)context).lvTaskList.getCheckedItemPositions();
+        if(array.get(position)){
+            holder.background.setBackgroundColor(Color.LTGRAY);
+        }else {
+            holder.background.setBackgroundColor(Color.TRANSPARENT);
         }
 
         return convertView;

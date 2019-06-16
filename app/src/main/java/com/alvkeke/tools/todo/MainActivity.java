@@ -11,6 +11,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.os.Bundle;
 import android.util.Log;
+import android.util.SparseBooleanArray;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ImageView;
@@ -20,7 +22,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.alvkeke.tools.todo.Common.Constants;
-import com.alvkeke.tools.todo.DataStore.F;
+import com.alvkeke.tools.todo.DataStore.DBFun;
 import com.alvkeke.tools.todo.MainFeatures.Functions;
 import com.alvkeke.tools.todo.MainFeatures.DefaultTaskListAdapter;
 import com.alvkeke.tools.todo.MainFeatures.Project;
@@ -42,9 +44,9 @@ public class MainActivity extends AppCompatActivity {
     ImageView drawerStatusBar;
     RelativeLayout toolbarArea;
     Toolbar toolbar;
-    TextView tvToolbarTitle;
+    //TextView tvToolbarTitle;
     ImageView btnAddTask;
-    ListView lvTaskList;
+    public ListView lvTaskList;
 
     ImageView ivUserIcon;
     TextView tvUsername;
@@ -61,6 +63,7 @@ public class MainActivity extends AppCompatActivity {
 
     SQLiteDatabase db;
 
+    long currentProjectId;
     int currentTaskList;
     boolean proSettingMode;
 
@@ -75,7 +78,7 @@ public class MainActivity extends AppCompatActivity {
         toolbarArea = findViewById(R.id.main_toolbar_area);
         mainStatusBar = findViewById(R.id.main_replace_to_status_bar);
         drawerStatusBar = findViewById(R.id.drawer_replace_to_status);
-        tvToolbarTitle = findViewById(R.id.main_toolbar_title);
+        //tvToolbarTitle = findViewById(R.id.main_toolbar_title);
         btnAddTask = findViewById(R.id.main_btn_add_task);
         lvTaskList = findViewById(R.id.main_task_list);
 
@@ -95,27 +98,31 @@ public class MainActivity extends AppCompatActivity {
 
         setStatusBarHeight();
 
+        toolbar.inflateMenu(R.menu.task_list_menu);
+        hideTaskMenu();
 
         //设置初始化设置
         exitProjectSettingMode();
 
         projects = new ArrayList<>();
 
-        File dir = getExternalFilesDir("test");
+        //修改文件夹
+        File dir = getExternalFilesDir("local");
         if(!Objects.requireNonNull(dir).exists()) {
-            dir.mkdir();
+            if(!dir.mkdir()){
+                Log.e("debug", "mkdir failed.");
+            }
         }
 
+        //修改文件名称
         File dbfile = new File(dir, "database.db");
         db = SQLiteDatabase.openOrCreateDatabase(dbfile, null);
 
-        F.restoreProject(db, projects);
+        DBFun.initDBFile(db);
+        DBFun.restoreTasks(db, projects);
 
 
-        //:修改为加载本地储存的用户设置
-        taskList_Show = Functions.getAllTaskList(projects);
-        currentTaskList = TASK_LIST_ALL_TASK;
-
+        //todo:修改为加载本地储存的用户设置
         DefaultTaskListAdapter defaultProAdapter = new DefaultTaskListAdapter(this);
         lvTaskRank.setAdapter(defaultProAdapter);
 
@@ -125,9 +132,14 @@ public class MainActivity extends AppCompatActivity {
         taskAdapter = new TaskListAdapter(this, taskList_Show);
         lvTaskList.setAdapter(taskAdapter);
 
+        //taskList_Show = Functions.getAllTaskList(projects);
+        currentTaskList = TASK_LIST_ALL_TASK;
+        //tvToolbarTitle.setText("所有");
+        flashCurrentTaskList();
 
         //设置事件响应
 
+        //抽屉页面
         drawerLayout.addDrawerListener(new DrawerLayout.DrawerListener() {
             @Override
             public void onDrawerSlide(@NonNull View view, float v) {
@@ -172,7 +184,7 @@ public class MainActivity extends AppCompatActivity {
                 }
 
                 currentTaskList = position + 1;
-
+                flashCurrentTaskList();
                 taskAdapter.changeTaskList(taskList_Show);
                 taskAdapter.notifyDataSetChanged();
 
@@ -184,12 +196,14 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 if(!proSettingMode) {
+                    currentProjectId = projects.get(position).getId();
                     taskList_Show = projects.get(position).getTaskList();
                     taskAdapter.changeTaskList(taskList_Show);
                     taskAdapter.notifyDataSetChanged();
 
                     currentTaskList = TASK_LIST_USER_PROJECT;
                     drawerLayout.closeDrawer(GravityCompat.START);
+                    flashCurrentTaskList();
                 }else{
                     Intent intentProSetting = new Intent(MainActivity.this, ProjectSettingActivity.class);
                     intentProSetting.putExtra("proId", id);
@@ -222,12 +236,98 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        //主界面
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 drawerLayout.openDrawer(GravityCompat.START);
             }
         });
+
+        toolbar.setOnMenuItemClickListener(new Toolbar.OnMenuItemClickListener() {
+            @Override
+            public boolean onMenuItemClick(MenuItem menuItem) {
+                SparseBooleanArray array;
+                switch (menuItem.getItemId()){
+                    case R.id.menu_task_edit:
+                        Log.e("debug", "edit");
+                        array = lvTaskList.getCheckedItemPositions();
+                        int pos = 0;
+                        for (; pos < lvTaskList.getCount(); pos++) {
+                            if (array.get(pos)) {
+                                Log.e("edit task", "position:" + pos);
+                                break;
+                            }
+                        }
+                        long proId = taskList_Show.get(pos).getProId();
+                        long taskId = taskList_Show.get(pos).getId();
+                        String content = taskList_Show.get(pos).getTaskContent();
+                        long time = taskList_Show.get(pos).getTime();
+                        int level = taskList_Show.get(pos).getLevel();
+                        ArrayList<String> projectsInfo = Functions.stringListFromProjectList(projects);
+                        Intent intent = new Intent(MainActivity.this, TaskSettingActivity.class);
+
+                        intent.putExtra("proId", proId);
+                        intent.putExtra("taskId", taskId);
+                        intent.putExtra("content", content);
+                        intent.putExtra("time", time);
+                        intent.putExtra("level", level);
+                        intent.putStringArrayListExtra("projectsInfo", projectsInfo);
+                        unselectItem();
+                        hideTaskMenu();
+                        startActivityForResult(intent, REQUEST_CODE_SETTING_TASK);
+
+                        break;
+                    case R.id.menu_task_delete:
+                        array = lvTaskList.getCheckedItemPositions();
+                        for (int i = 0; i<lvTaskList.getCount(); i++){
+                            if(array.get(i)){
+                                Log.e("delete", "position:" + i);
+                            }
+                        }
+                        unselectItem();
+                        hideTaskMenu();
+                        break;
+                    case R.id.menu_task_rank:
+                        //todo:完成排列任务的特性
+                        break;
+                    case R.id.menu_project_setting:
+                        //todo:完成打开项目设置的页面
+                        Intent intentProSetting = new Intent(MainActivity.this, ProjectSettingActivity.class);
+                        intentProSetting.putExtra("proId", currentProjectId);
+                        Project currentProject = Functions.findProjectInProjectList(projects, currentProjectId);
+                        if(currentProject == null){
+                            break;
+                        }
+                        intentProSetting.putExtra("proName", currentProject.getName());
+                        intentProSetting.putExtra("proColor", currentProject.getColor());
+
+                        startActivityForResult(intentProSetting, Constants.REQUEST_CODE_SETTING_PROJECT);
+
+                        break;
+                }
+                return false;
+            }
+        });
+
+        lvTaskList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                //Log.e("select", String.valueOf(lvTaskList.getCheckedItemCount()));
+                flashMenuItem();
+            }
+        });
+
+        lvTaskList.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+            @Override
+            public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
+                //Log.e("debug", "Long Click");
+                taskList_Show.get(position).finish();
+                flashCurrentTaskList();
+                return true;
+            }
+        });
+
 
         btnAddTask.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -246,18 +346,53 @@ public class MainActivity extends AppCompatActivity {
         switch (currentTaskList){
             case TASK_LIST_ALL_TASK:
                 taskList_Show = Functions.getAllTaskList(projects);
+                toolbar.setTitle("所有");
                 break;
             case TASK_LIST_TODAY_TASK:
                 taskList_Show = Functions.getTodayTaskList(projects);
+                toolbar.setTitle("今天");
                 break;
             case TASK_LIST_RECENT_TASK:
                 taskList_Show = Functions.getRecentTaskList(projects);
+                toolbar.setTitle("近7天");
+                break;
+            case TASK_LIST_USER_PROJECT:
+                Project project = Functions.findProjectInProjectList(projects, currentProjectId);
+                if(project == null){
+                    currentTaskList = TASK_LIST_ALL_TASK;
+                    flashCurrentTaskList();
+                    break;
+                }
+                taskList_Show = project.getTaskList();
+                toolbar.setTitle(project.getName());
                 break;
         }
 
         taskAdapter.changeTaskList(taskList_Show);
 
         taskAdapter.notifyDataSetChanged();
+    }
+    void flashMenuItem(){
+        if(lvTaskList.getCheckedItemCount() == 0){
+            toolbar.getMenu().getItem(0).setVisible(false);
+            toolbar.getMenu().getItem(1).setVisible(false);
+        }else if(lvTaskList.getCheckedItemCount() == 1){
+            toolbar.getMenu().getItem(0).setVisible(true);
+            toolbar.getMenu().getItem(1).setVisible(true);
+        }else{
+            toolbar.getMenu().getItem(0).setVisible(false);
+            toolbar.getMenu().getItem(1).setVisible(true);
+        }
+        taskAdapter.notifyDataSetChanged();
+    }
+    void hideTaskMenu(){
+        toolbar.getMenu().getItem(0).setVisible(false);
+        toolbar.getMenu().getItem(1).setVisible(false);
+    }
+    void unselectItem(){
+        for(int i = 0; i<lvTaskList.getCount(); i++){
+            lvTaskList.setItemChecked(i, false);
+        }
     }
 
     @Override
@@ -296,16 +431,19 @@ public class MainActivity extends AppCompatActivity {
                         time = calendar.getTimeInMillis();
                     }
 
-                    //:保存到本地，建立一个函数专门储存任务
+                    //保存到本地，建立一个函数专门储存任务
                     TaskItem taskItem = new TaskItem(proId, Functions.generateId(), task, time, level);
                     project.addTask(taskItem);
-                    F.createTask(db, taskItem);
+                    if(!DBFun.createTask(db, taskItem)){
+                        Toast.makeText(this, "数据库修改失败", Toast.LENGTH_LONG).show();
+                    }
 
                     //新建任务时,刷新当前显示的列表
                     flashCurrentTaskList();
                 }
 
             }
+
         }else if(requestCode == REQUEST_CODE_SETTING_PROJECT){
             switch (resultCode){
                 case RESULT_CANCEL:
@@ -315,13 +453,14 @@ public class MainActivity extends AppCompatActivity {
                         long proId = data.getLongExtra("proId", -1);
                         Project p = proAdapter.findItem(proId);
                         Log.e("delete project", String.valueOf(projects.remove(p)));
+                        //todo:从数据库中删除
                     }
                     exitProjectSettingMode();
                     break;
 
                     default:
                         if (data != null) {
-                            Long proId = data.getLongExtra("proId", -1);
+                            long proId = data.getLongExtra("proId", -1);
                             int proColor = data.getIntExtra("proColor", 0);
                             String proName = data.getStringExtra("proName");
 
@@ -333,8 +472,10 @@ public class MainActivity extends AppCompatActivity {
                                 }else{
                                     proColor = project.getColor();
                                 }
-                                //:建立一个函数专门修改项目信息，并保存到本地
-                                F.modifyProject(db, proId, proName, proColor);
+                                //建立一个函数专门修改项目信息，并保存到本地
+                                if(!DBFun.modifyProject(db, proId, proName, proColor)){
+                                    Toast.makeText(this, "数据库修改失败", Toast.LENGTH_LONG).show();
+                                }
                             }
 
                         }
@@ -352,11 +493,70 @@ public class MainActivity extends AppCompatActivity {
                     Project project = new Project(id, proName, color);
                     projects.add(project);
                     //:保存到本地，建立一个函数专门储存项目
-                    F.createProject(db, project);
+                    if(!DBFun.createProject(db, project)) {
+                        Toast.makeText(this, "数据库修改失败", Toast.LENGTH_LONG).show();
+                    }
                 }
                 proAdapter.notifyDataSetChanged();
                 exitProjectSettingMode();
             }
+        }else if (requestCode == REQUEST_CODE_SETTING_TASK){
+            if(resultCode == RESULT_CANCEL || data == null){
+                return;
+            }
+
+            long oldProId = data.getLongExtra("oldProId", -1);
+            long newProId = data.getLongExtra("newProId", -1);
+            long taskId = data.getLongExtra("taskId", -1);
+            Project oldProject = Functions.findProjectInProjectList(projects, oldProId);
+            if(oldProject == null){
+                Toast.makeText(this, "信息出错:找不到项目", Toast.LENGTH_LONG).show();
+                return;
+            }
+            String task = data.getStringExtra("content");
+            int level = data.getIntExtra("level", 0);
+            boolean isRemind = data.getBooleanExtra("isRemind", false);
+            long time = -1;
+            if(isRemind){
+                int year = data.getIntExtra("year", 1900);
+                int month = data.getIntExtra("month", 0);
+                int dayOfMonth = data.getIntExtra("dayOfMonth", 0);
+                int hour = data.getIntExtra("hour", 0);
+                int minute = data.getIntExtra("minute", 0);
+
+                Calendar calendar = Calendar.getInstance();
+                calendar.set(Calendar.YEAR, year);
+                calendar.set(Calendar.MONTH, month);
+                calendar.set(Calendar.DAY_OF_MONTH, dayOfMonth);
+                calendar.set(Calendar.HOUR_OF_DAY, hour);
+                calendar.set(Calendar.MINUTE, minute);
+
+                time = calendar.getTimeInMillis();
+            }
+
+            TaskItem taskItem = oldProject.findTask(taskId);
+            taskItem.setContent(task);
+            taskItem.setLevel(level);
+            taskItem.setTime(time);
+            if(oldProId != newProId){
+                Project newProject = Functions.findProjectInProjectList(projects, newProId);
+                if(newProject == null){
+                    Toast.makeText(this, "修改项目出错,找不到项目", Toast.LENGTH_LONG).show();
+                    return;
+
+                }
+                newProject.addTask(taskItem);
+                oldProject.getTaskList().remove(taskItem);
+                taskItem.setProId(newProId);
+            }
+
+            flashCurrentTaskList();
+
+            //存储到本地
+            if(!DBFun.modifyTask(db, taskId, newProId, task, time, level)) {
+                Toast.makeText(this, "数据库修改失败", Toast.LENGTH_LONG).show();
+            }
+
         }
     }
 
@@ -365,6 +565,12 @@ public class MainActivity extends AppCompatActivity {
 
         if(drawerLayout.isDrawerOpen(GravityCompat.START)) {
             drawerLayout.closeDrawer(GravityCompat.START);
+        }else if(lvTaskList.getCheckedItemCount()>0){
+            SparseBooleanArray array = lvTaskList.getCheckedItemPositions();
+            for (int i = 0; i < array.size(); i++){
+                lvTaskList.setItemChecked(i, false);
+            }
+            hideTaskMenu();
         }else{
             //super.onBackPressed();
             //以下代码模拟Home键按下。

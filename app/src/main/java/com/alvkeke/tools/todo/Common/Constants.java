@@ -4,6 +4,7 @@ public class Constants {
     public static final int REQUEST_CODE_ADD_TASK = 1;
     public static final int REQUEST_CODE_SETTING_PROJECT = 2;
     public static final int REQUEST_CODE_ADD_PROJECT = 3;
+    public static final int REQUEST_CODE_SETTING_TASK = 4;
 
     public static final int RESULT_CODE_ADD_TASK = 1;
     public static final int RESULT_CANCEL = 2;

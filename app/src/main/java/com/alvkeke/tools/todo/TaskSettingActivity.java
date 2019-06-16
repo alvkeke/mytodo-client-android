@@ -25,7 +25,7 @@ import com.alvkeke.tools.todo.MainFeatures.ProjectListAdapter;
 import java.util.ArrayList;
 import java.util.Calendar;
 
-public class AddTaskActivity extends AppCompatActivity {
+public class TaskSettingActivity extends AppCompatActivity {
 
     Switch reminderSwitch;
     TextView labelReminder;
@@ -37,6 +37,9 @@ public class AddTaskActivity extends AppCompatActivity {
     RelativeLayout reminderSettingArea;
     Spinner projectSelector;
     Spinner levelSelector;
+
+    long proId;
+    long taskId;
 
     Boolean isRemind;
     int year;
@@ -51,7 +54,7 @@ public class AddTaskActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_task_setting);
 
-        setTitle("添加任务");
+        setTitle("任务设置");
 
         reminderSwitch = findViewById(R.id.addTask_remind_me);
         labelReminder = findViewById(R.id.addTask_label_remind_me);
@@ -64,23 +67,19 @@ public class AddTaskActivity extends AppCompatActivity {
         projectSelector = findViewById(R.id.addTask_project_select);
         levelSelector = findViewById(R.id.addTask_level_select);
 
-        final Calendar calender = Calendar.getInstance();
-
-        isRemind = false;
-        year = -1;
-        month = -1;
-        dayOfMonth = -1;
-        hour = 0;
-        minute = 0;
-
         etRemindTime.setFocusable(false);
         etRemindDate.setFocusable(false);
 
+        final Calendar calender = Calendar.getInstance();
 
-        //获取从MainActivity中传入的项目信息(字符串列表),并从中提取信息,
-        // 用于显示在用户选择项目的下拉列表框
+        Intent intent = getIntent();
 
-        ArrayList<String> projectsInfo = getIntent().getStringArrayListExtra("projectsInfo");
+        proId = intent.getLongExtra("proId", -1);
+        taskId = intent.getLongExtra("taskId", -1);
+        String content = intent.getStringExtra("content");
+        long time = intent.getLongExtra("time", -1);
+        int level = intent.getIntExtra("level", 0);
+        ArrayList<String> projectsInfo = intent.getStringArrayListExtra("projectsInfo");
         ArrayList<Project> list = Functions.projectListFromStringList(projectsInfo);
         ProjectListAdapter projectListAdapter = new ProjectListAdapter(this, list);
         projectSelector.setAdapter(projectListAdapter);
@@ -95,13 +94,32 @@ public class AddTaskActivity extends AppCompatActivity {
         ProjectListAdapter levelListAdapter = new ProjectListAdapter(this, levelList);
         levelSelector.setAdapter(levelListAdapter);
 
+        //设置传入的任务参数
+        etTaskContent.setText(content);
+        levelSelector.setSelection(level);
+        projectSelector.setSelection(projectListAdapter.getItemPosition(proId));
 
-        labelReminder.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                reminderSwitch.setChecked(!reminderSwitch.isChecked());
-            }
-        });
+        isRemind = time != -1;
+        reminderSwitch.setChecked(isRemind);
+        if(isRemind){
+            reminderSettingArea.setVisibility(View.VISIBLE);
+            etRemindDate.setText(Functions.formatDate(time));
+            etRemindTime.setText(Functions.formatTime(time));
+        }else{
+            reminderSettingArea.setVisibility(View.INVISIBLE);
+        }
+
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTimeInMillis(time);
+        year = calendar.get(Calendar.YEAR);
+        month = calendar.get(Calendar.MONTH);
+        dayOfMonth = calendar.get(Calendar.DAY_OF_MONTH);
+        hour = calendar.get(Calendar.HOUR_OF_DAY);
+        minute = calendar.get(Calendar.MINUTE);
+
+
+
+
 
         reminderSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
@@ -120,26 +138,21 @@ public class AddTaskActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-                /*
-                if(hour == -1){ hour = calender.get(Calendar.HOUR_OF_DAY); }
-                if(minute == -1){ minute = calender.get(Calendar.MINUTE); }
-                */
                 if(etRemindTime.getText().toString().isEmpty()){
                     hour = calender.get(Calendar.HOUR_OF_DAY);
                     minute = calender.get(Calendar.MINUTE);
                 }
 
-                TimePickerDialog timeDialog = new TimePickerDialog(AddTaskActivity.this, new TimePickerDialog.OnTimeSetListener() {
+                TimePickerDialog timeDialog = new TimePickerDialog(TaskSettingActivity.this, new TimePickerDialog.OnTimeSetListener() {
                     @Override
                     public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
-                        AddTaskActivity.this.hour = hourOfDay;
-                        AddTaskActivity.this.minute = minute;
+                        TaskSettingActivity.this.hour = hourOfDay;
+                        TaskSettingActivity.this.minute = minute;
 
-                        String timeShow = AddTaskActivity.this.hour + ":" + AddTaskActivity.this.minute;
+                        String timeShow = TaskSettingActivity.this.hour + ":" + TaskSettingActivity.this.minute;
                         etRemindTime.setText(timeShow);
                     }
-                },
-                        hour, minute, true);
+                }, hour, minute, true);
 
                 timeDialog.show();
             }
@@ -153,17 +166,17 @@ public class AddTaskActivity extends AppCompatActivity {
                 if( month == -1){ month = calender.get(Calendar.MONTH); }
                 if( dayOfMonth == -1){ dayOfMonth = calender.get(Calendar.DAY_OF_MONTH); }
 
-                DatePickerDialog dataDialog = new DatePickerDialog(AddTaskActivity.this, new DatePickerDialog.OnDateSetListener() {
+                DatePickerDialog dataDialog = new DatePickerDialog(TaskSettingActivity.this, new DatePickerDialog.OnDateSetListener() {
                     @Override
                     public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
-                        AddTaskActivity.this.year = year;
-                        AddTaskActivity.this.month = month;
-                        AddTaskActivity.this.dayOfMonth = dayOfMonth;
+                        TaskSettingActivity.this.year = year;
+                        TaskSettingActivity.this.month = month;
+                        TaskSettingActivity.this.dayOfMonth = dayOfMonth;
 
                         String dateShow =
-                                AddTaskActivity.this.year + "-" +
-                                (AddTaskActivity.this.month+1) + "-" +
-                                AddTaskActivity.this.dayOfMonth;
+                                TaskSettingActivity.this.year + "-" +
+                                        (TaskSettingActivity.this.month+1) + "-" +
+                                        TaskSettingActivity.this.dayOfMonth;
                         etRemindDate.setText(dateShow);
                     }
                 }, year, month, dayOfMonth);
@@ -181,7 +194,10 @@ public class AddTaskActivity extends AppCompatActivity {
                 }else{
                     Intent intent = getIntent();
 
-                    intent.putExtra("task", etTaskContent.getText().toString());
+                    intent.putExtra("oldProId", proId);
+                    intent.putExtra("newProId", projectSelector.getSelectedItemId());
+                    intent.putExtra("taskId", taskId);
+                    intent.putExtra("content", etTaskContent.getText().toString());
                     intent.putExtra("isRemind", isRemind);
                     intent.putExtra("year", year);
                     intent.putExtra("month", month);
@@ -189,10 +205,9 @@ public class AddTaskActivity extends AppCompatActivity {
                     intent.putExtra("hour", hour);
                     intent.putExtra("minute", minute);
                     intent.putExtra("level", levelSelector.getSelectedItemPosition());
-                    intent.putExtra("projectId", projectSelector.getSelectedItemId());
 
-                    setResult(Constants.RESULT_CODE_ADD_TASK, intent);
-                    AddTaskActivity.this.finish();
+                    setResult(0, intent);
+                    TaskSettingActivity.this.finish();
                 }
             }
         });
@@ -200,7 +215,8 @@ public class AddTaskActivity extends AppCompatActivity {
         btnCancel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                AddTaskActivity.this.finish();
+                setResult(Constants.RESULT_CANCEL);
+                TaskSettingActivity.this.finish();
             }
         });
 

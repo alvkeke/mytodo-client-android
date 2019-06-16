@@ -660,6 +660,8 @@ drawable ic_add_project_selector
 drawable ic_add_task
 drawable ic_add_task_pressed
 drawable ic_add_task_selector
+drawable ic_delete_task
+drawable ic_edit_task
 drawable ic_launcher_background
 drawable ic_launcher_foreground
 drawable ic_navigation
@@ -789,10 +791,13 @@ id main_replace_to_status_bar
 id main_task_list
 id main_toolbar
 id main_toolbar_area
-id main_toolbar_title
 id menu_item_cancel
 id menu_item_ok
 id menu_item_remove
+id menu_project_setting
+id menu_task_delete
+id menu_task_edit
+id menu_task_rank
 id message
 id middle
 id multiply
@@ -853,6 +858,7 @@ id tabMode
 id tag_transition_group
 id tag_unhandled_key_event_manager
 id tag_unhandled_key_listeners
+id taskItem_background
 id taskItem_importance
 id taskItem_taskContent
 id taskItem_taskTime
@@ -906,9 +912,9 @@ layout abc_search_dropdown_item_icons_2line
 layout abc_search_view
 layout abc_select_dialog_material
 layout abc_tooltip
-layout activity_add_task
 layout activity_main
 layout activity_project_setting
+layout activity_task_setting
 layout drawer_main
 layout notification_action
 layout notification_action_tombstone
@@ -923,6 +929,7 @@ layout select_dialog_singlechoice_material
 layout support_simple_spinner_dropdown_item
 layout task_item_layout
 menu project_setting_menu
+menu task_list_menu
 mipmap ic_launcher
 mipmap ic_launcher_round
 string abc_action_bar_home_description

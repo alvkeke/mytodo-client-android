@@ -46,6 +46,16 @@ public class ProjectListAdapter extends BaseAdapter {
         return null;
     }
 
+    public int getItemPosition(Long id){
+        int i = 0;
+        for(;i<getCount(); i++){
+            if(getItemId(i) == id){
+                return i;
+            }
+        }
+        return -1;
+    }
+
     static class ViewHolder{
         ImageView icon;
         TextView proName;

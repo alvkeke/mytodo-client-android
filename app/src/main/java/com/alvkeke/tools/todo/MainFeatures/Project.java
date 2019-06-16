@@ -42,6 +42,15 @@ public class Project {
         return tasks.get(pos);
     }
 
+    public TaskItem findTask(long taskId){
+        for(int i = 0; i<tasks.size(); i++){
+            if(tasks.get(i).getId() == taskId){
+                return tasks.get(i);
+            }
+        }
+        return null;
+    }
+
     public ArrayList<TaskItem> getTaskList(){
         return tasks;
     }
