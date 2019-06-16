@@ -1,5 +1,7 @@
 package com.alvkeke.tools.todo;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Color;
@@ -117,8 +119,25 @@ public class MainActivity extends AppCompatActivity {
         //修改文件名称
         File dbfile = new File(dir, "database.db");
         db = SQLiteDatabase.openOrCreateDatabase(dbfile, null);
-
         DBFun.initDBFile(db);
+/*
+        DBFun.createProject(db, 1, "pro1", Color.BLUE);
+        DBFun.createProject(db, 2, "pro2", Color.GREEN);
+        DBFun.createProject(db, 3, "pro3", Color.YELLOW);
+
+        DBFun.createTask(db, 11, 1, "todo1.1", -1, 0);
+        DBFun.createTask(db, 12, 1, "todo1.2", -1, 0);
+        DBFun.createTask(db, 13, 1, "todo1.3", -1, 0);
+        DBFun.createTask(db, 14, 1, "todo1.4", -1, 0);
+        DBFun.createTask(db, 21, 2, "todo2.1", -1, 0);
+        DBFun.createTask(db, 22, 2, "todo2.2", -1, 0);
+        DBFun.createTask(db, 23, 2, "todo2.3", -1, 0);
+        DBFun.createTask(db, 24, 2, "todo2.4", -1, 0);
+        DBFun.createTask(db, 31, 3, "todo3.1", -1, 0);
+        DBFun.createTask(db, 32, 3, "todo3.2", -1, 0);
+        DBFun.createTask(db, 33, 3, "todo3.3", -1, 0);
+        DBFun.createTask(db, 34, 3, "todo3.4", -1, 0);
+*/
         DBFun.restoreTasks(db, projects);
 
 
@@ -247,11 +266,10 @@ public class MainActivity extends AppCompatActivity {
         toolbar.setOnMenuItemClickListener(new Toolbar.OnMenuItemClickListener() {
             @Override
             public boolean onMenuItemClick(MenuItem menuItem) {
-                SparseBooleanArray array;
                 switch (menuItem.getItemId()){
                     case R.id.menu_task_edit:
                         Log.e("debug", "edit");
-                        array = lvTaskList.getCheckedItemPositions();
+                        SparseBooleanArray array = lvTaskList.getCheckedItemPositions();
                         int pos = 0;
                         for (; pos < lvTaskList.getCount(); pos++) {
                             if (array.get(pos)) {
@@ -273,26 +291,50 @@ public class MainActivity extends AppCompatActivity {
                         intent.putExtra("time", time);
                         intent.putExtra("level", level);
                         intent.putStringArrayListExtra("projectsInfo", projectsInfo);
-                        unselectItem();
+                        deselectItem();
                         hideTaskMenu();
                         startActivityForResult(intent, REQUEST_CODE_SETTING_TASK);
 
                         break;
                     case R.id.menu_task_delete:
-                        array = lvTaskList.getCheckedItemPositions();
-                        for (int i = 0; i<lvTaskList.getCount(); i++){
-                            if(array.get(i)){
-                                Log.e("delete", "position:" + i);
-                            }
-                        }
-                        unselectItem();
-                        hideTaskMenu();
+
+                        AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
+                        builder.setMessage("您确定要删除该任务吗？\n\n此操作不可以回退。")
+                                .setNegativeButton(R.string.title_btn_cancel, new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialog, int which) {
+                                        deselectItem();
+                                        hideTaskMenu();
+                                    }
+                                })
+                                .setPositiveButton(R.string.title_btn_ok, new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialog, int which) {
+                                        SparseBooleanArray array = lvTaskList.getCheckedItemPositions();
+                                        for (int i = 0; i<lvTaskList.getCount(); i++){
+                                            if(array.get(i)){
+                                                TaskItem taskItem = taskList_Show.get(i);
+                                                Project p = Functions.findProjectInProjectList(projects, taskItem.getProId());
+                                                if (p != null) {
+                                                    p.getTaskList().remove(taskItem);
+                                                }
+
+                                                DBFun.deleteTask(db, taskItem.getId());
+                                            }
+                                        }
+                                        flashCurrentTaskList();
+                                        deselectItem();
+                                        hideTaskMenu();
+                                    }
+                                });
+                        builder.create().show();
+
                         break;
                     case R.id.menu_task_rank:
                         //todo:完成排列任务的特性
                         break;
                     case R.id.menu_project_setting:
-                        //todo:完成打开项目设置的页面
+                        //完成打开项目设置的页面
                         Intent intentProSetting = new Intent(MainActivity.this, ProjectSettingActivity.class);
                         intentProSetting.putExtra("proId", currentProjectId);
                         Project currentProject = Functions.findProjectInProjectList(projects, currentProjectId);
@@ -389,7 +431,7 @@ public class MainActivity extends AppCompatActivity {
         toolbar.getMenu().getItem(0).setVisible(false);
         toolbar.getMenu().getItem(1).setVisible(false);
     }
-    void unselectItem(){
+    void deselectItem(){
         for(int i = 0; i<lvTaskList.getCount(); i++){
             lvTaskList.setItemChecked(i, false);
         }
@@ -454,6 +496,7 @@ public class MainActivity extends AppCompatActivity {
                         Project p = proAdapter.findItem(proId);
                         Log.e("delete project", String.valueOf(projects.remove(p)));
                         //todo:从数据库中删除
+                        DBFun.deleteProject(db, proId);
                     }
                     exitProjectSettingMode();
                     break;

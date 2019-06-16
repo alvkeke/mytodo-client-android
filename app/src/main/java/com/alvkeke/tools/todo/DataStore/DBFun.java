@@ -15,15 +15,24 @@ public class DBFun {
         Cursor cursor = db.rawQuery("select name from sqlite_master", null);
         boolean hasProTable = false;
         boolean hasTaskTable = false;
+        boolean hasTrashProTable = false;
+        boolean hasTrashTaskTable = false;
+
         while (cursor.moveToNext()){
-            if(cursor.getString(0).equals("projects")){
+            if(!hasProTable && cursor.getString(0).equals("projects")){
                 hasProTable = true;
             }
-            if(cursor.getString(0).equals("tasks")){
+            if(!hasTaskTable && cursor.getString(0).equals("tasks")){
                 hasTaskTable = true;
             }
+            if(!hasTrashProTable && cursor.getString(0).equals("trash_projects")){
+                hasTrashProTable = true;
+            }
+            if(!hasTrashTaskTable && cursor.getString(0).equals("trash_tasks")){
+                hasTrashTaskTable = true;
+            }
 
-            if(hasProTable && hasTaskTable){
+            if(hasProTable && hasTaskTable && hasTrashProTable && hasTrashTaskTable){
                 break;
             }
         }
@@ -34,9 +43,15 @@ public class DBFun {
         if(!hasTaskTable) {
             db.execSQL("create table `tasks` (id integer primary key, proId integer, content text, time integer, level integer)");
         }
+        if(!hasTrashProTable){
+            db.execSQL("create table `trash_projects` (id integer primary key, name text, color integer)");
+        }
+        if(!hasTrashTaskTable){
+            db.execSQL("create table `trash_tasks` (id integer primary key, proId integer, content text, time integer, level integer)");
+        }
     }
 
-    private static boolean createProject(SQLiteDatabase db, long proId, String name, int color){
+    public static boolean createProject(SQLiteDatabase db, long proId, String name, int color){
         Cursor cursor = db.rawQuery("select name from sqlite_master", null);
         boolean canContinue = false;
         while (cursor.moveToNext()){
@@ -60,7 +75,7 @@ public class DBFun {
         return createProject(db, project.getId(), project.getName(), project.getColor());
     }
 
-    private static boolean createTask(SQLiteDatabase db, long taskId, long proId, String content, long time, int level){
+    public static boolean createTask(SQLiteDatabase db, long taskId, long proId, String content, long time, int level){
         Cursor cursor = db.rawQuery("select name from sqlite_master", null);
         boolean canContinue = false;
         while (cursor.moveToNext()){
@@ -151,6 +166,100 @@ public class DBFun {
 
         return true;
 
+    }
+
+    public static boolean deleteProject(SQLiteDatabase db, long proId){
+        Cursor cursor = db.rawQuery("select name from sqlite_master", null);
+        boolean canContinue = false;
+        while (cursor.moveToNext()){
+            if(cursor.getString(0).equals("projects")){
+                canContinue = true;
+                break;
+            }
+        }
+        cursor.close();
+        if(!canContinue){
+            return false;
+        }
+
+        canContinue = false;
+        cursor = db.rawQuery("select id from `projects` order by id", null);
+        while (cursor.moveToNext()){
+            if(cursor.getLong(0) == proId){
+                canContinue = true;
+                break;
+            }
+        }
+        cursor.close();
+        if(!canContinue){
+            return false;
+        }
+
+        cursor = db.rawQuery("select name, color from projects where id=" + proId, null);
+        cursor.moveToFirst();
+        String name = cursor.getString(0);
+        int color = cursor.getInt(1);
+        cursor.close();
+
+        String dbcmd = "insert into trash_projects values(" + proId +",'"+ name +"',"+ color + ")";
+        db.execSQL(dbcmd);
+        dbcmd = "delete from projects where id=" + proId;
+        db.execSQL(dbcmd);
+
+        cursor = db.rawQuery("select id from tasks where proId=" + proId, null);
+        ArrayList<Long> tasks = new ArrayList<>();
+        while (cursor.moveToNext()){
+            tasks.add(cursor.getLong(0));
+        }
+        cursor.close();
+        for(long e : tasks){
+            deleteTask(db, e);
+        }
+
+        return true;
+    }
+
+    public static boolean deleteTask(SQLiteDatabase db, long taskId){
+        Cursor cursor = db.rawQuery("select name from sqlite_master", null);
+        boolean canContinue = false;
+        while (cursor.moveToNext()){
+            if(cursor.getString(0).equals("tasks")){
+                canContinue = true;
+                break;
+            }
+        }
+        cursor.close();
+        if(!canContinue){
+            return false;
+        }
+
+        cursor = db.rawQuery("select id from tasks order by id", null);
+        canContinue = false;
+        while (cursor.moveToNext()){
+            if(cursor.getLong(0) == taskId){
+                canContinue = true;
+                break;
+            }
+        }
+        cursor.close();
+        if(!canContinue){
+            return false;
+        }
+
+        cursor = db.rawQuery("select proId, content, time, level from tasks where id=" + taskId, null);
+        cursor.moveToFirst();
+        long proId = cursor.getLong(0);
+        String content = cursor.getString(1);
+        long time = cursor.getLong(2);
+        int level = cursor.getInt(3);
+        cursor.close();
+
+        String dbcmd = "insert into trash_tasks values("+taskId+","+proId+",'"+content+"',"+time+","+level+")";
+        db.execSQL(dbcmd);
+        dbcmd = "delete from tasks where id=" + taskId;
+        db.execSQL(dbcmd);
+
+        return true;
     }
 
     public static void restoreTasks(SQLiteDatabase db, ArrayList<Project> projects){
