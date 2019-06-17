@@ -298,7 +298,6 @@ public class MainActivity extends AppCompatActivity {
                                     @Override
                                     public void onClick(DialogInterface dialog, int which) {
                                         SparseBooleanArray array = lvTaskList.getCheckedItemPositions();
-                                        deselectItem();
                                         for (int i = 0; i<lvTaskList.getCount(); i++){
                                             if(array.get(i)){
                                                 TaskItem taskItem = taskList_Show.get(i);
@@ -312,6 +311,7 @@ public class MainActivity extends AppCompatActivity {
                                                 }
                                             }
                                         }
+                                        deselectItem();
                                         flashCurrentTaskList();
                                         hideTaskMenu();
                                     }
