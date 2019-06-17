@@ -32,12 +32,12 @@
         "source": "/home/alvis/.gradle/caches/transforms-2/files-2.1/6bf59c6aec3677b3a73782c553226086/res/layout/abc_activity_chooser_view.xml"
     },
     {
-        "merged": "/home/alvis/desktop/mytodo-client-android-remake/app/build/intermediates/res/merged/debug/layout-v21_notification_template_icon_group.xml.flat",
-        "source": "/home/alvis/.gradle/caches/transforms-2/files-2.1/1889b2deb5761f83f166fb1d6ccf7da7/res/layout-v21/notification_template_icon_group.xml"
-    },
-    {
         "merged": "/home/alvis/desktop/mytodo-client-android-remake/app/build/intermediates/res/merged/debug/drawable-xxhdpi-v4_abc_textfield_activated_mtrl_alpha.9.png.flat",
         "source": "/home/alvis/.gradle/caches/transforms-2/files-2.1/6bf59c6aec3677b3a73782c553226086/res/drawable-xxhdpi-v4/abc_textfield_activated_mtrl_alpha.9.png"
+    },
+    {
+        "merged": "/home/alvis/desktop/mytodo-client-android-remake/app/build/intermediates/res/merged/debug/layout-v21_notification_template_icon_group.xml.flat",
+        "source": "/home/alvis/.gradle/caches/transforms-2/files-2.1/1889b2deb5761f83f166fb1d6ccf7da7/res/layout-v21/notification_template_icon_group.xml"
     },
     {
         "merged": "/home/alvis/desktop/mytodo-client-android-remake/app/build/intermediates/res/merged/debug/drawable-xxhdpi-v4_abc_textfield_default_mtrl_alpha.9.png.flat",
@@ -336,6 +336,10 @@
         "source": "/home/alvis/.gradle/caches/transforms-2/files-2.1/6bf59c6aec3677b3a73782c553226086/res/color-v23/abc_btn_colored_text_material.xml"
     },
     {
+        "merged": "/home/alvis/desktop/mytodo-client-android-remake/app/build/intermediates/res/merged/debug/drawable_ic_edit_task.xml.flat",
+        "source": "/home/alvis/desktop/mytodo-client-android-remake/app/src/main/res/drawable/ic_edit_task.xml"
+    },
+    {
         "merged": "/home/alvis/desktop/mytodo-client-android-remake/app/build/intermediates/res/merged/debug/drawable-xxxhdpi-v4_abc_btn_radio_to_on_mtrl_000.png.flat",
         "source": "/home/alvis/.gradle/caches/transforms-2/files-2.1/6bf59c6aec3677b3a73782c553226086/res/drawable-xxxhdpi-v4/abc_btn_radio_to_on_mtrl_000.png"
     },
@@ -350,10 +354,6 @@
     {
         "merged": "/home/alvis/desktop/mytodo-client-android-remake/app/build/intermediates/res/merged/debug/drawable-xxhdpi-v4_abc_ic_menu_paste_mtrl_am_alpha.png.flat",
         "source": "/home/alvis/.gradle/caches/transforms-2/files-2.1/6bf59c6aec3677b3a73782c553226086/res/drawable-xxhdpi-v4/abc_ic_menu_paste_mtrl_am_alpha.png"
-    },
-    {
-        "merged": "/home/alvis/desktop/mytodo-client-android-remake/app/build/intermediates/res/merged/debug/drawable_ic_edit_task.xml.flat",
-        "source": "/home/alvis/desktop/mytodo-client-android-remake/app/src/main/res/drawable/ic_edit_task.xml"
     },
     {
         "merged": "/home/alvis/desktop/mytodo-client-android-remake/app/build/intermediates/res/merged/debug/drawable_abc_list_selector_background_transition_holo_light.xml.flat",
@@ -1172,20 +1172,20 @@
         "source": "/home/alvis/.gradle/caches/transforms-2/files-2.1/6bf59c6aec3677b3a73782c553226086/res/drawable-xhdpi-v4/abc_menu_hardkey_panel_mtrl_mult.9.png"
     },
     {
-        "merged": "/home/alvis/desktop/mytodo-client-android-remake/app/build/intermediates/res/merged/debug/drawable-xhdpi-v4_abc_scrubber_control_to_pressed_mtrl_005.png.flat",
-        "source": "/home/alvis/.gradle/caches/transforms-2/files-2.1/6bf59c6aec3677b3a73782c553226086/res/drawable-xhdpi-v4/abc_scrubber_control_to_pressed_mtrl_005.png"
-    },
-    {
         "merged": "/home/alvis/desktop/mytodo-client-android-remake/app/build/intermediates/res/merged/debug/layout_activity_task_setting.xml.flat",
         "source": "/home/alvis/desktop/mytodo-client-android-remake/app/src/main/res/layout/activity_task_setting.xml"
     },
     {
-        "merged": "/home/alvis/desktop/mytodo-client-android-remake/app/build/intermediates/res/merged/debug/mipmap-xxxhdpi_ic_launcher_round.png.flat",
-        "source": "/home/alvis/desktop/mytodo-client-android-remake/app/src/main/res/mipmap-xxxhdpi/ic_launcher_round.png"
+        "merged": "/home/alvis/desktop/mytodo-client-android-remake/app/build/intermediates/res/merged/debug/drawable-xhdpi-v4_abc_scrubber_control_to_pressed_mtrl_005.png.flat",
+        "source": "/home/alvis/.gradle/caches/transforms-2/files-2.1/6bf59c6aec3677b3a73782c553226086/res/drawable-xhdpi-v4/abc_scrubber_control_to_pressed_mtrl_005.png"
     },
     {
         "merged": "/home/alvis/desktop/mytodo-client-android-remake/app/build/intermediates/res/merged/debug/drawable_ic_delete_task.xml.flat",
         "source": "/home/alvis/desktop/mytodo-client-android-remake/app/src/main/res/drawable/ic_delete_task.xml"
+    },
+    {
+        "merged": "/home/alvis/desktop/mytodo-client-android-remake/app/build/intermediates/res/merged/debug/mipmap-xxxhdpi_ic_launcher_round.png.flat",
+        "source": "/home/alvis/desktop/mytodo-client-android-remake/app/src/main/res/mipmap-xxxhdpi/ic_launcher_round.png"
     },
     {
         "merged": "/home/alvis/desktop/mytodo-client-android-remake/app/build/intermediates/res/merged/debug/drawable-xxhdpi-v4_abc_switch_track_mtrl_alpha.9.png.flat",

@@ -2,6 +2,8 @@ package com.alvkeke.tools.todo.MainFeatures;
 
 import android.content.Context;
 import android.graphics.Color;
+import android.graphics.Paint;
+import android.util.Log;
 import android.util.SparseBooleanArray;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -15,7 +17,6 @@ import com.alvkeke.tools.todo.MainActivity;
 import com.alvkeke.tools.todo.R;
 
 import java.util.ArrayList;
-import java.util.MissingFormatArgumentException;
 
 
 public class TaskListAdapter extends BaseAdapter {
@@ -23,6 +24,7 @@ public class TaskListAdapter extends BaseAdapter {
     private ArrayList<TaskItem> tasks;
     private LayoutInflater mInflater;
     private Context context;
+    private boolean showAllTasks;
 
     public TaskListAdapter(Context context, ArrayList<TaskItem> e){
         tasks = e;
@@ -32,6 +34,11 @@ public class TaskListAdapter extends BaseAdapter {
 
     public void changeTaskList(ArrayList<TaskItem> e){
         tasks = e;
+    }
+
+    public void showFinishedTasks(boolean show){
+        showAllTasks = show;
+        notifyDataSetChanged();
     }
 
     @Override
@@ -77,6 +84,9 @@ public class TaskListAdapter extends BaseAdapter {
             holder = (ViewHolder)convertView.getTag();
         }
 
+        holder.background.setVisibility(View.VISIBLE);
+        convertView.setVisibility(View.VISIBLE);
+        holder.tvTaskContent.getPaint().setFlags(0);
         holder.tvTaskContent.setText(tasks.get(position).getTaskContent());
 
         int level = tasks.get(position).getLevel();
@@ -88,7 +98,7 @@ public class TaskListAdapter extends BaseAdapter {
                 holder.ivImportance.setBackgroundColor(context.getResources().getColor(R.color.level_mid));
                 break;
             case 3:
-                holder.ivImportance.setBackgroundColor(convertView.getResources().getColor(R.color.level_high));
+                holder.ivImportance.setBackgroundColor(context.getResources().getColor(R.color.level_high));
                 break;
             default:
                 holder.ivImportance.setBackgroundColor(context.getResources().getColor(R.color.level_none));
@@ -105,11 +115,18 @@ public class TaskListAdapter extends BaseAdapter {
 
         SparseBooleanArray array = ((MainActivity)context).lvTaskList.getCheckedItemPositions();
         if(array.get(position)){
-            holder.background.setBackgroundColor(Color.LTGRAY);
+            holder.background.setBackgroundColor(context.getResources().getColor(R.color.color_light_pink));
         }else {
             holder.background.setBackgroundColor(Color.TRANSPARENT);
         }
 
+        if(tasks.get(position).isFinished()){
+            holder.tvTaskContent.getPaint().setFlags(Paint.STRIKE_THRU_TEXT_FLAG);
+            if(!showAllTasks){
+                holder.background.setVisibility(View.GONE);
+                convertView.setVisibility(View.GONE);
+            }
+        }
         return convertView;
     }
 }

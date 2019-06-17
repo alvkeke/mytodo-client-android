@@ -10,6 +10,8 @@ public class TaskItem {
     private long proId;
     private long Id;
 
+    private boolean isFinished;
+
 
     public TaskItem(long proId, long taskId, String todo, long time, int level){
         this.proId = proId;
@@ -20,8 +22,15 @@ public class TaskItem {
     }
 
     public void finish(){
-        Log.e("task", "task finish:" + content + "[" + Id + "]");
-        //todo:finish the feature: finish task.
+        isFinished = true;
+    }
+
+    public boolean isFinished(){
+        return isFinished;
+    }
+
+    public void unFinish(){
+        isFinished = false;
     }
 
     public int getLevel() {

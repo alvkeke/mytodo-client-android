@@ -2,6 +2,7 @@ package com.alvkeke.tools.todo.DataStore;
 
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.util.Log;
 
 import com.alvkeke.tools.todo.MainFeatures.Functions;
 import com.alvkeke.tools.todo.MainFeatures.Project;
@@ -41,13 +42,31 @@ public class DBFun {
             db.execSQL("create table `projects` (id integer primary key, name text, color integer)");
         }
         if(!hasTaskTable) {
-            db.execSQL("create table `tasks` (id integer primary key, proId integer, content text, time integer, level integer)");
+            db.execSQL("create table `tasks` (id integer primary key, proId integer, content text, time integer, level integer, isfinished integer)");
         }
         if(!hasTrashProTable){
             db.execSQL("create table `trash_projects` (id integer primary key, name text, color integer)");
         }
         if(!hasTrashTaskTable){
-            db.execSQL("create table `trash_tasks` (id integer primary key, proId integer, content text, time integer, level integer)");
+            db.execSQL("create table `trash_tasks` (id integer primary key, proId integer, content text, time integer, level integer, isfinished integer)");
+        }
+
+        //判断是否存在isfinished列，如果不存在则添加
+        cursor = db.rawQuery("select sql from sqlite_master where tbl_name='tasks' AND type='table'", null);
+        cursor.moveToFirst();
+        String sql = cursor.getString(0);
+        cursor.close();
+        if(!sql.contains("isfinished integer")){
+            db.execSQL("alter table tasks add isfinished integer");
+            Log.e("debug", "add isfinished column to tasks");
+        }
+        cursor = db.rawQuery("select sql from sqlite_master where tbl_name='trash_tasks' AND type='table'", null);
+        cursor.moveToFirst();
+        sql = cursor.getString(0);
+        cursor.close();
+        if(!sql.contains("isfinished integer")){
+            db.execSQL("alter table trash_tasks add isfinished integer");
+            Log.e("debug", "add isfinished column to trash_tasks");
         }
     }
 
@@ -89,7 +108,7 @@ public class DBFun {
             return false;
         }
 
-        String dbcmd = "insert into tasks values(" + taskId +","+ proId +",'"+ content + "',"+ time +","+ level +")";
+        String dbcmd = "insert into tasks values(" + taskId +","+ proId +",'"+ content + "',"+ time +","+ level +",0)";
         db.execSQL(dbcmd);
 
         return true;
@@ -246,17 +265,57 @@ public class DBFun {
             return false;
         }
 
-        cursor = db.rawQuery("select proId, content, time, level from tasks where id=" + taskId, null);
+        cursor = db.rawQuery("select proId, content, time, level, isfinished from tasks where id=" + taskId, null);
         cursor.moveToFirst();
         long proId = cursor.getLong(0);
         String content = cursor.getString(1);
         long time = cursor.getLong(2);
         int level = cursor.getInt(3);
+        int isfinished = cursor.getInt(4);
         cursor.close();
 
-        String dbcmd = "insert into trash_tasks values("+taskId+","+proId+",'"+content+"',"+time+","+level+")";
+        String dbcmd = "insert into trash_tasks values("+taskId+","+proId+",'"+content+"',"+time+","+level+","+isfinished+")";
         db.execSQL(dbcmd);
         dbcmd = "delete from tasks where id=" + taskId;
+        db.execSQL(dbcmd);
+
+        return true;
+    }
+
+    public static boolean setFinishTask(SQLiteDatabase db, long taskId, boolean isFinished){
+        Cursor cursor = db.rawQuery("select name from sqlite_master", null);
+        boolean canContinue = false;
+        while (cursor.moveToNext()){
+            if(cursor.getString(0).equals("tasks")){
+                canContinue = true;
+                break;
+            }
+        }
+        cursor.close();
+        if(!canContinue){
+            return false;
+        }
+
+        cursor = db.rawQuery("select id from tasks order by id", null);
+        canContinue = false;
+        while (cursor.moveToNext()){
+            if(cursor.getLong(0) == taskId){
+                canContinue = true;
+                break;
+            }
+        }
+        cursor.close();
+        if(!canContinue){
+            return false;
+        }
+
+        int isfinished;
+        if(isFinished){
+            isfinished = 1;
+        }else{
+            isfinished = 0;
+        }
+        String dbcmd = "update tasks set isfinished="+ isfinished +" where id="+taskId;
         db.execSQL(dbcmd);
 
         return true;
@@ -272,16 +331,23 @@ public class DBFun {
         }
         cursor.close();
 
-        cursor = db.rawQuery("select id, proId, content, time, level from tasks", null);
+        cursor = db.rawQuery("select id, proId, content, time, level, isfinished from tasks", null);
         while (cursor.moveToNext()){
             long taskId = cursor.getLong(0);
             long proId = cursor.getLong(1);
             String content = cursor.getString(2);
             long time = cursor.getLong(3);
             int level = cursor.getInt(4);
+            int isfinished = cursor.getInt(5);
             Project p = Functions.findProjectInProjectList(projects, proId);
             if (p != null) {
-                p.addTask(new TaskItem(proId, taskId, content, time, level));
+                TaskItem taskItem = new TaskItem(proId, taskId, content, time, level);
+                if(isfinished==1){
+                    taskItem.finish();
+                }else {
+                    taskItem.unFinish();
+                }
+                p.addTask(taskItem);
             }
         }
         cursor.close();

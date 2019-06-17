@@ -3,6 +3,7 @@ package com.alvkeke.tools.todo;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Color;
 import android.support.annotation.NonNull;
@@ -16,6 +17,7 @@ import android.util.Log;
 import android.util.SparseBooleanArray;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AbsListView;
 import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.ListView;
@@ -46,7 +48,6 @@ public class MainActivity extends AppCompatActivity {
     ImageView drawerStatusBar;
     RelativeLayout toolbarArea;
     Toolbar toolbar;
-    //TextView tvToolbarTitle;
     ImageView btnAddTask;
     public ListView lvTaskList;
 
@@ -68,10 +69,11 @@ public class MainActivity extends AppCompatActivity {
     long currentProjectId;
     int currentTaskList;
     boolean proSettingMode;
+    boolean showFinishedTasks;
 
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
@@ -80,7 +82,6 @@ public class MainActivity extends AppCompatActivity {
         toolbarArea = findViewById(R.id.main_toolbar_area);
         mainStatusBar = findViewById(R.id.main_replace_to_status_bar);
         drawerStatusBar = findViewById(R.id.drawer_replace_to_status);
-        //tvToolbarTitle = findViewById(R.id.main_toolbar_title);
         btnAddTask = findViewById(R.id.main_btn_add_task);
         lvTaskList = findViewById(R.id.main_task_list);
 
@@ -103,57 +104,43 @@ public class MainActivity extends AppCompatActivity {
         toolbar.inflateMenu(R.menu.task_list_menu);
         hideTaskMenu();
 
-        //设置初始化设置
+        //界面初始化设置
         exitProjectSettingMode();
-
-        projects = new ArrayList<>();
-
-        //修改文件夹
-        File dir = getExternalFilesDir("local");
-        if(!Objects.requireNonNull(dir).exists()) {
-            if(!dir.mkdir()){
-                Log.e("debug", "mkdir failed.");
-            }
-        }
-
-        //修改文件名称
-        File dbfile = new File(dir, "database.db");
-        db = SQLiteDatabase.openOrCreateDatabase(dbfile, null);
-        DBFun.initDBFile(db);
-/*
-        DBFun.createProject(db, 1, "pro1", Color.BLUE);
-        DBFun.createProject(db, 2, "pro2", Color.GREEN);
-        DBFun.createProject(db, 3, "pro3", Color.YELLOW);
-
-        DBFun.createTask(db, 11, 1, "todo1.1", -1, 0);
-        DBFun.createTask(db, 12, 1, "todo1.2", -1, 0);
-        DBFun.createTask(db, 13, 1, "todo1.3", -1, 0);
-        DBFun.createTask(db, 14, 1, "todo1.4", -1, 0);
-        DBFun.createTask(db, 21, 2, "todo2.1", -1, 0);
-        DBFun.createTask(db, 22, 2, "todo2.2", -1, 0);
-        DBFun.createTask(db, 23, 2, "todo2.3", -1, 0);
-        DBFun.createTask(db, 24, 2, "todo2.4", -1, 0);
-        DBFun.createTask(db, 31, 3, "todo3.1", -1, 0);
-        DBFun.createTask(db, 32, 3, "todo3.2", -1, 0);
-        DBFun.createTask(db, 33, 3, "todo3.3", -1, 0);
-        DBFun.createTask(db, 34, 3, "todo3.4", -1, 0);
-*/
-        DBFun.restoreTasks(db, projects);
+        lvTaskList.setDivider(null);
 
 
         //todo:修改为加载本地储存的用户设置
         DefaultTaskListAdapter defaultProAdapter = new DefaultTaskListAdapter(this);
         lvTaskRank.setAdapter(defaultProAdapter);
 
+        projects = new ArrayList<>();
         proAdapter = new ProjectListAdapter(this, projects);
         lvProject.setAdapter(proAdapter);
 
         taskAdapter = new TaskListAdapter(this, taskList_Show);
         lvTaskList.setAdapter(taskAdapter);
 
-        //taskList_Show = Functions.getAllTaskList(projects);
         currentTaskList = TASK_LIST_ALL_TASK;
-        //tvToolbarTitle.setText("所有");
+        showFinishedTasks = true;
+        //二次修改界面设置
+        toolbar.getMenu().getItem(2).setChecked(showFinishedTasks);
+        taskAdapter.showFinishedTasks(showFinishedTasks);
+
+
+        //加载本地存储的项目已经任务.todo:根据存储的用户信息判断加载的为local文件还是用户个人文件夹
+        File dir = getExternalFilesDir("local");
+        if(!Objects.requireNonNull(dir).exists()) {
+            if(!dir.mkdir()){
+                Log.e("debug", "mkdir failed.");
+            }
+        }
+        File dbfile = new File(dir, "database.db");
+        db = SQLiteDatabase.openOrCreateDatabase(dbfile, null);
+        DBFun.initDBFile(db);
+        DBFun.restoreTasks(db, projects);
+
+
+        //刷新列表界面
         flashCurrentTaskList();
 
         //设置事件响应
@@ -311,6 +298,7 @@ public class MainActivity extends AppCompatActivity {
                                     @Override
                                     public void onClick(DialogInterface dialog, int which) {
                                         SparseBooleanArray array = lvTaskList.getCheckedItemPositions();
+                                        deselectItem();
                                         for (int i = 0; i<lvTaskList.getCount(); i++){
                                             if(array.get(i)){
                                                 TaskItem taskItem = taskList_Show.get(i);
@@ -319,16 +307,22 @@ public class MainActivity extends AppCompatActivity {
                                                     p.getTaskList().remove(taskItem);
                                                 }
 
-                                                DBFun.deleteTask(db, taskItem.getId());
+                                                if(!DBFun.deleteTask(db, taskItem.getId())){
+                                                    Toast.makeText(MainActivity.this, "数据库修改失败", Toast.LENGTH_LONG).show();
+                                                }
                                             }
                                         }
                                         flashCurrentTaskList();
-                                        deselectItem();
                                         hideTaskMenu();
                                     }
                                 });
                         builder.create().show();
 
+                        break;
+                    case R.id.menu_show_all_task:
+                        showFinishedTasks = !showFinishedTasks;
+                        menuItem.setChecked(showFinishedTasks);
+                        taskAdapter.showFinishedTasks(showFinishedTasks);
                         break;
                     case R.id.menu_task_rank:
                         //todo:完成排列任务的特性
@@ -363,8 +357,15 @@ public class MainActivity extends AppCompatActivity {
         lvTaskList.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
             @Override
             public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
-                //Log.e("debug", "Long Click");
-                taskList_Show.get(position).finish();
+                TaskItem task = taskList_Show.get(position);
+                if(task.isFinished()) {
+                    task.unFinish();
+                }else {
+                    task.finish();
+                }
+                if (!DBFun.setFinishTask(db, task.getId(), task.isFinished())){
+                    Toast.makeText(MainActivity.this, "数据库修改失败", Toast.LENGTH_LONG).show();
+                }
                 flashCurrentTaskList();
                 return true;
             }
@@ -403,7 +404,7 @@ public class MainActivity extends AppCompatActivity {
                 if(project == null){
                     currentTaskList = TASK_LIST_ALL_TASK;
                     flashCurrentTaskList();
-                    break;
+                    return;
                 }
                 taskList_Show = project.getTaskList();
                 toolbar.setTitle(project.getName());
@@ -435,6 +436,8 @@ public class MainActivity extends AppCompatActivity {
         for(int i = 0; i<lvTaskList.getCount(); i++){
             lvTaskList.setItemChecked(i, false);
         }
+        lvTaskList.setChoiceMode(AbsListView.CHOICE_MODE_NONE);
+        lvTaskList.setChoiceMode(AbsListView.CHOICE_MODE_MULTIPLE);
     }
 
     @Override
@@ -495,8 +498,10 @@ public class MainActivity extends AppCompatActivity {
                         long proId = data.getLongExtra("proId", -1);
                         Project p = proAdapter.findItem(proId);
                         Log.e("delete project", String.valueOf(projects.remove(p)));
-                        //todo:从数据库中删除
-                        DBFun.deleteProject(db, proId);
+                        //从数据库中删除
+                        if(!DBFun.deleteProject(db, proId)){
+                            Toast.makeText(this, "数据库修改失败", Toast.LENGTH_LONG).show();
+                        }
                     }
                     exitProjectSettingMode();
                     break;
