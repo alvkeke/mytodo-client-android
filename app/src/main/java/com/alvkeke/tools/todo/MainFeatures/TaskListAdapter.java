@@ -86,7 +86,7 @@ public class TaskListAdapter extends BaseAdapter {
 
         holder.background.setVisibility(View.VISIBLE);
         convertView.setVisibility(View.VISIBLE);
-        holder.tvTaskContent.getPaint().setFlags(0);
+        holder.tvTaskContent.setTextColor(Color.BLACK);
         holder.tvTaskContent.setText(tasks.get(position).getTaskContent());
 
         int level = tasks.get(position).getLevel();
@@ -107,10 +107,11 @@ public class TaskListAdapter extends BaseAdapter {
 
         long time = tasks.get(position).getTime();
         if(time > 0) {
+            holder.tvTaskTime.setVisibility(View.VISIBLE);
             String timeStr = Functions.autoFormatDate(time);
             holder.tvTaskTime.setText(timeStr);
         }else{
-            holder.tvTaskTime.setText("");
+            holder.tvTaskTime.setVisibility(View.GONE);
         }
 
         SparseBooleanArray array = ((MainActivity)context).lvTaskList.getCheckedItemPositions();
@@ -121,7 +122,7 @@ public class TaskListAdapter extends BaseAdapter {
         }
 
         if(tasks.get(position).isFinished()){
-            holder.tvTaskContent.getPaint().setFlags(Paint.STRIKE_THRU_TEXT_FLAG);
+            holder.tvTaskContent.setTextColor(Color.LTGRAY);
             if(!showAllTasks){
                 holder.background.setVisibility(View.GONE);
                 convertView.setVisibility(View.GONE);
