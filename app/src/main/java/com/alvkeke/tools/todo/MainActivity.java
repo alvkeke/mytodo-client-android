@@ -39,6 +39,7 @@ import com.alvkeke.tools.todo.MainFeatures.TaskListAdapter;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Collections;
 import java.util.Objects;
 
 import static com.alvkeke.tools.todo.Common.Constants.*;
@@ -69,11 +70,14 @@ public class MainActivity extends AppCompatActivity implements TaskCallBack, Pro
     SQLiteDatabase db;
 
     SharedPreferences setting;
+    SharedPreferences.Editor editor;
 
     long currentProjectId;
     int currentTaskList;
+    int sortTaskListWay;
     boolean proSettingMode;
     boolean showFinishedTasks;
+    boolean networkMode;
 
 
     @Override
@@ -127,24 +131,51 @@ public class MainActivity extends AppCompatActivity implements TaskCallBack, Pro
         setting = getSharedPreferences("setting", 0);
         currentProjectId = setting.getLong("currentProjectId", -1);
         currentTaskList = setting.getInt("currentTaskList", TASK_LIST_ALL_TASK);
+        sortTaskListWay = setting.getInt("sortTaskListWay", SORT_LIST_LEVEL_FIRST);
         showFinishedTasks = setting.getBoolean("showFinishedTasks", false);
+        networkMode = setting.getBoolean("networkMode", false);
 
         //二次修改界面设置
         toolbar.getMenu().getItem(2).setChecked(showFinishedTasks);
         taskAdapter.showFinishedTasks(showFinishedTasks);
 
         //加载本地存储的项目已经任务.todo:根据存储的用户信息判断加载的为local文件还是用户个人文件夹
-        File dir = getExternalFilesDir("local");
-        if(!Objects.requireNonNull(dir).exists()) {
-            if(!dir.mkdir()){
-                Log.e("debug", "mkdir failed.");
+        File dir;
+        if(!networkMode) {
+            tvUsername.setText("离线状态");
+            dir = getExternalFilesDir("local");
+            if (!Objects.requireNonNull(dir).exists()) {
+                if (!dir.mkdir()) {
+                    Log.e("debug", "mkdir failed.");
+                }
+            }
+            File dbfile = new File(dir, "database.db");
+            db = SQLiteDatabase.openOrCreateDatabase(dbfile, null);
+            DBFun.initDBFile(db);
+            DBFun.restoreTasks(db, projects);
+        }else{
+            SharedPreferences user = getSharedPreferences("user", 0);
+            String username = user.getString("username", null);
+            if(username != null){
+                tvUsername.setText(username);
+                dir = getExternalFilesDir(username);
+                if(!Objects.requireNonNull(dir).exists()){
+                    if(!dir.mkdir()){
+                        Log.e("debug", "mkdir failed.");
+                    }
+                }
+                File dbfile = new File(dir, "database.db");
+                db = SQLiteDatabase.openOrCreateDatabase(dbfile, null);
+                DBFun.initDBFile(db);
+                DBFun.restoreTasks(db, projects);
+            }else{
+                SharedPreferences.Editor editor = setting.edit();
+                editor.putBoolean("networkMode", false);
+                editor.apply();
+                Toast.makeText(getApplicationContext(), "用户信息出错，请重新登录。", Toast.LENGTH_LONG).show();
+                finish();
             }
         }
-        File dbfile = new File(dir, "database.db");
-        db = SQLiteDatabase.openOrCreateDatabase(dbfile, null);
-        DBFun.initDBFile(db);
-        DBFun.restoreTasks(db, projects);
-
 
         //刷新列表界面
         flashCurrentTaskList();
@@ -260,6 +291,9 @@ public class MainActivity extends AppCompatActivity implements TaskCallBack, Pro
         toolbar.setOnMenuItemClickListener(new Toolbar.OnMenuItemClickListener() {
             @Override
             public boolean onMenuItemClick(MenuItem menuItem) {
+
+                AlertDialog.Builder builder;
+
                 switch (menuItem.getItemId()){
                     case R.id.menu_task_edit:
                         Log.e("debug", "edit");
@@ -292,7 +326,7 @@ public class MainActivity extends AppCompatActivity implements TaskCallBack, Pro
                         break;
                     case R.id.menu_task_delete:
 
-                        AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
+                        builder = new AlertDialog.Builder(MainActivity.this);
                         builder.setMessage("您确定要删除该任务吗？\n\n此操作不可以回退。")
                                 .setNegativeButton(R.string.title_btn_cancel, new DialogInterface.OnClickListener() {
                                     @Override
@@ -322,13 +356,25 @@ public class MainActivity extends AppCompatActivity implements TaskCallBack, Pro
                     case R.id.menu_show_all_task:
                         showFinishedTasks = !showFinishedTasks;
                         menuItem.setChecked(showFinishedTasks);
-                        SharedPreferences.Editor editor = setting.edit();
+                        editor = setting.edit();
                         editor.putBoolean("showFinishedTasks", showFinishedTasks);
                         editor.apply();
                         taskAdapter.showFinishedTasks(showFinishedTasks);
                         break;
                     case R.id.menu_task_rank:
-                        //todo:完成排列任务的特性
+                        //排列任务
+                        builder = new AlertDialog.Builder(MainActivity.this);
+                        builder.setItems(new String[]{"等级优先", "时间优先"}, new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                sortTaskListWay = which;
+                                flashCurrentTaskList();
+                                editor = setting.edit();
+                                editor.putInt("sortTaskListWay", sortTaskListWay);
+                                editor.apply();
+                            }
+                        });
+                        builder.create().show();
                         break;
                     case R.id.menu_project_setting:
                         //完成打开项目设置的页面
@@ -547,6 +593,88 @@ public class MainActivity extends AppCompatActivity implements TaskCallBack, Pro
             startActivity(intent);
         }
 
+    }
+
+    void sortTaskList(){
+        if(sortTaskListWay == SORT_LIST_LEVEL_FIRST){
+            ArrayList<TaskItem> high = new ArrayList<>();
+            ArrayList<TaskItem> mid = new ArrayList<>();
+            ArrayList<TaskItem> low = new ArrayList<>();
+            ArrayList<TaskItem> none = new ArrayList<>();
+            for(TaskItem e : taskList_Show){
+                switch (e.getLevel()){
+                    case 3:
+                        high.add(e);
+                        break;
+                    case 2:
+                        mid.add(e);
+                        break;
+                    case 1:
+                        low.add(e);
+                        break;
+                    case 0:
+                        none.add(e);
+                        break;
+                }
+            }
+            selectSort_time(high);
+            selectSort_time(mid);
+            selectSort_time(low);
+            selectSort_time(none);
+            taskList_Show.clear();
+            taskList_Show.addAll(high);
+            taskList_Show.addAll(mid);
+            taskList_Show.addAll(low);
+            taskList_Show.addAll(none);
+        }else if(sortTaskListWay == SORT_LIST_TIME_FIRST){
+            selectSort_time(taskList_Show);
+        }
+    }
+
+    void selectSort_level(ArrayList<TaskItem> arrayList){
+        if (arrayList == null || arrayList.isEmpty()){
+            return;
+        }
+        for (int i = 0; i<arrayList.size(); i++){
+            int p = i;
+            for (int j = i; j<arrayList.size(); j++){
+                if(arrayList.get(j).getLevel() > arrayList.get(p).getLevel()){
+                    p=j;
+                }
+            }
+            Collections.swap(arrayList, i, p);
+        }
+    }
+
+    void selectSort_time(ArrayList<TaskItem> arrayList){
+        if(arrayList == null || arrayList.isEmpty()){
+            return;
+        }
+
+        ArrayList<TaskItem> hastime = new ArrayList<>();
+        ArrayList<TaskItem> notime = new ArrayList<>();
+
+        for(TaskItem e: arrayList){
+            if(e.getTime()<0){
+                notime.add(e);
+            }else{
+                hastime.add(e);
+            }
+        }
+
+        for(int i = 0; i<hastime.size(); i++){
+            int p = i;
+            for(int j = i; j<hastime.size(); j++){
+                if(hastime.get(j).getTime() < hastime.get(p).getTime()){
+                    p = j;
+                }
+            }
+            Collections.swap(hastime, i, p);
+        }
+        selectSort_level(notime);
+        arrayList.clear();
+        arrayList.addAll(hastime);
+        arrayList.addAll(notime);
     }
 
     void flashMenuItem(){
@@ -769,10 +897,10 @@ public class MainActivity extends AppCompatActivity implements TaskCallBack, Pro
         editor.putLong("currentProjectId", currentProjectId);
 
         editor.apply();
-        taskAdapter.changeTaskList(taskList_Show);
-
         flashMenuItem();
+        sortTaskList();
 
+        taskAdapter.changeTaskList(taskList_Show);
         taskAdapter.notifyDataSetChanged();
     }
 }

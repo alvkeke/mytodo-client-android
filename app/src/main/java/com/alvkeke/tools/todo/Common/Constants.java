@@ -14,4 +14,7 @@ public class Constants {
     public static final int TASK_LIST_ALL_TASK = 1;
     public static final int TASK_LIST_TODAY_TASK = 2;
     public static final int TASK_LIST_RECENT_TASK = 3;
+
+    public static final int SORT_LIST_LEVEL_FIRST = 0;
+    public static final int SORT_LIST_TIME_FIRST = 1;
 }
