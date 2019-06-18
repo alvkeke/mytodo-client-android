@@ -18,9 +18,9 @@
             android:text="@string/str_test"
             android:textColor="@color/color_black"
             android:textSize="@dimen/size_font_task_content"
-            android:layout_marginStart="10dp"
-            android:layout_marginTop="10dp"
-            android:layout_marginBottom="5dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="14dp"
+            android:layout_marginBottom="7dp"
             android:layout_toEndOf="@id/taskItem_importance"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
@@ -32,15 +32,15 @@
             android:textSize="@dimen/size_font_task_time"
             android:layout_toEndOf="@id/taskItem_importance"
             android:layout_below="@id/taskItem_taskContent"
-            android:layout_marginStart="10dp"
-            android:layout_marginBottom="5dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginBottom="7dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
 
         <TextView
             android:id="@+id/taskItem_divider"
             android:background="@color/color_light_gray"
-            android:layout_marginTop="5dp"
+            android:layout_marginTop="7dp"
             android:layout_below="@id/taskItem_taskTime"
             android:layout_width="match_parent"
             android:layout_height="1dp" />

@@ -5,28 +5,27 @@
     build-mode="COLD"
     density="xxhdpi"
     format="10"
-    ir-eligibility="COMPATIBLE"
     plugin-version="3.4.1"
-    timestamp="1560839611290"
+    timestamp="1560840263489"
     token="-6696432332714214996"
     verifier="COLD_SWAP_REQUESTED" >
 
     <task
         name="javac"
-        duration="100" />
+        duration="0" />
     <task
         name="instant-run-dex"
         duration="0" />
     <task
         name="instant-run-transform"
-        duration="4" />
+        duration="0" />
     <task
         name="verifier"
-        duration="2" />
+        duration="0" />
 
     <artifact
-        location="/home/alvis/desktop/mytodo-client-android-remake/app/build/intermediates/split-apk/debug/slices/slice_0.apk"
-        type="SPLIT" />
+        location="/home/alvis/desktop/mytodo-client-android-remake/app/build/intermediates/instant-run-apk/debug/app-debug.apk"
+        type="SPLIT_MAIN" />
 
     <build
         build-mode="FULL"
@@ -80,20 +79,20 @@
     </build>
     <build
         build-mode="COLD"
-        timestamp="1560839331717"
-        verifier="COLD_SWAP_REQUESTED" >
-        <artifact
-            location="/home/alvis/desktop/mytodo-client-android-remake/app/build/intermediates/instant-run-apk/debug/app-debug.apk"
-            type="SPLIT_MAIN" />
-    </build>
-    <build
-        build-mode="COLD"
         ir-eligibility="COMPATIBLE"
-        timestamp="1560839611290"
+        timestamp="1560840136117"
         verifier="COLD_SWAP_REQUESTED" >
         <artifact
             location="/home/alvis/desktop/mytodo-client-android-remake/app/build/intermediates/split-apk/debug/slices/slice_0.apk"
             type="SPLIT" />
+    </build>
+    <build
+        build-mode="COLD"
+        timestamp="1560840263489"
+        verifier="COLD_SWAP_REQUESTED" >
+        <artifact
+            location="/home/alvis/desktop/mytodo-client-android-remake/app/build/intermediates/instant-run-apk/debug/app-debug.apk"
+            type="SPLIT_MAIN" />
     </build>
 
 </instant-run>
