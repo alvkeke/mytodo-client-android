@@ -3,7 +3,6 @@ package com.alvkeke.tools.todo;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Color;
 import android.support.annotation.NonNull;
@@ -29,8 +28,10 @@ import com.alvkeke.tools.todo.Common.Constants;
 import com.alvkeke.tools.todo.DataStore.DBFun;
 import com.alvkeke.tools.todo.MainFeatures.Functions;
 import com.alvkeke.tools.todo.MainFeatures.DefaultTaskListAdapter;
+import com.alvkeke.tools.todo.MainFeatures.ProCallBack;
 import com.alvkeke.tools.todo.MainFeatures.Project;
 import com.alvkeke.tools.todo.MainFeatures.ProjectListAdapter;
+import com.alvkeke.tools.todo.MainFeatures.TaskCallBack;
 import com.alvkeke.tools.todo.MainFeatures.TaskItem;
 import com.alvkeke.tools.todo.MainFeatures.TaskListAdapter;
 
@@ -41,7 +42,7 @@ import java.util.Objects;
 
 import static com.alvkeke.tools.todo.Common.Constants.*;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements TaskCallBack, ProCallBack, ActivityCallBack {
 
     DrawerLayout drawerLayout;
     ImageView mainStatusBar;
@@ -265,7 +266,7 @@ public class MainActivity extends AppCompatActivity {
                             }
                         }
                         long proId = taskList_Show.get(pos).getProId();
-                        long taskId = taskList_Show.get(pos).getId();
+                        final long taskId = taskList_Show.get(pos).getId();
                         String content = taskList_Show.get(pos).getTaskContent();
                         long time = taskList_Show.get(pos).getTime();
                         int level = taskList_Show.get(pos).getLevel();
@@ -301,14 +302,7 @@ public class MainActivity extends AppCompatActivity {
                                         for (int i = 0; i<lvTaskList.getCount(); i++){
                                             if(array.get(i)){
                                                 TaskItem taskItem = taskList_Show.get(i);
-                                                Project p = Functions.findProjectInProjectList(projects, taskItem.getProId());
-                                                if (p != null) {
-                                                    p.getTaskList().remove(taskItem);
-                                                }
-
-                                                if(!DBFun.deleteTask(db, taskItem.getId())){
-                                                    Toast.makeText(MainActivity.this, "数据库修改失败", Toast.LENGTH_LONG).show();
-                                                }
+                                                deleteTask(taskItem.getId(), taskItem.getProId());
                                             }
                                         }
                                         deselectItem();
@@ -349,7 +343,6 @@ public class MainActivity extends AppCompatActivity {
         lvTaskList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                //Log.e("select", String.valueOf(lvTaskList.getCheckedItemCount()));
                 flashMenuItem();
             }
         });
@@ -358,6 +351,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
                 TaskItem task = taskList_Show.get(position);
+                /*
                 if(task.isFinished()) {
                     task.unFinish();
                 }else {
@@ -366,6 +360,9 @@ public class MainActivity extends AppCompatActivity {
                 if (!DBFun.setFinishTask(db, task.getId(), task.isFinished())){
                     Toast.makeText(MainActivity.this, "数据库修改失败", Toast.LENGTH_LONG).show();
                 }
+                flashCurrentTaskList();
+                */
+                toggleTaskFinishState(task);
                 flashCurrentTaskList();
                 return true;
             }
@@ -384,37 +381,6 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-    void flashCurrentTaskList(){
-
-        switch (currentTaskList){
-            case TASK_LIST_ALL_TASK:
-                taskList_Show = Functions.getAllTaskList(projects);
-                toolbar.setTitle("所有");
-                break;
-            case TASK_LIST_TODAY_TASK:
-                taskList_Show = Functions.getTodayTaskList(projects);
-                toolbar.setTitle("今天");
-                break;
-            case TASK_LIST_RECENT_TASK:
-                taskList_Show = Functions.getRecentTaskList(projects);
-                toolbar.setTitle("近7天");
-                break;
-            case TASK_LIST_USER_PROJECT:
-                Project project = Functions.findProjectInProjectList(projects, currentProjectId);
-                if(project == null){
-                    currentTaskList = TASK_LIST_ALL_TASK;
-                    flashCurrentTaskList();
-                    return;
-                }
-                taskList_Show = project.getTaskList();
-                toolbar.setTitle(project.getName());
-                break;
-        }
-
-        taskAdapter.changeTaskList(taskList_Show);
-
-        taskAdapter.notifyDataSetChanged();
-    }
     void flashMenuItem(){
         if(lvTaskList.getCheckedItemCount() == 0){
             toolbar.getMenu().getItem(0).setVisible(false);
@@ -443,113 +409,100 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
+        if(data == null){
+            Log.e("debug", "return data is null");
+            return;
+        }
         if(requestCode == REQUEST_CODE_ADD_TASK){
             if(resultCode == RESULT_CODE_ADD_TASK){
-                if(data != null) {
 
-                    long proId = data.getLongExtra("projectId", -1);
+                long proId = data.getLongExtra("projectId", -1);
+                final String task = data.getStringExtra("task");
+                final int level = data.getIntExtra("level", 0);
+                boolean isRemind = data.getBooleanExtra("isRemind", false);
+                long tmpTime = -1;
+                if(isRemind) {
+                    int year = data.getIntExtra("year", 1900);
+                    int month = data.getIntExtra("month", 0);
+                    int dayOfMonth = data.getIntExtra("dayOfMonth", 0);
+                    int hour = data.getIntExtra("hour", 0);
+                    int minute = data.getIntExtra("minute", 0);
 
-                    Project project = Functions.findProjectInProjectList(projects, proId);
-                    if(project == null){
+                    Calendar calendar = Calendar.getInstance();
+                    calendar.set(Calendar.YEAR, year);
+                    calendar.set(Calendar.MONTH, month);
+                    calendar.set(Calendar.DAY_OF_MONTH, dayOfMonth);
+                    calendar.set(Calendar.HOUR_OF_DAY, hour);
+                    calendar.set(Calendar.MINUTE, minute);
+
+                    tmpTime = calendar.getTimeInMillis();
+                }
+                final long time = tmpTime;
+
+                Project project = Functions.findProjectInProjectList(projects, proId);
+                if(project == null){
+                    if(projects.isEmpty()){
+                        AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
+                        builder.setMessage("当前无可用项目\n是否自动创建一个项目？")
+                                .setNegativeButton("取消", null)
+                                .setPositiveButton("确定", new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialog, int which) {
+                                        long proId = Functions.generateId();
+                                        createProject(proId, "自动创建", Color.BLACK);
+                                        addTask(Functions.generateId(), proId, task, time, level);
+                                        flashCurrentTaskList();
+                                    }
+                                });
+                        builder.create().show();
+                        return;
+                    }else {
                         Toast.makeText(this, "信息出错：找不到项目", Toast.LENGTH_SHORT).show();
                         return;
                     }
-
-                    String task = data.getStringExtra("task");
-                    int level = data.getIntExtra("level", 0);
-                    boolean isRemind = data.getBooleanExtra("isRemind", false);
-                    long time = -1;
-                    if(isRemind) {
-                        int year = data.getIntExtra("year", 1900);
-                        int month = data.getIntExtra("month", 0);
-                        int dayOfMonth = data.getIntExtra("dayOfMonth", 0);
-                        int hour = data.getIntExtra("hour", 0);
-                        int minute = data.getIntExtra("minute", 0);
-
-                        Calendar calendar = Calendar.getInstance();
-                        calendar.set(Calendar.YEAR, year);
-                        calendar.set(Calendar.MONTH, month);
-                        calendar.set(Calendar.DAY_OF_MONTH, dayOfMonth);
-                        calendar.set(Calendar.HOUR_OF_DAY, hour);
-                        calendar.set(Calendar.MINUTE, minute);
-
-                        time = calendar.getTimeInMillis();
-                    }
-
-                    //保存到本地，建立一个函数专门储存任务
-                    TaskItem taskItem = new TaskItem(proId, Functions.generateId(), task, time, level);
-                    project.addTask(taskItem);
-                    if(!DBFun.createTask(db, taskItem)){
-                        Toast.makeText(this, "数据库修改失败", Toast.LENGTH_LONG).show();
-                    }
-
-                    //新建任务时,刷新当前显示的列表
-                    flashCurrentTaskList();
                 }
+
+                //添加任务
+                addTask(Functions.generateId(), proId, task, tmpTime, level);
+
+                //新建任务时,刷新当前显示的列表
+                flashCurrentTaskList();
 
             }
 
         }else if(requestCode == REQUEST_CODE_SETTING_PROJECT){
+            long proId;
             switch (resultCode){
                 case RESULT_CANCEL:
                     break;
                 case RESULT_DELETE_PROJECT:
-                    if(data != null){
-                        long proId = data.getLongExtra("proId", -1);
-                        Project p = proAdapter.findItem(proId);
-                        Log.e("delete project", String.valueOf(projects.remove(p)));
-                        //从数据库中删除
-                        if(!DBFun.deleteProject(db, proId)){
-                            Toast.makeText(this, "数据库修改失败", Toast.LENGTH_LONG).show();
-                        }
-                    }
+                    proId = data.getLongExtra("proId", -1);
+                    deleteProject(proId);
+
                     exitProjectSettingMode();
                     break;
 
-                    default:
-                        if (data != null) {
-                            long proId = data.getLongExtra("proId", -1);
-                            int proColor = data.getIntExtra("proColor", 0);
-                            String proName = data.getStringExtra("proName");
+                default:
+                    proId = data.getLongExtra("proId", -1);
+                    int proColor = data.getIntExtra("proColor", 0);
+                    String proName = data.getStringExtra("proName");
 
-                            Project project = proAdapter.findItem(proId);
-                            if (project != null) {
-                                project.changeName(proName);
-                                if (proColor != 0) {
-                                    project.changeColor(proColor);
-                                }else{
-                                    proColor = project.getColor();
-                                }
-                                //建立一个函数专门修改项目信息，并保存到本地
-                                if(!DBFun.modifyProject(db, proId, proName, proColor)){
-                                    Toast.makeText(this, "数据库修改失败", Toast.LENGTH_LONG).show();
-                                }
-                            }
+                    modifyProject(proId, proName, proColor);
 
-                        }
             }
-            proAdapter.notifyDataSetChanged();
             flashCurrentTaskList();
 
         }else if (requestCode == REQUEST_CODE_ADD_PROJECT){
             if(resultCode != RESULT_CANCEL) {
-                if (data != null) {
-                    long id = data.getLongExtra("proId", -1);
-                    String proName = data.getStringExtra("proName");
-                    int color = data.getIntExtra("proColor", 0);
-                    //proAdapter.addProject(new Project(id, proName, color));
-                    Project project = new Project(id, proName, color);
-                    projects.add(project);
-                    //:保存到本地，建立一个函数专门储存项目
-                    if(!DBFun.createProject(db, project)) {
-                        Toast.makeText(this, "数据库修改失败", Toast.LENGTH_LONG).show();
-                    }
-                }
-                proAdapter.notifyDataSetChanged();
+                long id = data.getLongExtra("proId", -1);
+                String proName = data.getStringExtra("proName");
+                int color = data.getIntExtra("proColor", 0);
+                createProject(id, proName, color);
+
                 exitProjectSettingMode();
             }
         }else if (requestCode == REQUEST_CODE_SETTING_TASK){
-            if(resultCode == RESULT_CANCEL || data == null){
+            if(resultCode == RESULT_CANCEL){
                 return;
             }
 
@@ -582,28 +535,10 @@ public class MainActivity extends AppCompatActivity {
                 time = calendar.getTimeInMillis();
             }
 
-            TaskItem taskItem = oldProject.findTask(taskId);
-            taskItem.setContent(task);
-            taskItem.setLevel(level);
-            taskItem.setTime(time);
-            if(oldProId != newProId){
-                Project newProject = Functions.findProjectInProjectList(projects, newProId);
-                if(newProject == null){
-                    Toast.makeText(this, "修改项目出错,找不到项目", Toast.LENGTH_LONG).show();
-                    return;
-
-                }
-                newProject.addTask(taskItem);
-                oldProject.getTaskList().remove(taskItem);
-                taskItem.setProId(newProId);
-            }
+            modifyTask(taskId, oldProId, newProId, task, time, level);
 
             flashCurrentTaskList();
 
-            //存储到本地
-            if(!DBFun.modifyTask(db, taskId, newProId, task, time, level)) {
-                Toast.makeText(this, "数据库修改失败", Toast.LENGTH_LONG).show();
-            }
 
         }
     }
@@ -664,4 +599,157 @@ public class MainActivity extends AppCompatActivity {
         btnAddProject.setVisibility(View.GONE);
     }
 
+    @Override
+    public void addTask(long taskId, long proId, String content, long time, int level) {
+
+        Project project = Functions.findProjectInProjectList(projects, proId);
+        if(project == null){
+            Toast.makeText(this, "信息出错：找不到项目", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        //保存到本地，建立一个函数专门储存任务
+        TaskItem taskItem = new TaskItem(proId, taskId, content, time, level);
+        project.addTask(taskItem);
+
+        if(!DBFun.createTask(db, taskItem)){
+            Toast.makeText(this, "数据库修改失败", Toast.LENGTH_LONG).show();
+        }
+    }
+
+    @Override
+    public void modifyTask(long taskId, long oldProId, long newProId, String content, long time, int level) {
+        Project oldProject = Functions.findProjectInProjectList(projects, oldProId);
+        if(oldProject == null){
+            Toast.makeText(this, "信息出错:找不到项目", Toast.LENGTH_LONG).show();
+            return;
+        }
+
+        TaskItem taskItem = oldProject.findTask(taskId);
+        taskItem.setContent(content);
+        taskItem.setLevel(level);
+        taskItem.setTime(time);
+
+        if(oldProId != newProId){
+            Project newProject = Functions.findProjectInProjectList(projects, newProId);
+            if(newProject == null){
+                Toast.makeText(this, "修改项目出错,找不到项目", Toast.LENGTH_LONG).show();
+                return;
+            }
+            newProject.addTask(taskItem);
+            oldProject.getTaskList().remove(taskItem);
+            taskItem.setProId(newProId);
+        }
+
+        //存储到本地
+        if(!DBFun.modifyTask(db, taskId, newProId, content, time, level)) {
+            Toast.makeText(this, "数据库修改失败", Toast.LENGTH_LONG).show();
+        }
+    }
+
+    @Override
+    public void toggleTaskFinishState(TaskItem taskItem) {
+        if(!taskItem.isFinished()){
+            taskItem.finish();
+        }else {
+            taskItem.unFinish();
+        }
+
+        if (!DBFun.setFinishTask(db, taskItem.getId(), taskItem.isFinished())){
+            Toast.makeText(MainActivity.this, "数据库修改失败", Toast.LENGTH_LONG).show();
+        }
+    }
+
+    @Override
+    public void deleteTask(long taskId, long proId) {
+        Project p = Functions.findProjectInProjectList(projects, proId);
+        if (p != null) {
+            TaskItem taskItem = p.findTask(taskId);
+            if(taskItem != null) {
+                p.getTaskList().remove(taskItem);
+
+                if(!DBFun.deleteTask(db, taskItem.getId())){
+                    Toast.makeText(MainActivity.this, "数据库修改失败", Toast.LENGTH_LONG).show();
+                }
+            }
+        }
+    }
+
+    @Override
+    public void createProject(long proId, String name, int color) {
+        Project project = new Project(proId, name, color);
+        projects.add(project);
+
+        //保存到本地，建立一个函数专门储存项目
+        if(!DBFun.createProject(db, project)) {
+            Toast.makeText(this, "数据库修改失败", Toast.LENGTH_LONG).show();
+        }
+        proAdapter.notifyDataSetChanged();
+    }
+
+    @Override
+    public void modifyProject(long proId, String name, int color) {
+        Project project = proAdapter.findItem(proId);
+
+        if (project != null) {
+            project.changeName(name);
+
+            if (color!= 0) {
+                project.changeColor(color);
+            }else{
+                color = project.getColor();
+            }
+
+            //建立一个函数专门修改项目信息，并保存到本地
+            if(!DBFun.modifyProject(db, proId, name, color)){
+                Toast.makeText(this, "数据库修改失败", Toast.LENGTH_LONG).show();
+            }
+        }
+        proAdapter.notifyDataSetChanged();
+    }
+
+    @Override
+    public void deleteProject(long proId) {
+        Project p = proAdapter.findItem(proId);
+        projects.remove(p);
+
+        //从数据库中删除
+        if(!DBFun.deleteProject(db, proId)){
+            Toast.makeText(this, "数据库修改失败", Toast.LENGTH_LONG).show();
+        }
+        proAdapter.notifyDataSetChanged();
+    }
+
+    @Override
+    public void flashCurrentTaskList(){
+
+        switch (currentTaskList){
+            case TASK_LIST_ALL_TASK:
+                taskList_Show = Functions.getAllTaskList(projects);
+                toolbar.setTitle("所有");
+                break;
+            case TASK_LIST_TODAY_TASK:
+                taskList_Show = Functions.getTodayTaskList(projects);
+                toolbar.setTitle("今天");
+                break;
+            case TASK_LIST_RECENT_TASK:
+                taskList_Show = Functions.getRecentTaskList(projects);
+                toolbar.setTitle("近7天");
+                break;
+            case TASK_LIST_USER_PROJECT:
+                Project project = Functions.findProjectInProjectList(projects, currentProjectId);
+                if(project == null){
+                    currentTaskList = TASK_LIST_ALL_TASK;
+                    flashCurrentTaskList();
+                    return;
+                }
+                taskList_Show = project.getTaskList();
+                toolbar.setTitle(project.getName());
+                break;
+        }
+
+        taskAdapter.changeTaskList(taskList_Show);
+
+        taskAdapter.notifyDataSetChanged();
+    }
 }

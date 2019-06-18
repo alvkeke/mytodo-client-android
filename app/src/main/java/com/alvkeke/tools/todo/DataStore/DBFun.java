@@ -145,7 +145,7 @@ public class DBFun {
             return false;
         }
 
-        String dbcmd = "update projects set name='" + name + "', color=" + color +"where id=" + proId;
+        String dbcmd = "update projects set name='" + name + "', color=" + color +" where id=" + proId;
         db.execSQL(dbcmd);
 
         return true;

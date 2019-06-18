@@ -105,17 +105,22 @@ public class TaskSettingActivity extends AppCompatActivity {
             reminderSettingArea.setVisibility(View.VISIBLE);
             etRemindDate.setText(Functions.formatDate(time));
             etRemindTime.setText(Functions.formatTime(time));
+
+            Calendar calendar = Calendar.getInstance();
+            calendar.setTimeInMillis(time);
+            year = calendar.get(Calendar.YEAR);
+            month = calendar.get(Calendar.MONTH);
+            dayOfMonth = calendar.get(Calendar.DAY_OF_MONTH);
+            hour = calendar.get(Calendar.HOUR_OF_DAY);
+            minute = calendar.get(Calendar.MINUTE);
         }else{
             reminderSettingArea.setVisibility(View.INVISIBLE);
+
+            year = -1;
+            month = -1;
+            dayOfMonth = -1;
         }
 
-        Calendar calendar = Calendar.getInstance();
-        calendar.setTimeInMillis(time);
-        year = calendar.get(Calendar.YEAR);
-        month = calendar.get(Calendar.MONTH);
-        dayOfMonth = calendar.get(Calendar.DAY_OF_MONTH);
-        hour = calendar.get(Calendar.HOUR_OF_DAY);
-        minute = calendar.get(Calendar.MINUTE);
 
 
 
