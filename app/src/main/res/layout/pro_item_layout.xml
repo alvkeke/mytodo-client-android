@@ -9,7 +9,6 @@
 
         <ImageView
             android:id="@+id/iv_pro_icon"
-            android:background="@color/testColor"
             android:layout_centerVertical="true"
             android:layout_marginStart="@dimen/distance_project_margin"
             android:layout_marginTop="@dimen/distance_project_margin"

@@ -4879,8 +4879,41 @@ public final class R {
     public static final int task_list_menu=0x7f0a0001;
   }
   public static final class mipmap {
-    public static final int ic_launcher=0x7f0b0000;
-    public static final int ic_launcher_round=0x7f0b0001;
+    public static final int ic_all_tasks=0x7f0b0000;
+    public static final int ic_launcher=0x7f0b0001;
+    public static final int ic_launcher_round=0x7f0b0002;
+    public static final int ic_rili_1=0x7f0b0003;
+    public static final int ic_rili_10=0x7f0b0004;
+    public static final int ic_rili_11=0x7f0b0005;
+    public static final int ic_rili_12=0x7f0b0006;
+    public static final int ic_rili_13=0x7f0b0007;
+    public static final int ic_rili_14=0x7f0b0008;
+    public static final int ic_rili_15=0x7f0b0009;
+    public static final int ic_rili_16=0x7f0b000a;
+    public static final int ic_rili_17=0x7f0b000b;
+    public static final int ic_rili_18=0x7f0b000c;
+    public static final int ic_rili_19=0x7f0b000d;
+    public static final int ic_rili_2=0x7f0b000e;
+    public static final int ic_rili_20=0x7f0b000f;
+    public static final int ic_rili_21=0x7f0b0010;
+    public static final int ic_rili_22=0x7f0b0011;
+    public static final int ic_rili_23=0x7f0b0012;
+    public static final int ic_rili_24=0x7f0b0013;
+    public static final int ic_rili_25=0x7f0b0014;
+    public static final int ic_rili_26=0x7f0b0015;
+    public static final int ic_rili_27=0x7f0b0016;
+    public static final int ic_rili_28=0x7f0b0017;
+    public static final int ic_rili_29=0x7f0b0018;
+    public static final int ic_rili_3=0x7f0b0019;
+    public static final int ic_rili_30=0x7f0b001a;
+    public static final int ic_rili_31=0x7f0b001b;
+    public static final int ic_rili_4=0x7f0b001c;
+    public static final int ic_rili_5=0x7f0b001d;
+    public static final int ic_rili_6=0x7f0b001e;
+    public static final int ic_rili_7=0x7f0b001f;
+    public static final int ic_rili_8=0x7f0b0020;
+    public static final int ic_rili_9=0x7f0b0021;
+    public static final int ic_rili_next7day=0x7f0b0022;
   }
   public static final class string {
     public static final int abc_action_bar_home_description=0x7f0c0000;

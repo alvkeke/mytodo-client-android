@@ -150,7 +150,8 @@ public class MainActivity extends AppCompatActivity implements TaskCallBack, Pro
         drawerLayout.addDrawerListener(new DrawerLayout.DrawerListener() {
             @Override
             public void onDrawerSlide(@NonNull View view, float v) {
-
+                deselectItem();
+                hideTaskMenu();
             }
 
             @Override
@@ -343,7 +344,8 @@ public class MainActivity extends AppCompatActivity implements TaskCallBack, Pro
         lvTaskList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                flashMenuItem();
+                flashTaskMenuItem();
+                taskAdapter.notifyDataSetChanged();
             }
         });
 
@@ -368,7 +370,6 @@ public class MainActivity extends AppCompatActivity implements TaskCallBack, Pro
             }
         });
 
-
         btnAddTask.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -379,31 +380,6 @@ public class MainActivity extends AppCompatActivity implements TaskCallBack, Pro
             }
         });
 
-    }
-
-    void flashMenuItem(){
-        if(lvTaskList.getCheckedItemCount() == 0){
-            toolbar.getMenu().getItem(0).setVisible(false);
-            toolbar.getMenu().getItem(1).setVisible(false);
-        }else if(lvTaskList.getCheckedItemCount() == 1){
-            toolbar.getMenu().getItem(0).setVisible(true);
-            toolbar.getMenu().getItem(1).setVisible(true);
-        }else{
-            toolbar.getMenu().getItem(0).setVisible(false);
-            toolbar.getMenu().getItem(1).setVisible(true);
-        }
-        taskAdapter.notifyDataSetChanged();
-    }
-    void hideTaskMenu(){
-        toolbar.getMenu().getItem(0).setVisible(false);
-        toolbar.getMenu().getItem(1).setVisible(false);
-    }
-    void deselectItem(){
-        for(int i = 0; i<lvTaskList.getCount(); i++){
-            lvTaskList.setItemChecked(i, false);
-        }
-        lvTaskList.setChoiceMode(AbsListView.CHOICE_MODE_NONE);
-        lvTaskList.setChoiceMode(AbsListView.CHOICE_MODE_MULTIPLE);
     }
 
     @Override
@@ -563,6 +539,38 @@ public class MainActivity extends AppCompatActivity implements TaskCallBack, Pro
             startActivity(intent);
         }
 
+    }
+
+    void flashMenuItem(){
+        if(currentTaskList == TASK_LIST_USER_PROJECT){
+            toolbar.getMenu().getItem(4).setVisible(true);
+        }else{
+            toolbar.getMenu().getItem(4).setVisible(false);
+        }
+    }
+    void flashTaskMenuItem(){
+        if(lvTaskList.getCheckedItemCount() == 0){
+            toolbar.getMenu().getItem(0).setVisible(false);
+            toolbar.getMenu().getItem(1).setVisible(false);
+        }else if(lvTaskList.getCheckedItemCount() == 1){
+            toolbar.getMenu().getItem(0).setVisible(true);
+            toolbar.getMenu().getItem(1).setVisible(true);
+        }else{
+            toolbar.getMenu().getItem(0).setVisible(false);
+            toolbar.getMenu().getItem(1).setVisible(true);
+        }
+        //taskAdapter.notifyDataSetChanged();
+    }
+    void hideTaskMenu(){
+        toolbar.getMenu().getItem(0).setVisible(false);
+        toolbar.getMenu().getItem(1).setVisible(false);
+    }
+    void deselectItem(){
+        for(int i = 0; i<lvTaskList.getCount(); i++){
+            lvTaskList.setItemChecked(i, false);
+        }
+        lvTaskList.setChoiceMode(AbsListView.CHOICE_MODE_NONE);
+        lvTaskList.setChoiceMode(AbsListView.CHOICE_MODE_MULTIPLE);
     }
 
     void setStatusBarHeight(){
@@ -749,6 +757,8 @@ public class MainActivity extends AppCompatActivity implements TaskCallBack, Pro
         }
 
         taskAdapter.changeTaskList(taskList_Show);
+
+        flashMenuItem();
 
         taskAdapter.notifyDataSetChanged();
     }

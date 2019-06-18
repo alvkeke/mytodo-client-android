@@ -2,8 +2,6 @@ package com.alvkeke.tools.todo.MainFeatures;
 
 import android.content.Context;
 import android.graphics.Color;
-import android.graphics.Paint;
-import android.util.Log;
 import android.util.SparseBooleanArray;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -87,6 +85,7 @@ public class TaskListAdapter extends BaseAdapter {
         holder.background.setVisibility(View.VISIBLE);
         convertView.setVisibility(View.VISIBLE);
         holder.tvTaskContent.setTextColor(Color.BLACK);
+        holder.tvTaskTime.setTextColor(Color.RED);
         holder.tvTaskContent.setText(tasks.get(position).getTaskContent());
 
         int level = tasks.get(position).getLevel();
@@ -123,6 +122,7 @@ public class TaskListAdapter extends BaseAdapter {
 
         if(tasks.get(position).isFinished()){
             holder.tvTaskContent.setTextColor(Color.LTGRAY);
+            holder.tvTaskTime.setTextColor(Color.LTGRAY);
             if(!showAllTasks){
                 holder.background.setVisibility(View.GONE);
                 convertView.setVisibility(View.GONE);
