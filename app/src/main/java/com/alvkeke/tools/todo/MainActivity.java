@@ -3,6 +3,7 @@ package com.alvkeke.tools.todo;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Color;
 import android.support.annotation.NonNull;
@@ -67,6 +68,8 @@ public class MainActivity extends AppCompatActivity implements TaskCallBack, Pro
 
     SQLiteDatabase db;
 
+    SharedPreferences setting;
+
     long currentProjectId;
     int currentTaskList;
     boolean proSettingMode;
@@ -109,8 +112,7 @@ public class MainActivity extends AppCompatActivity implements TaskCallBack, Pro
         exitProjectSettingMode();
         lvTaskList.setDivider(null);
 
-
-        //todo:修改为加载本地储存的用户设置
+        //为列表框添加适配器
         DefaultTaskListAdapter defaultProAdapter = new DefaultTaskListAdapter(this);
         lvTaskRank.setAdapter(defaultProAdapter);
 
@@ -121,12 +123,15 @@ public class MainActivity extends AppCompatActivity implements TaskCallBack, Pro
         taskAdapter = new TaskListAdapter(this, taskList_Show);
         lvTaskList.setAdapter(taskAdapter);
 
-        currentTaskList = TASK_LIST_ALL_TASK;
-        showFinishedTasks = true;
+        //从本地储存中加载用户设置
+        setting = getSharedPreferences("setting", 0);
+        currentProjectId = setting.getLong("currentProjectId", -1);
+        currentTaskList = setting.getInt("currentTaskList", TASK_LIST_ALL_TASK);
+        showFinishedTasks = setting.getBoolean("showFinishedTasks", false);
+
         //二次修改界面设置
         toolbar.getMenu().getItem(2).setChecked(showFinishedTasks);
         taskAdapter.showFinishedTasks(showFinishedTasks);
-
 
         //加载本地存储的项目已经任务.todo:根据存储的用户信息判断加载的为local文件还是用户个人文件夹
         File dir = getExternalFilesDir("local");
@@ -317,6 +322,9 @@ public class MainActivity extends AppCompatActivity implements TaskCallBack, Pro
                     case R.id.menu_show_all_task:
                         showFinishedTasks = !showFinishedTasks;
                         menuItem.setChecked(showFinishedTasks);
+                        SharedPreferences.Editor editor = setting.edit();
+                        editor.putBoolean("showFinishedTasks", showFinishedTasks);
+                        editor.apply();
                         taskAdapter.showFinishedTasks(showFinishedTasks);
                         break;
                     case R.id.menu_task_rank:
@@ -755,7 +763,12 @@ public class MainActivity extends AppCompatActivity implements TaskCallBack, Pro
                 toolbar.setTitle(project.getName());
                 break;
         }
+        setting = getSharedPreferences("setting", 0);
+        SharedPreferences.Editor editor = setting.edit();
+        editor.putInt("currentTaskList", currentTaskList);
+        editor.putLong("currentProjectId", currentProjectId);
 
+        editor.apply();
         taskAdapter.changeTaskList(taskList_Show);
 
         flashMenuItem();
