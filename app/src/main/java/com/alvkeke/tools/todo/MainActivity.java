@@ -339,12 +339,19 @@ public class MainActivity extends AppCompatActivity implements TaskCallBack, Pro
                                     @Override
                                     public void onClick(DialogInterface dialog, int which) {
                                         SparseBooleanArray array = lvTaskList.getCheckedItemPositions();
+                                        ArrayList<TaskItem> delArray = new ArrayList<>();
                                         for (int i = 0; i<lvTaskList.getCount(); i++){
                                             if(array.get(i)){
                                                 TaskItem taskItem = taskList_Show.get(i);
-                                                deleteTask(taskItem.getId(), taskItem.getProId());
+                                                //deleteTask(taskItem.getId(), taskItem.getProId());
+                                                delArray.add(taskItem);
                                             }
                                         }
+
+                                        for (TaskItem e: delArray){
+                                            deleteTask(e.getId(), e.getProId());
+                                        }
+
                                         deselectItem();
                                         flashCurrentTaskList();
                                         hideTaskMenu();
