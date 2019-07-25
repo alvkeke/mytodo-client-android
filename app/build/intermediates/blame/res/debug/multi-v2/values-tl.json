@@ -1,10 +1,10 @@
 {
     "logs": [
         {
-            "outputFile": "/home/alvis/desktop/mytodo-client-android-remake/app/build/intermediates/incremental/mergeDebugResources/merged.dir/values-tl/values-tl.xml",
+            "outputFile": "/home/alvis/desktop/work-tmp/mytodo-client-android-remake/app/build/intermediates/incremental/mergeDebugResources/merged.dir/values-tl/values-tl.xml",
             "map": [
                 {
-                    "source": "/home/alvis/.gradle/caches/transforms-2/files-2.1/1889b2deb5761f83f166fb1d6ccf7da7/res/values-tl/values-tl.xml",
+                    "source": "/home/alvis/.gradle/caches/transforms-2/files-2.1/32111a3842c754ab854ceb727fbd7783/res/values-tl/values-tl.xml",
                     "from": {
                         "startLines": "2",
                         "startColumns": "4",
@@ -21,7 +21,7 @@
                     }
                 },
                 {
-                    "source": "/home/alvis/.gradle/caches/transforms-2/files-2.1/6bf59c6aec3677b3a73782c553226086/res/values-tl/values-tl.xml",
+                    "source": "/home/alvis/.gradle/caches/transforms-2/files-2.1/7e59606ad76e74a5eebdbc82bfb0feeb/res/values-tl/values-tl.xml",
                     "from": {
                         "startLines": "2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29",
                         "startColumns": "4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4",

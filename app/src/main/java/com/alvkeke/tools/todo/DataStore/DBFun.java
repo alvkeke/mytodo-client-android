@@ -331,23 +331,27 @@ public class DBFun {
         }
         cursor.close();
 
-        cursor = db.rawQuery("select id, proId, content, time, level, isfinished from tasks", null);
-        while (cursor.moveToNext()){
-            long taskId = cursor.getLong(0);
-            long proId = cursor.getLong(1);
-            String content = cursor.getString(2);
-            long time = cursor.getLong(3);
-            int level = cursor.getInt(4);
-            int isfinished = cursor.getInt(5);
-            Project p = Functions.findProjectInProjectList(projects, proId);
-            if (p != null) {
-                TaskItem taskItem = new TaskItem(proId, taskId, content, time, level);
-                if(isfinished==1){
-                    taskItem.finish();
-                }else {
-                    taskItem.unFinish();
+        for(Project p : projects){
+            cursor = db.rawQuery("select proId, id, content, time, level, isfinished from tasks", null);
+            while(cursor.moveToNext()){
+                long proId = cursor.getLong(0);
+
+                if (p.getId() == proId) {
+
+                    long taskId = cursor.getLong(1);
+                    String content = cursor.getString(2);
+                    long time = cursor.getLong(3);
+                    int level = cursor.getInt(4);
+                    int isfinished = cursor.getInt(5);
+
+                    TaskItem taskItem = new TaskItem(proId, taskId, content, time, level);
+                    if(isfinished==1){
+                        taskItem.finish();
+                    }else {
+                        taskItem.unFinish();
+                    }
+                    p.addTask(taskItem);
                 }
-                p.addTask(taskItem);
             }
         }
         cursor.close();

@@ -1,169 +1,169 @@
 -- Merging decision tree log ---
 manifest
-ADDED from /home/alvis/desktop/mytodo-client-android-remake/app/src/main/AndroidManifest.xml:2:1-24:12
-INJECTED from /home/alvis/desktop/mytodo-client-android-remake/app/src/main/AndroidManifest.xml:2:1-24:12
-INJECTED from /home/alvis/desktop/mytodo-client-android-remake/app/src/main/AndroidManifest.xml:2:1-24:12
-INJECTED from /home/alvis/desktop/mytodo-client-android-remake/app/src/main/AndroidManifest.xml:2:1-24:12
-MERGED from [com.android.support.constraint:constraint-layout:2.0.0-beta1] /home/alvis/.gradle/caches/transforms-2/files-2.1/11dfac800a0689e50bf4cb515002a630/AndroidManifest.xml:2:1-11:12
-MERGED from [com.android.support:appcompat-v7:28.0.0] /home/alvis/.gradle/caches/transforms-2/files-2.1/6bf59c6aec3677b3a73782c553226086/AndroidManifest.xml:17:1-22:12
-MERGED from [com.android.support:support-fragment:28.0.0] /home/alvis/.gradle/caches/transforms-2/files-2.1/0f90452c7eead455e473f856498a332b/AndroidManifest.xml:17:1-22:12
-MERGED from [com.android.support:animated-vector-drawable:28.0.0] /home/alvis/.gradle/caches/transforms-2/files-2.1/f64ffdff7b6ca1ba7c433af1b4052f0d/AndroidManifest.xml:17:1-22:12
-MERGED from [com.android.support:recyclerview-v7:28.0.0] /home/alvis/.gradle/caches/transforms-2/files-2.1/9898fa86ecf190ca0c3e0ceb0f0df976/AndroidManifest.xml:17:1-22:12
-MERGED from [com.android.support:support-core-ui:28.0.0] /home/alvis/.gradle/caches/transforms-2/files-2.1/f905cad6dceedb02abfe013e96501436/AndroidManifest.xml:17:1-22:12
-MERGED from [com.android.support:support-core-utils:28.0.0] /home/alvis/.gradle/caches/transforms-2/files-2.1/87cf7d944d9c686b08fdc980ff9c25a1/AndroidManifest.xml:17:1-22:12
-MERGED from [com.android.support:support-vector-drawable:28.0.0] /home/alvis/.gradle/caches/transforms-2/files-2.1/c038413d3dcbe9eba8db6987c98df315/AndroidManifest.xml:17:1-22:12
-MERGED from [com.android.support:loader:28.0.0] /home/alvis/.gradle/caches/transforms-2/files-2.1/5af092970092bf7267934a5e82470580/AndroidManifest.xml:17:1-22:12
-MERGED from [com.android.support:viewpager:28.0.0] /home/alvis/.gradle/caches/transforms-2/files-2.1/c4bc03587b24a0e64d5183fac5b52f23/AndroidManifest.xml:17:1-22:12
-MERGED from [com.android.support:coordinatorlayout:28.0.0] /home/alvis/.gradle/caches/transforms-2/files-2.1/c3a44dfc4ca29d029552603fff62813d/AndroidManifest.xml:17:1-22:12
-MERGED from [com.android.support:drawerlayout:28.0.0] /home/alvis/.gradle/caches/transforms-2/files-2.1/47b7d61f6fe47e618d02d7fec60d02aa/AndroidManifest.xml:17:1-22:12
-MERGED from [com.android.support:slidingpanelayout:28.0.0] /home/alvis/.gradle/caches/transforms-2/files-2.1/27982b7aed90417e2f6959f846225673/AndroidManifest.xml:17:1-22:12
-MERGED from [com.android.support:customview:28.0.0] /home/alvis/.gradle/caches/transforms-2/files-2.1/e43fbfd7d284151fe74720a5ca50ee73/AndroidManifest.xml:17:1-22:12
-MERGED from [com.android.support:swiperefreshlayout:28.0.0] /home/alvis/.gradle/caches/transforms-2/files-2.1/86f66fcace80f56ff52b7a75eddee733/AndroidManifest.xml:17:1-22:12
-MERGED from [com.android.support:asynclayoutinflater:28.0.0] /home/alvis/.gradle/caches/transforms-2/files-2.1/02e790b8211b17762371ed7733f1317d/AndroidManifest.xml:17:1-22:12
-MERGED from [com.android.support:support-compat:28.0.0] /home/alvis/.gradle/caches/transforms-2/files-2.1/1889b2deb5761f83f166fb1d6ccf7da7/AndroidManifest.xml:17:1-24:12
-MERGED from [com.android.support:versionedparcelable:28.0.0] /home/alvis/.gradle/caches/transforms-2/files-2.1/fb3aa17fbc3c86ccb8bad26d9c640f41/AndroidManifest.xml:17:1-25:12
-MERGED from [com.android.support:cursoradapter:28.0.0] /home/alvis/.gradle/caches/transforms-2/files-2.1/c8cb3a4b8a80c51d84b994eeb3a36d6b/AndroidManifest.xml:17:1-22:12
-MERGED from [android.arch.lifecycle:runtime:1.1.1] /home/alvis/.gradle/caches/transforms-2/files-2.1/b060b7182b74fc834d85243c8d930868/AndroidManifest.xml:17:1-22:12
-MERGED from [com.android.support:documentfile:28.0.0] /home/alvis/.gradle/caches/transforms-2/files-2.1/805bc683b08f98edcf320fb277052dda/AndroidManifest.xml:17:1-22:12
-MERGED from [com.android.support:localbroadcastmanager:28.0.0] /home/alvis/.gradle/caches/transforms-2/files-2.1/1dbabe0bdd404c981248b43bccfba478/AndroidManifest.xml:17:1-22:12
-MERGED from [com.android.support:print:28.0.0] /home/alvis/.gradle/caches/transforms-2/files-2.1/5b67468c8c1cc8672b9e41b34ec0db8c/AndroidManifest.xml:17:1-22:12
-MERGED from [android.arch.lifecycle:viewmodel:1.1.1] /home/alvis/.gradle/caches/transforms-2/files-2.1/adf74a5bf374de2ba95b531c340ef76d/AndroidManifest.xml:17:1-22:12
-MERGED from [android.arch.lifecycle:livedata:1.1.1] /home/alvis/.gradle/caches/transforms-2/files-2.1/cb78e2ada61dac9280fb9fc8c64aacb9/AndroidManifest.xml:17:1-22:12
-MERGED from [android.arch.lifecycle:livedata-core:1.1.1] /home/alvis/.gradle/caches/transforms-2/files-2.1/32f460b781a1d4367f20506e122da672/AndroidManifest.xml:17:1-22:12
-MERGED from [android.arch.core:runtime:1.1.1] /home/alvis/.gradle/caches/transforms-2/files-2.1/3918059cbd8131f60a70d821059b040f/AndroidManifest.xml:17:1-22:12
-MERGED from [com.android.support:interpolator:28.0.0] /home/alvis/.gradle/caches/transforms-2/files-2.1/cbbb7e52deb23fba28717a92f3a86d5a/AndroidManifest.xml:17:1-22:12
-INJECTED from /home/alvis/desktop/mytodo-client-android-remake/app/src/main/AndroidManifest.xml:2:1-24:12
-INJECTED from /home/alvis/desktop/mytodo-client-android-remake/app/src/main/AndroidManifest.xml:2:1-24:12
-INJECTED from /home/alvis/desktop/mytodo-client-android-remake/app/src/main/AndroidManifest.xml:2:1-24:12
+ADDED from /home/alvis/desktop/work-tmp/mytodo-client-android-remake/app/src/main/AndroidManifest.xml:2:1-24:12
+INJECTED from /home/alvis/desktop/work-tmp/mytodo-client-android-remake/app/src/main/AndroidManifest.xml:2:1-24:12
+INJECTED from /home/alvis/desktop/work-tmp/mytodo-client-android-remake/app/src/main/AndroidManifest.xml:2:1-24:12
+INJECTED from /home/alvis/desktop/work-tmp/mytodo-client-android-remake/app/src/main/AndroidManifest.xml:2:1-24:12
+MERGED from [com.android.support.constraint:constraint-layout:2.0.0-beta1] /home/alvis/.gradle/caches/transforms-2/files-2.1/1fcca29564d3c70aef7e19eeaf3529e7/AndroidManifest.xml:2:1-11:12
+MERGED from [com.android.support:appcompat-v7:28.0.0] /home/alvis/.gradle/caches/transforms-2/files-2.1/7e59606ad76e74a5eebdbc82bfb0feeb/AndroidManifest.xml:17:1-22:12
+MERGED from [com.android.support:support-fragment:28.0.0] /home/alvis/.gradle/caches/transforms-2/files-2.1/45e40c722ca07b3394cd7500437147f0/AndroidManifest.xml:17:1-22:12
+MERGED from [com.android.support:animated-vector-drawable:28.0.0] /home/alvis/.gradle/caches/transforms-2/files-2.1/d874d270a8cdcc8c880ebf8e52c9a7ad/AndroidManifest.xml:17:1-22:12
+MERGED from [com.android.support:recyclerview-v7:28.0.0] /home/alvis/.gradle/caches/transforms-2/files-2.1/4a3f16721385212ec6e3babc3abaa03d/AndroidManifest.xml:17:1-22:12
+MERGED from [com.android.support:support-core-ui:28.0.0] /home/alvis/.gradle/caches/transforms-2/files-2.1/1d5b72fe83f4334f7df62d0707245cba/AndroidManifest.xml:17:1-22:12
+MERGED from [com.android.support:support-core-utils:28.0.0] /home/alvis/.gradle/caches/transforms-2/files-2.1/fdfe893209408424c4bacd26e89765e3/AndroidManifest.xml:17:1-22:12
+MERGED from [com.android.support:support-vector-drawable:28.0.0] /home/alvis/.gradle/caches/transforms-2/files-2.1/9509183fd3495f5736d4f2ff2403b516/AndroidManifest.xml:17:1-22:12
+MERGED from [com.android.support:loader:28.0.0] /home/alvis/.gradle/caches/transforms-2/files-2.1/4e359d10430fe395e11a6a450635903c/AndroidManifest.xml:17:1-22:12
+MERGED from [com.android.support:viewpager:28.0.0] /home/alvis/.gradle/caches/transforms-2/files-2.1/cc14e72bd26b42ec9f21e46f625b911f/AndroidManifest.xml:17:1-22:12
+MERGED from [com.android.support:coordinatorlayout:28.0.0] /home/alvis/.gradle/caches/transforms-2/files-2.1/b61bdbf287a24997b575ddfbbc7775cc/AndroidManifest.xml:17:1-22:12
+MERGED from [com.android.support:drawerlayout:28.0.0] /home/alvis/.gradle/caches/transforms-2/files-2.1/46666ec3f8509b5d283eb99a4de76637/AndroidManifest.xml:17:1-22:12
+MERGED from [com.android.support:slidingpanelayout:28.0.0] /home/alvis/.gradle/caches/transforms-2/files-2.1/2671ce17d6aa30cef8a2d2549d002eec/AndroidManifest.xml:17:1-22:12
+MERGED from [com.android.support:customview:28.0.0] /home/alvis/.gradle/caches/transforms-2/files-2.1/d4d8fc175e34fe0ebeb04b7e939702a3/AndroidManifest.xml:17:1-22:12
+MERGED from [com.android.support:swiperefreshlayout:28.0.0] /home/alvis/.gradle/caches/transforms-2/files-2.1/03e397e6db5038ff0a1918c1026347a3/AndroidManifest.xml:17:1-22:12
+MERGED from [com.android.support:asynclayoutinflater:28.0.0] /home/alvis/.gradle/caches/transforms-2/files-2.1/20887516441032290e5eb1607d679ebf/AndroidManifest.xml:17:1-22:12
+MERGED from [com.android.support:support-compat:28.0.0] /home/alvis/.gradle/caches/transforms-2/files-2.1/32111a3842c754ab854ceb727fbd7783/AndroidManifest.xml:17:1-24:12
+MERGED from [com.android.support:versionedparcelable:28.0.0] /home/alvis/.gradle/caches/transforms-2/files-2.1/6309fe379fad7350514f14eaf60743d2/AndroidManifest.xml:17:1-25:12
+MERGED from [com.android.support:cursoradapter:28.0.0] /home/alvis/.gradle/caches/transforms-2/files-2.1/b391e74328253012b11c8f6069cb56c7/AndroidManifest.xml:17:1-22:12
+MERGED from [android.arch.lifecycle:runtime:1.1.1] /home/alvis/.gradle/caches/transforms-2/files-2.1/30ea773d8357528288a8c32b108ec620/AndroidManifest.xml:17:1-22:12
+MERGED from [com.android.support:documentfile:28.0.0] /home/alvis/.gradle/caches/transforms-2/files-2.1/9b297c32f8dc66ee16551c6835b0237d/AndroidManifest.xml:17:1-22:12
+MERGED from [com.android.support:localbroadcastmanager:28.0.0] /home/alvis/.gradle/caches/transforms-2/files-2.1/8bae2feb2ad55df2513b4558dac0ccfd/AndroidManifest.xml:17:1-22:12
+MERGED from [com.android.support:print:28.0.0] /home/alvis/.gradle/caches/transforms-2/files-2.1/527d2676f10e9b73f8df42887576c312/AndroidManifest.xml:17:1-22:12
+MERGED from [android.arch.lifecycle:viewmodel:1.1.1] /home/alvis/.gradle/caches/transforms-2/files-2.1/f2d40cf8d5be11a54b5bfb2e59e50f20/AndroidManifest.xml:17:1-22:12
+MERGED from [android.arch.lifecycle:livedata:1.1.1] /home/alvis/.gradle/caches/transforms-2/files-2.1/584ac49124354a15ee254ea0ff4670f7/AndroidManifest.xml:17:1-22:12
+MERGED from [android.arch.lifecycle:livedata-core:1.1.1] /home/alvis/.gradle/caches/transforms-2/files-2.1/a9f64615cc7d25a9682b53d5fa54b5fd/AndroidManifest.xml:17:1-22:12
+MERGED from [android.arch.core:runtime:1.1.1] /home/alvis/.gradle/caches/transforms-2/files-2.1/3fa2fb2682ae28d38613a16c6086d6c1/AndroidManifest.xml:17:1-22:12
+MERGED from [com.android.support:interpolator:28.0.0] /home/alvis/.gradle/caches/transforms-2/files-2.1/f4fbec4d1a0f8fafb32771cadabdb133/AndroidManifest.xml:17:1-22:12
+INJECTED from /home/alvis/desktop/work-tmp/mytodo-client-android-remake/app/src/main/AndroidManifest.xml:2:1-24:12
+INJECTED from /home/alvis/desktop/work-tmp/mytodo-client-android-remake/app/src/main/AndroidManifest.xml:2:1-24:12
+INJECTED from /home/alvis/desktop/work-tmp/mytodo-client-android-remake/app/src/main/AndroidManifest.xml:2:1-24:12
 	package
-		ADDED from /home/alvis/desktop/mytodo-client-android-remake/app/src/main/AndroidManifest.xml:3:5-37
-		INJECTED from /home/alvis/desktop/mytodo-client-android-remake/app/src/main/AndroidManifest.xml
-		INJECTED from /home/alvis/desktop/mytodo-client-android-remake/app/src/main/AndroidManifest.xml
+		ADDED from /home/alvis/desktop/work-tmp/mytodo-client-android-remake/app/src/main/AndroidManifest.xml:3:5-37
+		INJECTED from /home/alvis/desktop/work-tmp/mytodo-client-android-remake/app/src/main/AndroidManifest.xml
+		INJECTED from /home/alvis/desktop/work-tmp/mytodo-client-android-remake/app/src/main/AndroidManifest.xml
 	android:versionName
-		INJECTED from /home/alvis/desktop/mytodo-client-android-remake/app/src/main/AndroidManifest.xml
-		ADDED from /home/alvis/desktop/mytodo-client-android-remake/app/src/main/AndroidManifest.xml:2:1-24:12
-		INJECTED from /home/alvis/desktop/mytodo-client-android-remake/app/src/main/AndroidManifest.xml
+		INJECTED from /home/alvis/desktop/work-tmp/mytodo-client-android-remake/app/src/main/AndroidManifest.xml
+		ADDED from /home/alvis/desktop/work-tmp/mytodo-client-android-remake/app/src/main/AndroidManifest.xml:2:1-24:12
+		INJECTED from /home/alvis/desktop/work-tmp/mytodo-client-android-remake/app/src/main/AndroidManifest.xml
 	android:versionCode
-		INJECTED from /home/alvis/desktop/mytodo-client-android-remake/app/src/main/AndroidManifest.xml
-		ADDED from /home/alvis/desktop/mytodo-client-android-remake/app/src/main/AndroidManifest.xml:2:1-24:12
-		INJECTED from /home/alvis/desktop/mytodo-client-android-remake/app/src/main/AndroidManifest.xml
+		INJECTED from /home/alvis/desktop/work-tmp/mytodo-client-android-remake/app/src/main/AndroidManifest.xml
+		ADDED from /home/alvis/desktop/work-tmp/mytodo-client-android-remake/app/src/main/AndroidManifest.xml:2:1-24:12
+		INJECTED from /home/alvis/desktop/work-tmp/mytodo-client-android-remake/app/src/main/AndroidManifest.xml
 	xmlns:android
-		ADDED from /home/alvis/desktop/mytodo-client-android-remake/app/src/main/AndroidManifest.xml:2:11-69
+		ADDED from /home/alvis/desktop/work-tmp/mytodo-client-android-remake/app/src/main/AndroidManifest.xml:2:11-69
 application
-ADDED from /home/alvis/desktop/mytodo-client-android-remake/app/src/main/AndroidManifest.xml:5:5-22:19
-MERGED from [com.android.support.constraint:constraint-layout:2.0.0-beta1] /home/alvis/.gradle/caches/transforms-2/files-2.1/11dfac800a0689e50bf4cb515002a630/AndroidManifest.xml:9:5-20
-MERGED from [com.android.support.constraint:constraint-layout:2.0.0-beta1] /home/alvis/.gradle/caches/transforms-2/files-2.1/11dfac800a0689e50bf4cb515002a630/AndroidManifest.xml:9:5-20
-MERGED from [com.android.support:support-compat:28.0.0] /home/alvis/.gradle/caches/transforms-2/files-2.1/1889b2deb5761f83f166fb1d6ccf7da7/AndroidManifest.xml:22:5-94
-MERGED from [com.android.support:support-compat:28.0.0] /home/alvis/.gradle/caches/transforms-2/files-2.1/1889b2deb5761f83f166fb1d6ccf7da7/AndroidManifest.xml:22:5-94
-MERGED from [com.android.support:versionedparcelable:28.0.0] /home/alvis/.gradle/caches/transforms-2/files-2.1/fb3aa17fbc3c86ccb8bad26d9c640f41/AndroidManifest.xml:22:5-23:19
-MERGED from [com.android.support:versionedparcelable:28.0.0] /home/alvis/.gradle/caches/transforms-2/files-2.1/fb3aa17fbc3c86ccb8bad26d9c640f41/AndroidManifest.xml:22:5-23:19
+ADDED from /home/alvis/desktop/work-tmp/mytodo-client-android-remake/app/src/main/AndroidManifest.xml:5:5-22:19
+MERGED from [com.android.support.constraint:constraint-layout:2.0.0-beta1] /home/alvis/.gradle/caches/transforms-2/files-2.1/1fcca29564d3c70aef7e19eeaf3529e7/AndroidManifest.xml:9:5-20
+MERGED from [com.android.support.constraint:constraint-layout:2.0.0-beta1] /home/alvis/.gradle/caches/transforms-2/files-2.1/1fcca29564d3c70aef7e19eeaf3529e7/AndroidManifest.xml:9:5-20
+MERGED from [com.android.support:support-compat:28.0.0] /home/alvis/.gradle/caches/transforms-2/files-2.1/32111a3842c754ab854ceb727fbd7783/AndroidManifest.xml:22:5-94
+MERGED from [com.android.support:support-compat:28.0.0] /home/alvis/.gradle/caches/transforms-2/files-2.1/32111a3842c754ab854ceb727fbd7783/AndroidManifest.xml:22:5-94
+MERGED from [com.android.support:versionedparcelable:28.0.0] /home/alvis/.gradle/caches/transforms-2/files-2.1/6309fe379fad7350514f14eaf60743d2/AndroidManifest.xml:22:5-23:19
+MERGED from [com.android.support:versionedparcelable:28.0.0] /home/alvis/.gradle/caches/transforms-2/files-2.1/6309fe379fad7350514f14eaf60743d2/AndroidManifest.xml:22:5-23:19
 	android:appComponentFactory
-		ADDED from [com.android.support:support-compat:28.0.0] /home/alvis/.gradle/caches/transforms-2/files-2.1/1889b2deb5761f83f166fb1d6ccf7da7/AndroidManifest.xml:22:18-91
+		ADDED from [com.android.support:support-compat:28.0.0] /home/alvis/.gradle/caches/transforms-2/files-2.1/32111a3842c754ab854ceb727fbd7783/AndroidManifest.xml:22:18-91
 	android:supportsRtl
-		ADDED from /home/alvis/desktop/mytodo-client-android-remake/app/src/main/AndroidManifest.xml:10:9-35
+		ADDED from /home/alvis/desktop/work-tmp/mytodo-client-android-remake/app/src/main/AndroidManifest.xml:10:9-35
 	android:label
-		ADDED from /home/alvis/desktop/mytodo-client-android-remake/app/src/main/AndroidManifest.xml:8:9-41
+		ADDED from /home/alvis/desktop/work-tmp/mytodo-client-android-remake/app/src/main/AndroidManifest.xml:8:9-41
 	android:roundIcon
-		ADDED from /home/alvis/desktop/mytodo-client-android-remake/app/src/main/AndroidManifest.xml:9:9-54
+		ADDED from /home/alvis/desktop/work-tmp/mytodo-client-android-remake/app/src/main/AndroidManifest.xml:9:9-54
 	android:icon
-		ADDED from /home/alvis/desktop/mytodo-client-android-remake/app/src/main/AndroidManifest.xml:7:9-43
+		ADDED from /home/alvis/desktop/work-tmp/mytodo-client-android-remake/app/src/main/AndroidManifest.xml:7:9-43
 	android:allowBackup
-		ADDED from /home/alvis/desktop/mytodo-client-android-remake/app/src/main/AndroidManifest.xml:6:9-35
+		ADDED from /home/alvis/desktop/work-tmp/mytodo-client-android-remake/app/src/main/AndroidManifest.xml:6:9-35
 	android:theme
-		ADDED from /home/alvis/desktop/mytodo-client-android-remake/app/src/main/AndroidManifest.xml:11:9-40
+		ADDED from /home/alvis/desktop/work-tmp/mytodo-client-android-remake/app/src/main/AndroidManifest.xml:11:9-40
 activity#com.alvkeke.tools.todo.TaskSettingActivity
-ADDED from /home/alvis/desktop/mytodo-client-android-remake/app/src/main/AndroidManifest.xml:12:9-66
+ADDED from /home/alvis/desktop/work-tmp/mytodo-client-android-remake/app/src/main/AndroidManifest.xml:12:9-66
 	android:name
-		ADDED from /home/alvis/desktop/mytodo-client-android-remake/app/src/main/AndroidManifest.xml:12:19-54
+		ADDED from /home/alvis/desktop/work-tmp/mytodo-client-android-remake/app/src/main/AndroidManifest.xml:12:19-54
 activity#com.alvkeke.tools.todo.ProjectSettingActivity
-ADDED from /home/alvis/desktop/mytodo-client-android-remake/app/src/main/AndroidManifest.xml:13:9-60
+ADDED from /home/alvis/desktop/work-tmp/mytodo-client-android-remake/app/src/main/AndroidManifest.xml:13:9-60
 	android:name
-		ADDED from /home/alvis/desktop/mytodo-client-android-remake/app/src/main/AndroidManifest.xml:13:19-57
+		ADDED from /home/alvis/desktop/work-tmp/mytodo-client-android-remake/app/src/main/AndroidManifest.xml:13:19-57
 activity#com.alvkeke.tools.todo.AddTaskActivity
-ADDED from /home/alvis/desktop/mytodo-client-android-remake/app/src/main/AndroidManifest.xml:14:9-53
+ADDED from /home/alvis/desktop/work-tmp/mytodo-client-android-remake/app/src/main/AndroidManifest.xml:14:9-53
 	android:name
-		ADDED from /home/alvis/desktop/mytodo-client-android-remake/app/src/main/AndroidManifest.xml:14:19-50
+		ADDED from /home/alvis/desktop/work-tmp/mytodo-client-android-remake/app/src/main/AndroidManifest.xml:14:19-50
 activity#com.alvkeke.tools.todo.MainActivity
-ADDED from /home/alvis/desktop/mytodo-client-android-remake/app/src/main/AndroidManifest.xml:15:9-21:20
+ADDED from /home/alvis/desktop/work-tmp/mytodo-client-android-remake/app/src/main/AndroidManifest.xml:15:9-21:20
 	android:name
-		ADDED from /home/alvis/desktop/mytodo-client-android-remake/app/src/main/AndroidManifest.xml:15:19-47
+		ADDED from /home/alvis/desktop/work-tmp/mytodo-client-android-remake/app/src/main/AndroidManifest.xml:15:19-47
 intent-filter#action:name:android.intent.action.MAIN+category:name:android.intent.category.LAUNCHER
-ADDED from /home/alvis/desktop/mytodo-client-android-remake/app/src/main/AndroidManifest.xml:16:13-20:29
+ADDED from /home/alvis/desktop/work-tmp/mytodo-client-android-remake/app/src/main/AndroidManifest.xml:16:13-20:29
 action#android.intent.action.MAIN
-ADDED from /home/alvis/desktop/mytodo-client-android-remake/app/src/main/AndroidManifest.xml:17:17-69
+ADDED from /home/alvis/desktop/work-tmp/mytodo-client-android-remake/app/src/main/AndroidManifest.xml:17:17-69
 	android:name
-		ADDED from /home/alvis/desktop/mytodo-client-android-remake/app/src/main/AndroidManifest.xml:17:25-66
+		ADDED from /home/alvis/desktop/work-tmp/mytodo-client-android-remake/app/src/main/AndroidManifest.xml:17:25-66
 category#android.intent.category.LAUNCHER
-ADDED from /home/alvis/desktop/mytodo-client-android-remake/app/src/main/AndroidManifest.xml:19:17-77
+ADDED from /home/alvis/desktop/work-tmp/mytodo-client-android-remake/app/src/main/AndroidManifest.xml:19:17-77
 	android:name
-		ADDED from /home/alvis/desktop/mytodo-client-android-remake/app/src/main/AndroidManifest.xml:19:27-74
+		ADDED from /home/alvis/desktop/work-tmp/mytodo-client-android-remake/app/src/main/AndroidManifest.xml:19:27-74
 uses-sdk
-INJECTED from /home/alvis/desktop/mytodo-client-android-remake/app/src/main/AndroidManifest.xml reason: use-sdk injection requested
-INJECTED from /home/alvis/desktop/mytodo-client-android-remake/app/src/main/AndroidManifest.xml
-INJECTED from /home/alvis/desktop/mytodo-client-android-remake/app/src/main/AndroidManifest.xml
-MERGED from [com.android.support.constraint:constraint-layout:2.0.0-beta1] /home/alvis/.gradle/caches/transforms-2/files-2.1/11dfac800a0689e50bf4cb515002a630/AndroidManifest.xml:5:5-7:41
-MERGED from [com.android.support.constraint:constraint-layout:2.0.0-beta1] /home/alvis/.gradle/caches/transforms-2/files-2.1/11dfac800a0689e50bf4cb515002a630/AndroidManifest.xml:5:5-7:41
-MERGED from [com.android.support:appcompat-v7:28.0.0] /home/alvis/.gradle/caches/transforms-2/files-2.1/6bf59c6aec3677b3a73782c553226086/AndroidManifest.xml:20:5-44
-MERGED from [com.android.support:appcompat-v7:28.0.0] /home/alvis/.gradle/caches/transforms-2/files-2.1/6bf59c6aec3677b3a73782c553226086/AndroidManifest.xml:20:5-44
-MERGED from [com.android.support:support-fragment:28.0.0] /home/alvis/.gradle/caches/transforms-2/files-2.1/0f90452c7eead455e473f856498a332b/AndroidManifest.xml:20:5-44
-MERGED from [com.android.support:support-fragment:28.0.0] /home/alvis/.gradle/caches/transforms-2/files-2.1/0f90452c7eead455e473f856498a332b/AndroidManifest.xml:20:5-44
-MERGED from [com.android.support:animated-vector-drawable:28.0.0] /home/alvis/.gradle/caches/transforms-2/files-2.1/f64ffdff7b6ca1ba7c433af1b4052f0d/AndroidManifest.xml:20:5-44
-MERGED from [com.android.support:animated-vector-drawable:28.0.0] /home/alvis/.gradle/caches/transforms-2/files-2.1/f64ffdff7b6ca1ba7c433af1b4052f0d/AndroidManifest.xml:20:5-44
-MERGED from [com.android.support:recyclerview-v7:28.0.0] /home/alvis/.gradle/caches/transforms-2/files-2.1/9898fa86ecf190ca0c3e0ceb0f0df976/AndroidManifest.xml:20:5-44
-MERGED from [com.android.support:recyclerview-v7:28.0.0] /home/alvis/.gradle/caches/transforms-2/files-2.1/9898fa86ecf190ca0c3e0ceb0f0df976/AndroidManifest.xml:20:5-44
-MERGED from [com.android.support:support-core-ui:28.0.0] /home/alvis/.gradle/caches/transforms-2/files-2.1/f905cad6dceedb02abfe013e96501436/AndroidManifest.xml:20:5-44
-MERGED from [com.android.support:support-core-ui:28.0.0] /home/alvis/.gradle/caches/transforms-2/files-2.1/f905cad6dceedb02abfe013e96501436/AndroidManifest.xml:20:5-44
-MERGED from [com.android.support:support-core-utils:28.0.0] /home/alvis/.gradle/caches/transforms-2/files-2.1/87cf7d944d9c686b08fdc980ff9c25a1/AndroidManifest.xml:20:5-44
-MERGED from [com.android.support:support-core-utils:28.0.0] /home/alvis/.gradle/caches/transforms-2/files-2.1/87cf7d944d9c686b08fdc980ff9c25a1/AndroidManifest.xml:20:5-44
-MERGED from [com.android.support:support-vector-drawable:28.0.0] /home/alvis/.gradle/caches/transforms-2/files-2.1/c038413d3dcbe9eba8db6987c98df315/AndroidManifest.xml:20:5-44
-MERGED from [com.android.support:support-vector-drawable:28.0.0] /home/alvis/.gradle/caches/transforms-2/files-2.1/c038413d3dcbe9eba8db6987c98df315/AndroidManifest.xml:20:5-44
-MERGED from [com.android.support:loader:28.0.0] /home/alvis/.gradle/caches/transforms-2/files-2.1/5af092970092bf7267934a5e82470580/AndroidManifest.xml:20:5-44
-MERGED from [com.android.support:loader:28.0.0] /home/alvis/.gradle/caches/transforms-2/files-2.1/5af092970092bf7267934a5e82470580/AndroidManifest.xml:20:5-44
-MERGED from [com.android.support:viewpager:28.0.0] /home/alvis/.gradle/caches/transforms-2/files-2.1/c4bc03587b24a0e64d5183fac5b52f23/AndroidManifest.xml:20:5-44
-MERGED from [com.android.support:viewpager:28.0.0] /home/alvis/.gradle/caches/transforms-2/files-2.1/c4bc03587b24a0e64d5183fac5b52f23/AndroidManifest.xml:20:5-44
-MERGED from [com.android.support:coordinatorlayout:28.0.0] /home/alvis/.gradle/caches/transforms-2/files-2.1/c3a44dfc4ca29d029552603fff62813d/AndroidManifest.xml:20:5-44
-MERGED from [com.android.support:coordinatorlayout:28.0.0] /home/alvis/.gradle/caches/transforms-2/files-2.1/c3a44dfc4ca29d029552603fff62813d/AndroidManifest.xml:20:5-44
-MERGED from [com.android.support:drawerlayout:28.0.0] /home/alvis/.gradle/caches/transforms-2/files-2.1/47b7d61f6fe47e618d02d7fec60d02aa/AndroidManifest.xml:20:5-44
-MERGED from [com.android.support:drawerlayout:28.0.0] /home/alvis/.gradle/caches/transforms-2/files-2.1/47b7d61f6fe47e618d02d7fec60d02aa/AndroidManifest.xml:20:5-44
-MERGED from [com.android.support:slidingpanelayout:28.0.0] /home/alvis/.gradle/caches/transforms-2/files-2.1/27982b7aed90417e2f6959f846225673/AndroidManifest.xml:20:5-44
-MERGED from [com.android.support:slidingpanelayout:28.0.0] /home/alvis/.gradle/caches/transforms-2/files-2.1/27982b7aed90417e2f6959f846225673/AndroidManifest.xml:20:5-44
-MERGED from [com.android.support:customview:28.0.0] /home/alvis/.gradle/caches/transforms-2/files-2.1/e43fbfd7d284151fe74720a5ca50ee73/AndroidManifest.xml:20:5-44
-MERGED from [com.android.support:customview:28.0.0] /home/alvis/.gradle/caches/transforms-2/files-2.1/e43fbfd7d284151fe74720a5ca50ee73/AndroidManifest.xml:20:5-44
-MERGED from [com.android.support:swiperefreshlayout:28.0.0] /home/alvis/.gradle/caches/transforms-2/files-2.1/86f66fcace80f56ff52b7a75eddee733/AndroidManifest.xml:20:5-44
-MERGED from [com.android.support:swiperefreshlayout:28.0.0] /home/alvis/.gradle/caches/transforms-2/files-2.1/86f66fcace80f56ff52b7a75eddee733/AndroidManifest.xml:20:5-44
-MERGED from [com.android.support:asynclayoutinflater:28.0.0] /home/alvis/.gradle/caches/transforms-2/files-2.1/02e790b8211b17762371ed7733f1317d/AndroidManifest.xml:20:5-44
-MERGED from [com.android.support:asynclayoutinflater:28.0.0] /home/alvis/.gradle/caches/transforms-2/files-2.1/02e790b8211b17762371ed7733f1317d/AndroidManifest.xml:20:5-44
-MERGED from [com.android.support:support-compat:28.0.0] /home/alvis/.gradle/caches/transforms-2/files-2.1/1889b2deb5761f83f166fb1d6ccf7da7/AndroidManifest.xml:20:5-44
-MERGED from [com.android.support:support-compat:28.0.0] /home/alvis/.gradle/caches/transforms-2/files-2.1/1889b2deb5761f83f166fb1d6ccf7da7/AndroidManifest.xml:20:5-44
-MERGED from [com.android.support:versionedparcelable:28.0.0] /home/alvis/.gradle/caches/transforms-2/files-2.1/fb3aa17fbc3c86ccb8bad26d9c640f41/AndroidManifest.xml:20:5-44
-MERGED from [com.android.support:versionedparcelable:28.0.0] /home/alvis/.gradle/caches/transforms-2/files-2.1/fb3aa17fbc3c86ccb8bad26d9c640f41/AndroidManifest.xml:20:5-44
-MERGED from [com.android.support:cursoradapter:28.0.0] /home/alvis/.gradle/caches/transforms-2/files-2.1/c8cb3a4b8a80c51d84b994eeb3a36d6b/AndroidManifest.xml:20:5-44
-MERGED from [com.android.support:cursoradapter:28.0.0] /home/alvis/.gradle/caches/transforms-2/files-2.1/c8cb3a4b8a80c51d84b994eeb3a36d6b/AndroidManifest.xml:20:5-44
-MERGED from [android.arch.lifecycle:runtime:1.1.1] /home/alvis/.gradle/caches/transforms-2/files-2.1/b060b7182b74fc834d85243c8d930868/AndroidManifest.xml:20:5-44
-MERGED from [android.arch.lifecycle:runtime:1.1.1] /home/alvis/.gradle/caches/transforms-2/files-2.1/b060b7182b74fc834d85243c8d930868/AndroidManifest.xml:20:5-44
-MERGED from [com.android.support:documentfile:28.0.0] /home/alvis/.gradle/caches/transforms-2/files-2.1/805bc683b08f98edcf320fb277052dda/AndroidManifest.xml:20:5-44
-MERGED from [com.android.support:documentfile:28.0.0] /home/alvis/.gradle/caches/transforms-2/files-2.1/805bc683b08f98edcf320fb277052dda/AndroidManifest.xml:20:5-44
-MERGED from [com.android.support:localbroadcastmanager:28.0.0] /home/alvis/.gradle/caches/transforms-2/files-2.1/1dbabe0bdd404c981248b43bccfba478/AndroidManifest.xml:20:5-44
-MERGED from [com.android.support:localbroadcastmanager:28.0.0] /home/alvis/.gradle/caches/transforms-2/files-2.1/1dbabe0bdd404c981248b43bccfba478/AndroidManifest.xml:20:5-44
-MERGED from [com.android.support:print:28.0.0] /home/alvis/.gradle/caches/transforms-2/files-2.1/5b67468c8c1cc8672b9e41b34ec0db8c/AndroidManifest.xml:20:5-44
-MERGED from [com.android.support:print:28.0.0] /home/alvis/.gradle/caches/transforms-2/files-2.1/5b67468c8c1cc8672b9e41b34ec0db8c/AndroidManifest.xml:20:5-44
-MERGED from [android.arch.lifecycle:viewmodel:1.1.1] /home/alvis/.gradle/caches/transforms-2/files-2.1/adf74a5bf374de2ba95b531c340ef76d/AndroidManifest.xml:20:5-44
-MERGED from [android.arch.lifecycle:viewmodel:1.1.1] /home/alvis/.gradle/caches/transforms-2/files-2.1/adf74a5bf374de2ba95b531c340ef76d/AndroidManifest.xml:20:5-44
-MERGED from [android.arch.lifecycle:livedata:1.1.1] /home/alvis/.gradle/caches/transforms-2/files-2.1/cb78e2ada61dac9280fb9fc8c64aacb9/AndroidManifest.xml:20:5-44
-MERGED from [android.arch.lifecycle:livedata:1.1.1] /home/alvis/.gradle/caches/transforms-2/files-2.1/cb78e2ada61dac9280fb9fc8c64aacb9/AndroidManifest.xml:20:5-44
-MERGED from [android.arch.lifecycle:livedata-core:1.1.1] /home/alvis/.gradle/caches/transforms-2/files-2.1/32f460b781a1d4367f20506e122da672/AndroidManifest.xml:20:5-44
-MERGED from [android.arch.lifecycle:livedata-core:1.1.1] /home/alvis/.gradle/caches/transforms-2/files-2.1/32f460b781a1d4367f20506e122da672/AndroidManifest.xml:20:5-44
-MERGED from [android.arch.core:runtime:1.1.1] /home/alvis/.gradle/caches/transforms-2/files-2.1/3918059cbd8131f60a70d821059b040f/AndroidManifest.xml:20:5-44
-MERGED from [android.arch.core:runtime:1.1.1] /home/alvis/.gradle/caches/transforms-2/files-2.1/3918059cbd8131f60a70d821059b040f/AndroidManifest.xml:20:5-44
-MERGED from [com.android.support:interpolator:28.0.0] /home/alvis/.gradle/caches/transforms-2/files-2.1/cbbb7e52deb23fba28717a92f3a86d5a/AndroidManifest.xml:20:5-44
-MERGED from [com.android.support:interpolator:28.0.0] /home/alvis/.gradle/caches/transforms-2/files-2.1/cbbb7e52deb23fba28717a92f3a86d5a/AndroidManifest.xml:20:5-44
-INJECTED from /home/alvis/desktop/mytodo-client-android-remake/app/src/main/AndroidManifest.xml
-INJECTED from /home/alvis/desktop/mytodo-client-android-remake/app/src/main/AndroidManifest.xml
+INJECTED from /home/alvis/desktop/work-tmp/mytodo-client-android-remake/app/src/main/AndroidManifest.xml reason: use-sdk injection requested
+INJECTED from /home/alvis/desktop/work-tmp/mytodo-client-android-remake/app/src/main/AndroidManifest.xml
+INJECTED from /home/alvis/desktop/work-tmp/mytodo-client-android-remake/app/src/main/AndroidManifest.xml
+MERGED from [com.android.support.constraint:constraint-layout:2.0.0-beta1] /home/alvis/.gradle/caches/transforms-2/files-2.1/1fcca29564d3c70aef7e19eeaf3529e7/AndroidManifest.xml:5:5-7:41
+MERGED from [com.android.support.constraint:constraint-layout:2.0.0-beta1] /home/alvis/.gradle/caches/transforms-2/files-2.1/1fcca29564d3c70aef7e19eeaf3529e7/AndroidManifest.xml:5:5-7:41
+MERGED from [com.android.support:appcompat-v7:28.0.0] /home/alvis/.gradle/caches/transforms-2/files-2.1/7e59606ad76e74a5eebdbc82bfb0feeb/AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:appcompat-v7:28.0.0] /home/alvis/.gradle/caches/transforms-2/files-2.1/7e59606ad76e74a5eebdbc82bfb0feeb/AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:support-fragment:28.0.0] /home/alvis/.gradle/caches/transforms-2/files-2.1/45e40c722ca07b3394cd7500437147f0/AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:support-fragment:28.0.0] /home/alvis/.gradle/caches/transforms-2/files-2.1/45e40c722ca07b3394cd7500437147f0/AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:animated-vector-drawable:28.0.0] /home/alvis/.gradle/caches/transforms-2/files-2.1/d874d270a8cdcc8c880ebf8e52c9a7ad/AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:animated-vector-drawable:28.0.0] /home/alvis/.gradle/caches/transforms-2/files-2.1/d874d270a8cdcc8c880ebf8e52c9a7ad/AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:recyclerview-v7:28.0.0] /home/alvis/.gradle/caches/transforms-2/files-2.1/4a3f16721385212ec6e3babc3abaa03d/AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:recyclerview-v7:28.0.0] /home/alvis/.gradle/caches/transforms-2/files-2.1/4a3f16721385212ec6e3babc3abaa03d/AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:support-core-ui:28.0.0] /home/alvis/.gradle/caches/transforms-2/files-2.1/1d5b72fe83f4334f7df62d0707245cba/AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:support-core-ui:28.0.0] /home/alvis/.gradle/caches/transforms-2/files-2.1/1d5b72fe83f4334f7df62d0707245cba/AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:support-core-utils:28.0.0] /home/alvis/.gradle/caches/transforms-2/files-2.1/fdfe893209408424c4bacd26e89765e3/AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:support-core-utils:28.0.0] /home/alvis/.gradle/caches/transforms-2/files-2.1/fdfe893209408424c4bacd26e89765e3/AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:support-vector-drawable:28.0.0] /home/alvis/.gradle/caches/transforms-2/files-2.1/9509183fd3495f5736d4f2ff2403b516/AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:support-vector-drawable:28.0.0] /home/alvis/.gradle/caches/transforms-2/files-2.1/9509183fd3495f5736d4f2ff2403b516/AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:loader:28.0.0] /home/alvis/.gradle/caches/transforms-2/files-2.1/4e359d10430fe395e11a6a450635903c/AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:loader:28.0.0] /home/alvis/.gradle/caches/transforms-2/files-2.1/4e359d10430fe395e11a6a450635903c/AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:viewpager:28.0.0] /home/alvis/.gradle/caches/transforms-2/files-2.1/cc14e72bd26b42ec9f21e46f625b911f/AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:viewpager:28.0.0] /home/alvis/.gradle/caches/transforms-2/files-2.1/cc14e72bd26b42ec9f21e46f625b911f/AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:coordinatorlayout:28.0.0] /home/alvis/.gradle/caches/transforms-2/files-2.1/b61bdbf287a24997b575ddfbbc7775cc/AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:coordinatorlayout:28.0.0] /home/alvis/.gradle/caches/transforms-2/files-2.1/b61bdbf287a24997b575ddfbbc7775cc/AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:drawerlayout:28.0.0] /home/alvis/.gradle/caches/transforms-2/files-2.1/46666ec3f8509b5d283eb99a4de76637/AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:drawerlayout:28.0.0] /home/alvis/.gradle/caches/transforms-2/files-2.1/46666ec3f8509b5d283eb99a4de76637/AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:slidingpanelayout:28.0.0] /home/alvis/.gradle/caches/transforms-2/files-2.1/2671ce17d6aa30cef8a2d2549d002eec/AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:slidingpanelayout:28.0.0] /home/alvis/.gradle/caches/transforms-2/files-2.1/2671ce17d6aa30cef8a2d2549d002eec/AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:customview:28.0.0] /home/alvis/.gradle/caches/transforms-2/files-2.1/d4d8fc175e34fe0ebeb04b7e939702a3/AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:customview:28.0.0] /home/alvis/.gradle/caches/transforms-2/files-2.1/d4d8fc175e34fe0ebeb04b7e939702a3/AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:swiperefreshlayout:28.0.0] /home/alvis/.gradle/caches/transforms-2/files-2.1/03e397e6db5038ff0a1918c1026347a3/AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:swiperefreshlayout:28.0.0] /home/alvis/.gradle/caches/transforms-2/files-2.1/03e397e6db5038ff0a1918c1026347a3/AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:asynclayoutinflater:28.0.0] /home/alvis/.gradle/caches/transforms-2/files-2.1/20887516441032290e5eb1607d679ebf/AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:asynclayoutinflater:28.0.0] /home/alvis/.gradle/caches/transforms-2/files-2.1/20887516441032290e5eb1607d679ebf/AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:support-compat:28.0.0] /home/alvis/.gradle/caches/transforms-2/files-2.1/32111a3842c754ab854ceb727fbd7783/AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:support-compat:28.0.0] /home/alvis/.gradle/caches/transforms-2/files-2.1/32111a3842c754ab854ceb727fbd7783/AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:versionedparcelable:28.0.0] /home/alvis/.gradle/caches/transforms-2/files-2.1/6309fe379fad7350514f14eaf60743d2/AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:versionedparcelable:28.0.0] /home/alvis/.gradle/caches/transforms-2/files-2.1/6309fe379fad7350514f14eaf60743d2/AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:cursoradapter:28.0.0] /home/alvis/.gradle/caches/transforms-2/files-2.1/b391e74328253012b11c8f6069cb56c7/AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:cursoradapter:28.0.0] /home/alvis/.gradle/caches/transforms-2/files-2.1/b391e74328253012b11c8f6069cb56c7/AndroidManifest.xml:20:5-44
+MERGED from [android.arch.lifecycle:runtime:1.1.1] /home/alvis/.gradle/caches/transforms-2/files-2.1/30ea773d8357528288a8c32b108ec620/AndroidManifest.xml:20:5-44
+MERGED from [android.arch.lifecycle:runtime:1.1.1] /home/alvis/.gradle/caches/transforms-2/files-2.1/30ea773d8357528288a8c32b108ec620/AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:documentfile:28.0.0] /home/alvis/.gradle/caches/transforms-2/files-2.1/9b297c32f8dc66ee16551c6835b0237d/AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:documentfile:28.0.0] /home/alvis/.gradle/caches/transforms-2/files-2.1/9b297c32f8dc66ee16551c6835b0237d/AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:localbroadcastmanager:28.0.0] /home/alvis/.gradle/caches/transforms-2/files-2.1/8bae2feb2ad55df2513b4558dac0ccfd/AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:localbroadcastmanager:28.0.0] /home/alvis/.gradle/caches/transforms-2/files-2.1/8bae2feb2ad55df2513b4558dac0ccfd/AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:print:28.0.0] /home/alvis/.gradle/caches/transforms-2/files-2.1/527d2676f10e9b73f8df42887576c312/AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:print:28.0.0] /home/alvis/.gradle/caches/transforms-2/files-2.1/527d2676f10e9b73f8df42887576c312/AndroidManifest.xml:20:5-44
+MERGED from [android.arch.lifecycle:viewmodel:1.1.1] /home/alvis/.gradle/caches/transforms-2/files-2.1/f2d40cf8d5be11a54b5bfb2e59e50f20/AndroidManifest.xml:20:5-44
+MERGED from [android.arch.lifecycle:viewmodel:1.1.1] /home/alvis/.gradle/caches/transforms-2/files-2.1/f2d40cf8d5be11a54b5bfb2e59e50f20/AndroidManifest.xml:20:5-44
+MERGED from [android.arch.lifecycle:livedata:1.1.1] /home/alvis/.gradle/caches/transforms-2/files-2.1/584ac49124354a15ee254ea0ff4670f7/AndroidManifest.xml:20:5-44
+MERGED from [android.arch.lifecycle:livedata:1.1.1] /home/alvis/.gradle/caches/transforms-2/files-2.1/584ac49124354a15ee254ea0ff4670f7/AndroidManifest.xml:20:5-44
+MERGED from [android.arch.lifecycle:livedata-core:1.1.1] /home/alvis/.gradle/caches/transforms-2/files-2.1/a9f64615cc7d25a9682b53d5fa54b5fd/AndroidManifest.xml:20:5-44
+MERGED from [android.arch.lifecycle:livedata-core:1.1.1] /home/alvis/.gradle/caches/transforms-2/files-2.1/a9f64615cc7d25a9682b53d5fa54b5fd/AndroidManifest.xml:20:5-44
+MERGED from [android.arch.core:runtime:1.1.1] /home/alvis/.gradle/caches/transforms-2/files-2.1/3fa2fb2682ae28d38613a16c6086d6c1/AndroidManifest.xml:20:5-44
+MERGED from [android.arch.core:runtime:1.1.1] /home/alvis/.gradle/caches/transforms-2/files-2.1/3fa2fb2682ae28d38613a16c6086d6c1/AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:interpolator:28.0.0] /home/alvis/.gradle/caches/transforms-2/files-2.1/f4fbec4d1a0f8fafb32771cadabdb133/AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:interpolator:28.0.0] /home/alvis/.gradle/caches/transforms-2/files-2.1/f4fbec4d1a0f8fafb32771cadabdb133/AndroidManifest.xml:20:5-44
+INJECTED from /home/alvis/desktop/work-tmp/mytodo-client-android-remake/app/src/main/AndroidManifest.xml
+INJECTED from /home/alvis/desktop/work-tmp/mytodo-client-android-remake/app/src/main/AndroidManifest.xml
 	android:targetSdkVersion
-		INJECTED from /home/alvis/desktop/mytodo-client-android-remake/app/src/main/AndroidManifest.xml
-		ADDED from /home/alvis/desktop/mytodo-client-android-remake/app/src/main/AndroidManifest.xml
-		INJECTED from /home/alvis/desktop/mytodo-client-android-remake/app/src/main/AndroidManifest.xml
+		INJECTED from /home/alvis/desktop/work-tmp/mytodo-client-android-remake/app/src/main/AndroidManifest.xml
+		ADDED from /home/alvis/desktop/work-tmp/mytodo-client-android-remake/app/src/main/AndroidManifest.xml
+		INJECTED from /home/alvis/desktop/work-tmp/mytodo-client-android-remake/app/src/main/AndroidManifest.xml
 	android:minSdkVersion
-		INJECTED from /home/alvis/desktop/mytodo-client-android-remake/app/src/main/AndroidManifest.xml
-		ADDED from /home/alvis/desktop/mytodo-client-android-remake/app/src/main/AndroidManifest.xml
-		INJECTED from /home/alvis/desktop/mytodo-client-android-remake/app/src/main/AndroidManifest.xml
+		INJECTED from /home/alvis/desktop/work-tmp/mytodo-client-android-remake/app/src/main/AndroidManifest.xml
+		ADDED from /home/alvis/desktop/work-tmp/mytodo-client-android-remake/app/src/main/AndroidManifest.xml
+		INJECTED from /home/alvis/desktop/work-tmp/mytodo-client-android-remake/app/src/main/AndroidManifest.xml
