@@ -63,21 +63,22 @@ public class MainActivity extends AppCompatActivity implements TaskCallBack, Pro
 
     ArrayList<Project> projects;
     ProjectListAdapter proAdapter;
+    DefaultTaskListAdapter defaultProAdapter;
     TaskListAdapter taskAdapter;
 
     ArrayList<TaskItem> taskList_Show;
 
     SQLiteDatabase db;
 
-    SharedPreferences setting;
-    SharedPreferences.Editor editor;
+    SharedPreferences usersetting;
 
     long currentProjectId;
     int currentTaskList;
     int sortTaskListWay;
     boolean proSettingMode;
     boolean showFinishedTasks;
-    boolean networkMode;
+
+    long netkey;
 
 
     @Override
@@ -102,7 +103,7 @@ public class MainActivity extends AppCompatActivity implements TaskCallBack, Pro
 
         Objects.requireNonNull(getSupportActionBar()).hide();
 
-        //设置系统标题栏透明
+        //设置系统标题栏透明,并不是隐藏
         getWindow().setStatusBarColor(Color.TRANSPARENT);
         getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN |
                 View.SYSTEM_UI_FLAG_LAYOUT_STABLE);
@@ -117,7 +118,7 @@ public class MainActivity extends AppCompatActivity implements TaskCallBack, Pro
         lvTaskList.setDivider(null);
 
         //为列表框添加适配器
-        DefaultTaskListAdapter defaultProAdapter = new DefaultTaskListAdapter(this);
+        defaultProAdapter = new DefaultTaskListAdapter(this);
         lvTaskRank.setAdapter(defaultProAdapter);
 
         projects = new ArrayList<>();
@@ -127,55 +128,32 @@ public class MainActivity extends AppCompatActivity implements TaskCallBack, Pro
         taskAdapter = new TaskListAdapter(this, taskList_Show);
         lvTaskList.setAdapter(taskAdapter);
 
-        //从本地储存中加载用户设置
-        setting = getSharedPreferences("setting", 0);
-        currentProjectId = setting.getLong("currentProjectId", -1);
-        currentTaskList = setting.getInt("currentTaskList", TASK_LIST_ALL_TASK);
-        sortTaskListWay = setting.getInt("sortTaskListWay", SORT_LIST_LEVEL_FIRST);
-        showFinishedTasks = setting.getBoolean("showFinishedTasks", false);
-        networkMode = setting.getBoolean("networkMode", false);
+        String username = getIntent().getStringExtra("username");
+        netkey = getIntent().getIntExtra("netkey", -1);
+
+        usersetting = getSharedPreferences(username, 0);
+        currentProjectId = usersetting.getLong("currentProjectId", -1);
+        currentTaskList = usersetting.getInt("currentTaskList", TASK_LIST_ALL_TASK);
+        sortTaskListWay = usersetting.getInt("sortTaskListWay", SORT_LIST_LEVEL_FIRST);
+        showFinishedTasks = usersetting.getBoolean("showFinishedTasks", false);
 
         //二次修改界面设置
+        tvUsername.setText(username);
         toolbar.getMenu().getItem(2).setChecked(showFinishedTasks);
         taskAdapter.showFinishedTasks(showFinishedTasks);
 
         //加载本地存储的项目已经任务.todo:根据存储的用户信息判断加载的为local文件还是用户个人文件夹
         File dir;
-        if(!networkMode) {
-            tvUsername.setText("离线状态");
-            dir = getExternalFilesDir("local");
-            if (!Objects.requireNonNull(dir).exists()) {
-                if (!dir.mkdir()) {
-                    Log.e("debug", "mkdir failed.");
-                }
-            }
-            File dbfile = new File(dir, "database.db");
-            db = SQLiteDatabase.openOrCreateDatabase(dbfile, null);
-            DBFun.initDBFile(db);
-            DBFun.restoreTasks(db, projects);
-        }else{
-            SharedPreferences user = getSharedPreferences("user", 0);
-            String username = user.getString("username", null);
-            if(username != null){
-                tvUsername.setText(username);
-                dir = getExternalFilesDir(username);
-                if(!Objects.requireNonNull(dir).exists()){
-                    if(!dir.mkdir()){
-                        Log.e("debug", "mkdir failed.");
-                    }
-                }
-                File dbfile = new File(dir, "database.db");
-                db = SQLiteDatabase.openOrCreateDatabase(dbfile, null);
-                DBFun.initDBFile(db);
-                DBFun.restoreTasks(db, projects);
-            }else{
-                SharedPreferences.Editor editor = setting.edit();
-                editor.putBoolean("networkMode", false);
-                editor.apply();
-                Toast.makeText(getApplicationContext(), "用户信息出错，请重新登录。", Toast.LENGTH_LONG).show();
-                finish();
+        dir = getExternalFilesDir(username);
+        if(!Objects.requireNonNull(dir).exists()){
+            if(!dir.mkdir()){
+                Log.e("debug", "mkdir failed.");
             }
         }
+        File dbfile = new File(dir, "database.db");
+        db = SQLiteDatabase.openOrCreateDatabase(dbfile, null);
+        DBFun.initDBFile(db);
+        DBFun.restoreTasks(db, projects);
 
         //刷新列表界面
         flashCurrentTaskList();
@@ -192,6 +170,7 @@ public class MainActivity extends AppCompatActivity implements TaskCallBack, Pro
 
             @Override
             public void onDrawerOpened(@NonNull View view) {
+                defaultProAdapter.notifyDataSetChanged();
             }
 
             @Override
@@ -201,7 +180,6 @@ public class MainActivity extends AppCompatActivity implements TaskCallBack, Pro
 
             @Override
             public void onDrawerStateChanged(int i) {
-
             }
         });
 
@@ -363,7 +341,7 @@ public class MainActivity extends AppCompatActivity implements TaskCallBack, Pro
                     case R.id.menu_show_all_task:
                         showFinishedTasks = !showFinishedTasks;
                         menuItem.setChecked(showFinishedTasks);
-                        editor = setting.edit();
+                        SharedPreferences.Editor editor = usersetting.edit();
                         editor.putBoolean("showFinishedTasks", showFinishedTasks);
                         editor.apply();
                         taskAdapter.showFinishedTasks(showFinishedTasks);
@@ -376,7 +354,7 @@ public class MainActivity extends AppCompatActivity implements TaskCallBack, Pro
                             public void onClick(DialogInterface dialog, int which) {
                                 sortTaskListWay = which;
                                 flashCurrentTaskList();
-                                editor = setting.edit();
+                                SharedPreferences.Editor editor = usersetting.edit();
                                 editor.putInt("sortTaskListWay", sortTaskListWay);
                                 editor.apply();
                             }
@@ -437,6 +415,7 @@ public class MainActivity extends AppCompatActivity implements TaskCallBack, Pro
                 Intent intent = new Intent(MainActivity.this, AddTaskActivity.class);
                 ArrayList<String> projectsInfo = Functions.stringListFromProjectList(projects);
                 intent.putStringArrayListExtra("projectsInfo", projectsInfo);
+                intent.putExtra("currentProjectId", currentProjectId);
                 startActivityForResult(intent, REQUEST_CODE_ADD_TASK);
             }
         });
@@ -898,8 +877,7 @@ public class MainActivity extends AppCompatActivity implements TaskCallBack, Pro
                 toolbar.setTitle(project.getName());
                 break;
         }
-        setting = getSharedPreferences("setting", 0);
-        SharedPreferences.Editor editor = setting.edit();
+        SharedPreferences.Editor editor = usersetting.edit();
         editor.putInt("currentTaskList", currentTaskList);
         editor.putLong("currentProjectId", currentProjectId);
 

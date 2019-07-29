@@ -3,7 +3,7 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/drawer_layout"
     android:layout_gravity="start"
-    android:background="@color/color_white"
+    android:background="@color/colorBackground"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
@@ -58,10 +58,10 @@
 
     <TextView
         android:id="@+id/drawer_lv_divider"
-        android:background="@color/color_pink"
+        android:background="@color/color_light_gray"
         android:text="@string/str_user_project"
         android:gravity="center"
-        android:textColor="@color/color_red"
+        android:textColor="@color/color_black"
         android:textSize="@dimen/size_font_divider_text"
         android:layout_below="@id/drawer_lv_auto_rank"
         android:layout_width="match_parent"
@@ -116,8 +116,9 @@
             android:src="@drawable/ic_add_project_selector"
             android:layout_centerVertical="true"
             android:layout_alignParentEnd="true"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_marginEnd="@dimen/distance_project_margin"
+            android:layout_width="@dimen/size_all_project_icon"
+            android:layout_height="@dimen/size_all_project_icon"
             android:focusable="true" />
 
     </RelativeLayout>

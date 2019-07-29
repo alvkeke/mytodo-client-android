@@ -518,6 +518,7 @@ color bright_foreground_material_light
 color button_material_dark
 color button_material_light
 color colorAccent
+color colorBackground
 color colorPrimary
 color colorPrimaryDark
 color color_black
@@ -574,6 +575,7 @@ color switch_thumb_material_dark
 color switch_thumb_material_light
 color switch_thumb_normal_material_dark
 color switch_thumb_normal_material_light
+color taskItemSelect
 color testColor
 color tooltip_background_dark
 color tooltip_background_light
@@ -1116,6 +1118,7 @@ layout abc_search_view
 layout abc_select_dialog_material
 layout abc_tooltip
 layout activity_main
+layout activity_pre_launch
 layout activity_project_setting
 layout activity_task_setting
 layout drawer_main
@@ -1168,6 +1171,7 @@ mipmap ic_rili_7
 mipmap ic_rili_8
 mipmap ic_rili_9
 mipmap ic_rili_next7day
+mipmap prelaunch
 string abc_action_bar_home_description
 string abc_action_bar_up_description
 string abc_action_menu_overflow_description

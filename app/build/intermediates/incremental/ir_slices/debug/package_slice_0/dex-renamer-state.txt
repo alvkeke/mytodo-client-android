@@ -1,4 +1,4 @@
-#Thu Jul 25 01:40:29 CST 2019
+#Mon Jul 29 16:40:18 CST 2019
 base.0=/home/alvis/desktop/work-tmp/mytodo-client-android-remake/app/build/intermediates/transforms/dexMerger/debug/0
 path.0=classes.dex
 renamed.0=classes.dex

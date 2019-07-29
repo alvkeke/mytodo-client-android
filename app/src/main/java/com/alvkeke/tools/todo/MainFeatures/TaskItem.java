@@ -1,7 +1,5 @@
 package com.alvkeke.tools.todo.MainFeatures;
 
-import android.util.Log;
-
 public class TaskItem {
 
     private String content;

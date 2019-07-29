@@ -96,6 +96,9 @@ public class AddTaskActivity extends AppCompatActivity {
         ProjectListAdapter levelListAdapter = new ProjectListAdapter(this, levelList);
         levelSelector.setAdapter(levelListAdapter);
 
+        Long currentProjectId = getIntent().getLongExtra("currentProjectId", -1);
+        projectSelector.setSelection(projectListAdapter.getItemPosition(currentProjectId));
+
 
         labelReminder.setOnClickListener(new View.OnClickListener() {
             @Override

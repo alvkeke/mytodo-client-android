@@ -115,7 +115,7 @@ public class TaskListAdapter extends BaseAdapter {
 
         SparseBooleanArray array = ((MainActivity)context).lvTaskList.getCheckedItemPositions();
         if(array.get(position)){
-            holder.background.setBackgroundColor(context.getResources().getColor(R.color.color_light_pink));
+            holder.background.setBackgroundColor(context.getResources().getColor(R.color.taskItemSelect));
         }else {
             holder.background.setBackgroundColor(Color.TRANSPARENT);
         }

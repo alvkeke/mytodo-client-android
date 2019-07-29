@@ -1,7 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#006A79</color>
-    <color name="colorPrimaryDark">#005C6A</color>
+    <color name="colorPrimary">#A8A8A8</color>
+    <color name="colorPrimaryDark">#727272</color>
+    <!--<color name="colorPrimary">#00DDFF</color>-->
+    <!--<color name="colorPrimaryDark">#008DA3</color>-->
+    <color name="colorBackground">#FFFCFC</color>
     <color name="colorAccent">#D81B60</color>
 
     <color name="color_black">#000</color>
@@ -18,4 +21,6 @@
     <color name="level_none">#0000</color>
 
     <color name="testColor">#22000000</color>
+
+    <color name="taskItemSelect">#E5E5E5</color>
 </resources>
