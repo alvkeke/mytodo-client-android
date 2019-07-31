@@ -105,7 +105,7 @@ public class Synchronizer {
     private void pullData(){
 
         if(address == null || socket == null){
-            callback.pullDataFailed(FAILED_TYPE_SOCKET_ERROR);
+            callback.syncDataFailed(FAILED_TYPE_SOCKET_ERROR);
             return;
         }
 
@@ -203,7 +203,7 @@ public class Synchronizer {
                             sSend = COMMAND_CONFIRM_SEND_END + String.valueOf(netkey);
                             packet.setData(sSend.getBytes());
                             socket.send(packet);
-                            callback.pullDataSuccess(projects);
+                            callback.syncDataSuccess(projects);
                             socket.close();
                             breakLoop = true;
                             break;
@@ -212,15 +212,15 @@ public class Synchronizer {
                         break;
                     }
                 } catch (SocketException e){
-                    callback.pushDataFailed(FAILED_TYPE_SOCKET_ERROR);
+                    callback.syncDataFailed(FAILED_TYPE_SOCKET_ERROR);
                     e.printStackTrace();
                     break;
                 } catch (SocketTimeoutException e){
-                    callback.pullDataFailed(FAILED_TYPE_SERVER_TIMEOUT);
+                    callback.syncDataFailed(FAILED_TYPE_SERVER_TIMEOUT);
                     e.printStackTrace();
                     break;
                 } catch (IOException e) {
-                    callback.pullDataFailed(FAILED_TYPE_IO_ERROR);
+                    callback.syncDataFailed(FAILED_TYPE_IO_ERROR);
                     e.printStackTrace();
                     break;
                 }
@@ -255,11 +255,11 @@ public class Synchronizer {
                         delConfirmDataId(Integer.valueOf(sid));
                     }
                 } catch (SocketTimeoutException e){
-                    callback.pushDataFailed(FAILED_TYPE_SERVER_TIMEOUT);
+                    callback.syncDataFailed(FAILED_TYPE_SERVER_TIMEOUT);
                     e.printStackTrace();
                     break;
                 } catch (IOException e) {
-                    callback.pushDataFailed(FAILED_TYPE_IO_ERROR);
+                    callback.syncDataFailed(FAILED_TYPE_IO_ERROR);
                     e.printStackTrace();
                     break;
                 }
@@ -345,7 +345,7 @@ public class Synchronizer {
                     if(socket != null) break;
                 }
                 if(i == 2147483647) {
-                    callback.pullDataFailed(FAILED_TYPE_SOCKET_ERROR);
+                    callback.syncDataFailed(FAILED_TYPE_SOCKET_ERROR);
                     return;
                 }
 

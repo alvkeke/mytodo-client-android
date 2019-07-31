@@ -7,10 +7,11 @@ import java.net.DatagramSocket;
 import java.util.ArrayList;
 
 public interface SyncCallback {
-    void pushDataFailed(int FailedType);
-    void pushDataSuccess();
+    void syncDataFailed(int FailedType);
 
-    void pullDataFailed(int FailedType);
-    void pullDataSuccess(ArrayList<Project> projects);
+//    void pullDataFailed(int FailedType);
+
+    void pushDataSuccess();
+    void syncDataSuccess(ArrayList<Project> projects);
 
 }

@@ -955,7 +955,7 @@ public class MainActivity extends AppCompatActivity implements SyncCallback {
     }
 
     @Override
-    public void pushDataFailed(int FailedType) {
+    public void syncDataFailed(int FailedType) {
 
         runOnUiThread(new Runnable() {
             @Override
@@ -978,20 +978,7 @@ public class MainActivity extends AppCompatActivity implements SyncCallback {
     }
 
     @Override
-    public void pullDataFailed(int FailedType) {
-
-        runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-                Toast.makeText(getApplicationContext(), "同步失败", Toast.LENGTH_SHORT).show();
-            }
-        });
-        refreshLayout.setRefreshing(false);
-
-    }
-
-    @Override
-    public void pullDataSuccess(final ArrayList<Project> projects) {
+    public void syncDataSuccess(final ArrayList<Project> projects) {
         //todo:完成此方法
 
         Functions.mergeProjectList(this.projects, projects);
