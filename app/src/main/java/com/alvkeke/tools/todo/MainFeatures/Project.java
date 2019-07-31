@@ -1,6 +1,9 @@
 package com.alvkeke.tools.todo.MainFeatures;
 
+import android.provider.ContactsContract;
+
 import java.util.ArrayList;
+import java.util.Date;
 
 public class Project {
 
@@ -8,6 +11,8 @@ public class Project {
     private ArrayList<TaskItem> tasks;
     private int color;
     private long Id;
+
+    private long lastModifyTime;
 
     public Project(long projectId, String name, int color){
         this.name = name;
@@ -49,6 +54,18 @@ public class Project {
             }
         }
         return null;
+    }
+
+    public long getLastModifyTime() {
+        return lastModifyTime;
+    }
+
+    public void updataLastModifyTime(){
+        lastModifyTime = new Date().getTime();
+    }
+
+    public void setLastModifyTime(long time){
+        lastModifyTime = time;
     }
 
     public ArrayList<TaskItem> getTaskList(){

@@ -1,5 +1,7 @@
 package com.alvkeke.tools.todo.MainFeatures;
 
+import java.util.Date;
+
 public class TaskItem {
 
     private String content;
@@ -10,6 +12,7 @@ public class TaskItem {
 
     private boolean isFinished;
 
+    private long lastModifyTime;
 
     public TaskItem(long proId, long taskId, String todo, long time, int level){
         this.proId = proId;
@@ -67,4 +70,14 @@ public class TaskItem {
         return content;
     }
 
+    public long getLastModifyTime() {
+        return lastModifyTime;
+    }
+
+    public void updataLastModifyTime(){
+        lastModifyTime = new Date().getTime();
+    }
+    public void setLastModifyTime(long lastModifyTime) {
+        this.lastModifyTime = lastModifyTime;
+    }
 }

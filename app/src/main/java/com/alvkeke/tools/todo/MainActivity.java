@@ -6,17 +6,23 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Color;
+import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.os.Bundle;
+import android.transition.Explode;
+import android.transition.Transition;
+import android.transition.TransitionInflater;
 import android.util.Log;
 import android.util.SparseBooleanArray;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.Window;
 import android.widget.AbsListView;
 import android.widget.AdapterView;
 import android.widget.ImageView;
@@ -29,22 +35,24 @@ import com.alvkeke.tools.todo.Common.Constants;
 import com.alvkeke.tools.todo.DataStore.DBFun;
 import com.alvkeke.tools.todo.MainFeatures.Functions;
 import com.alvkeke.tools.todo.MainFeatures.DefaultTaskListAdapter;
-import com.alvkeke.tools.todo.MainFeatures.ProCallBack;
 import com.alvkeke.tools.todo.MainFeatures.Project;
 import com.alvkeke.tools.todo.MainFeatures.ProjectListAdapter;
-import com.alvkeke.tools.todo.MainFeatures.TaskCallBack;
 import com.alvkeke.tools.todo.MainFeatures.TaskItem;
 import com.alvkeke.tools.todo.MainFeatures.TaskListAdapter;
+import com.alvkeke.tools.todo.Network.SyncCallback;
+import com.alvkeke.tools.todo.Network.Synchronizer;
 
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collections;
+import java.util.Date;
 import java.util.Objects;
 
 import static com.alvkeke.tools.todo.Common.Constants.*;
+import static com.alvkeke.tools.todo.Network.Constants.*;
 
-public class MainActivity extends AppCompatActivity implements TaskCallBack, ProCallBack, ActivityCallBack {
+public class MainActivity extends AppCompatActivity implements SyncCallback {
 
     DrawerLayout drawerLayout;
     ImageView mainStatusBar;
@@ -53,6 +61,7 @@ public class MainActivity extends AppCompatActivity implements TaskCallBack, Pro
     Toolbar toolbar;
     ImageView btnAddTask;
     public ListView lvTaskList;
+    SwipeRefreshLayout refreshLayout;
 
     ImageView ivUserIcon;
     TextView tvUsername;
@@ -68,6 +77,7 @@ public class MainActivity extends AppCompatActivity implements TaskCallBack, Pro
 
     ArrayList<TaskItem> taskList_Show;
 
+    File dbfile;
     SQLiteDatabase db;
 
     SharedPreferences usersetting;
@@ -78,7 +88,9 @@ public class MainActivity extends AppCompatActivity implements TaskCallBack, Pro
     boolean proSettingMode;
     boolean showFinishedTasks;
 
-    long netkey;
+    Synchronizer synchronizer;
+    String username;
+    int netkey;
 
 
     @Override
@@ -93,6 +105,7 @@ public class MainActivity extends AppCompatActivity implements TaskCallBack, Pro
         drawerStatusBar = findViewById(R.id.drawer_replace_to_status);
         btnAddTask = findViewById(R.id.main_btn_add_task);
         lvTaskList = findViewById(R.id.main_task_list);
+        refreshLayout = findViewById(R.id.swipeRefreshLayout);
 
         ivUserIcon = findViewById(R.id.drawer_user_icon);
         tvUsername = findViewById(R.id.drawer_tx_user_name);
@@ -116,6 +129,7 @@ public class MainActivity extends AppCompatActivity implements TaskCallBack, Pro
         //界面初始化设置
         exitProjectSettingMode();
         lvTaskList.setDivider(null);
+        refreshLayout.setColorSchemeColors(Color.BLUE, Color.GREEN, Color.RED);
 
         //为列表框添加适配器
         defaultProAdapter = new DefaultTaskListAdapter(this);
@@ -128,7 +142,7 @@ public class MainActivity extends AppCompatActivity implements TaskCallBack, Pro
         taskAdapter = new TaskListAdapter(this, taskList_Show);
         lvTaskList.setAdapter(taskAdapter);
 
-        String username = getIntent().getStringExtra("username");
+        username = getIntent().getStringExtra("username");
         netkey = getIntent().getIntExtra("netkey", -1);
 
         usersetting = getSharedPreferences(username, 0);
@@ -150,10 +164,11 @@ public class MainActivity extends AppCompatActivity implements TaskCallBack, Pro
                 Log.e("debug", "mkdir failed.");
             }
         }
-        File dbfile = new File(dir, "database.db");
+        dbfile = new File(dir, "database.db");
         db = SQLiteDatabase.openOrCreateDatabase(dbfile, null);
         DBFun.initDBFile(db);
         DBFun.restoreTasks(db, projects);
+        db.close();
 
         //刷新列表界面
         flashCurrentTaskList();
@@ -236,6 +251,21 @@ public class MainActivity extends AppCompatActivity implements TaskCallBack, Pro
                 }
             }
 
+        });
+
+        lvProject.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+            @Override
+            public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
+
+                Intent intentProSetting = new Intent(MainActivity.this, ProjectSettingActivity.class);
+                intentProSetting.putExtra("proId", id);
+                intentProSetting.putExtra("proName", proAdapter.getItem(position).getName());
+                intentProSetting.putExtra("proColor", proAdapter.getItem(position).getColor());
+
+                startActivityForResult(intentProSetting, Constants.REQUEST_CODE_SETTING_PROJECT);
+                return true
+                        ;
+            }
         });
 
         btnProjectSetting.setOnClickListener(new View.OnClickListener() {
@@ -392,20 +422,41 @@ public class MainActivity extends AppCompatActivity implements TaskCallBack, Pro
             @Override
             public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
                 TaskItem task = taskList_Show.get(position);
-                /*
-                if(task.isFinished()) {
-                    task.unFinish();
-                }else {
-                    task.finish();
-                }
-                if (!DBFun.setFinishTask(db, task.getId(), task.isFinished())){
-                    Toast.makeText(MainActivity.this, "数据库修改失败", Toast.LENGTH_LONG).show();
-                }
-                flashCurrentTaskList();
-                */
+
                 toggleTaskFinishState(task);
                 flashCurrentTaskList();
                 return true;
+            }
+        });
+
+
+//        synchronizer = new Synchronizer(MainActivity.this, netkey);
+//        synchronizer.setAddress(SERVER_IP, SERVER_PORT);
+
+        refreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                if(netkey == -1) {
+
+                    //如果为离线模式,则清空当前项目列表,并从数据库中重新加载项目与任务
+                    for(Project p :projects){
+                        p.getTaskList().clear();
+                    }
+                    projects.clear();
+                    flashCurrentTaskList();
+
+                    db = SQLiteDatabase.openOrCreateDatabase(dbfile, null);
+                    DBFun.restoreTasks(db, projects);
+                    db.close();
+                    flashCurrentTaskList();
+                    refreshLayout.setRefreshing(false);
+                }else if(netkey > 0){
+                    synchronizer = new Synchronizer(MainActivity.this, netkey);
+                    synchronizer.setAddress(SERVER_IP, SERVER_PORT);
+//                    synchronizer.pushData(projects);
+//                    synchronizer.pullData();
+                    synchronizer.sync(projects);
+                }
             }
         });
 
@@ -495,7 +546,7 @@ public class MainActivity extends AppCompatActivity implements TaskCallBack, Pro
                     proId = data.getLongExtra("proId", -1);
                     deleteProject(proId);
 
-                    exitProjectSettingMode();
+//                    exitProjectSettingMode();
                     break;
 
                 default:
@@ -729,7 +780,6 @@ public class MainActivity extends AppCompatActivity implements TaskCallBack, Pro
         btnAddProject.setVisibility(View.GONE);
     }
 
-    @Override
     public void addTask(long taskId, long proId, String content, long time, int level) {
 
         Project project = Functions.findProjectInProjectList(projects, proId);
@@ -740,14 +790,17 @@ public class MainActivity extends AppCompatActivity implements TaskCallBack, Pro
 
         //保存到本地，建立一个函数专门储存任务
         TaskItem taskItem = new TaskItem(proId, taskId, content, time, level);
+//        taskItem.setLastModifyTime(new Date().getTime());
+        taskItem.updataLastModifyTime();
         project.addTask(taskItem);
 
+        db = SQLiteDatabase.openOrCreateDatabase(dbfile, null);
         if(!DBFun.createTask(db, taskItem)){
             Toast.makeText(this, "数据库修改失败", Toast.LENGTH_LONG).show();
         }
+        db.close();
     }
 
-    @Override
     public void modifyTask(long taskId, long oldProId, long newProId, String content, long time, int level) {
         Project oldProject = Functions.findProjectInProjectList(projects, oldProId);
         if(oldProject == null){
@@ -759,6 +812,8 @@ public class MainActivity extends AppCompatActivity implements TaskCallBack, Pro
         taskItem.setContent(content);
         taskItem.setLevel(level);
         taskItem.setTime(time);
+//        taskItem.setLastModifyTime(new Date().getTime());
+        taskItem.updataLastModifyTime();
 
         if(oldProId != newProId){
             Project newProject = Functions.findProjectInProjectList(projects, newProId);
@@ -772,25 +827,29 @@ public class MainActivity extends AppCompatActivity implements TaskCallBack, Pro
         }
 
         //存储到本地
-        if(!DBFun.modifyTask(db, taskId, newProId, content, time, level)) {
+
+        db = SQLiteDatabase.openOrCreateDatabase(dbfile, null);
+        if(!DBFun.modifyTask(db, taskId, newProId, content, time, level, taskItem.getLastModifyTime())) {
             Toast.makeText(this, "数据库修改失败", Toast.LENGTH_LONG).show();
         }
+        db.close();
     }
 
-    @Override
     public void toggleTaskFinishState(TaskItem taskItem) {
         if(!taskItem.isFinished()){
             taskItem.finish();
         }else {
             taskItem.unFinish();
         }
+        taskItem.updataLastModifyTime();
 
-        if (!DBFun.setFinishTask(db, taskItem.getId(), taskItem.isFinished())){
+        db = SQLiteDatabase.openOrCreateDatabase(dbfile, null);
+        if (!DBFun.setFinishTask(db, taskItem.getId(), taskItem.isFinished(), new Date().getTime())){
             Toast.makeText(MainActivity.this, "数据库修改失败", Toast.LENGTH_LONG).show();
         }
+        db.close();
     }
 
-    @Override
     public void deleteTask(long taskId, long proId) {
         Project p = Functions.findProjectInProjectList(projects, proId);
         if (p != null) {
@@ -798,26 +857,29 @@ public class MainActivity extends AppCompatActivity implements TaskCallBack, Pro
             if(taskItem != null) {
                 p.getTaskList().remove(taskItem);
 
-                if(!DBFun.deleteTask(db, taskItem.getId())){
+                db = SQLiteDatabase.openOrCreateDatabase(dbfile, null);
+                if(!DBFun.deleteTask(db, taskItem.getId(), new Date().getTime())){
                     Toast.makeText(MainActivity.this, "数据库修改失败", Toast.LENGTH_LONG).show();
                 }
+                db.close();
             }
         }
     }
 
-    @Override
     public void createProject(long proId, String name, int color) {
         Project project = new Project(proId, name, color);
+        project.updataLastModifyTime();
         projects.add(project);
 
         //保存到本地，建立一个函数专门储存项目
+        db = SQLiteDatabase.openOrCreateDatabase(dbfile, null);
         if(!DBFun.createProject(db, project)) {
             Toast.makeText(this, "数据库修改失败", Toast.LENGTH_LONG).show();
         }
+        db.close();
         proAdapter.notifyDataSetChanged();
     }
 
-    @Override
     public void modifyProject(long proId, String name, int color) {
         Project project = proAdapter.findItem(proId);
 
@@ -829,28 +891,31 @@ public class MainActivity extends AppCompatActivity implements TaskCallBack, Pro
             }else{
                 color = project.getColor();
             }
+            project.updataLastModifyTime();
 
             //建立一个函数专门修改项目信息，并保存到本地
-            if(!DBFun.modifyProject(db, proId, name, color)){
+            db = SQLiteDatabase.openOrCreateDatabase(dbfile, null);
+            if(!DBFun.modifyProject(db, proId, name, color, new Date().getTime())){
                 Toast.makeText(this, "数据库修改失败", Toast.LENGTH_LONG).show();
             }
+            db.close();
         }
         proAdapter.notifyDataSetChanged();
     }
 
-    @Override
     public void deleteProject(long proId) {
         Project p = proAdapter.findItem(proId);
         projects.remove(p);
 
         //从数据库中删除
-        if(!DBFun.deleteProject(db, proId)){
+        db = SQLiteDatabase.openOrCreateDatabase(dbfile, null);
+        if(!DBFun.deleteProject(db, proId, new Date().getTime())){
             Toast.makeText(this, "数据库修改失败", Toast.LENGTH_LONG).show();
         }
+        db.close();
         proAdapter.notifyDataSetChanged();
     }
 
-    @Override
     public void flashCurrentTaskList(){
 
         switch (currentTaskList){
@@ -888,4 +953,64 @@ public class MainActivity extends AppCompatActivity implements TaskCallBack, Pro
         taskAdapter.changeTaskList(taskList_Show);
         taskAdapter.notifyDataSetChanged();
     }
+
+    @Override
+    public void pushDataFailed(int FailedType) {
+
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                Toast.makeText(getApplicationContext(), "同步失败", Toast.LENGTH_SHORT).show();
+            }
+        });
+        refreshLayout.setRefreshing(false);
+
+    }
+
+    @Override
+    public void pushDataSuccess() {
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                Toast.makeText(getApplicationContext(), "同步完成", Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
+    @Override
+    public void pullDataFailed(int FailedType) {
+
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                Toast.makeText(getApplicationContext(), "同步失败", Toast.LENGTH_SHORT).show();
+            }
+        });
+        refreshLayout.setRefreshing(false);
+
+    }
+
+    @Override
+    public void pullDataSuccess(final ArrayList<Project> projects) {
+        //todo:完成此方法
+
+        Functions.mergeProjectList(this.projects, projects);
+
+        proAdapter.changeProjectList(this.projects);
+        db = SQLiteDatabase.openOrCreateDatabase(dbfile, null);
+        DBFun.mergeDataToDatabase(db, projects);
+        db.close();
+
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+//                proAdapter.changeProjectList(projects);
+                proAdapter.notifyDataSetChanged();
+                flashCurrentTaskList();
+            }
+        });
+
+        refreshLayout.setRefreshing(false);
+    }
+
 }

@@ -22,6 +22,10 @@ public class ProjectListAdapter extends BaseAdapter {
         this.projects = projects;
     }
 
+    public void changeProjectList(ArrayList<Project> p){
+        this.projects = p;
+    }
+
     @Override
     public int getCount() {
         return projects == null?0: projects.size();

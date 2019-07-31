@@ -972,6 +972,7 @@ id main_replace_to_status_bar
 id main_task_list
 id main_toolbar
 id main_toolbar_area
+id menu_global_setting
 id menu_item_cancel
 id menu_item_ok
 id menu_item_remove
@@ -1054,6 +1055,7 @@ id startVertical
 id stop
 id submenuarrow
 id submit_area
+id swipeRefreshLayout
 id tabMode
 id tag_transition_group
 id tag_unhandled_key_event_manager
@@ -1117,6 +1119,7 @@ layout abc_search_dropdown_item_icons_2line
 layout abc_search_view
 layout abc_select_dialog_material
 layout abc_tooltip
+layout activity_login
 layout activity_main
 layout activity_pre_launch
 layout activity_project_setting
@@ -1228,6 +1231,12 @@ string str_user_project
 string title_btn_cancel
 string title_btn_ok
 string title_delete_project
+string title_menu_delete
+string title_menu_edit
+string title_menu_preferences
+string title_menu_project_setting
+string title_menu_rank
+string title_menu_showalltasks
 style AlertDialog_AppCompat
 style AlertDialog_AppCompat_Light
 style Animation_AppCompat_Dialog

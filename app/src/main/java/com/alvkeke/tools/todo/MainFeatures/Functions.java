@@ -47,6 +47,23 @@ public class Functions {
         return projects;
     }
 
+    public static void mergeProjectList(ArrayList<Project> projListTo, ArrayList<Project> projListFrom) {
+        for(Project p : projListFrom){
+            Project pOld = findProjectInProjectList(projListTo, p.getId());
+            if(pOld == null){
+                projListTo.add(p);
+            }else{
+                if(p.getLastModifyTime() > pOld.getLastModifyTime()) {
+                    pOld.changeName(p.getName());
+                    pOld.changeColor(p.getColor());
+                    pOld.setLastModifyTime(p.getLastModifyTime());
+//                    mergeTaskList(pOld.getTaskList(), p.getTaskList());
+                }
+                mergeTaskList(pOld.getTaskList(), p.getTaskList());
+            }
+        }
+    }
+
     /*Task List Handler Functions*/
 
     public static ArrayList<TaskItem> getAllTaskList(ArrayList<Project> projects){
@@ -84,6 +101,34 @@ public class Functions {
         }
 
         return taskItems;
+    }
+
+    public static TaskItem findTaskItemInTaskList(ArrayList<TaskItem> taskItems, long taskId){
+        for(TaskItem e : taskItems){
+            if(e.getId() == taskId){
+                return e;
+            }
+        }
+        return null;
+    }
+
+    public static void mergeTaskList(ArrayList<TaskItem> tasklistTo, ArrayList<TaskItem> tasklistFrom){
+        for(TaskItem t : tasklistFrom){
+
+            TaskItem tOld = findTaskItemInTaskList(tasklistTo, t.getId());
+            if(tOld == null){
+                tasklistTo.add(t);
+            }else{
+                if(t.getLastModifyTime() > tOld.getLastModifyTime()){
+                    tOld.setProId(t.getProId());
+                    tOld.setTime(t.getTime());
+                    tOld.setLevel(t.getLevel());
+                    tOld.setContent(t.getTaskContent());
+                    tOld.setLastModifyTime(t.getLastModifyTime());
+                }
+            }
+
+        }
     }
 
     /*Time Format Functions*/
