@@ -10,6 +10,7 @@ import java.net.InetAddress;
 import java.net.SocketException;
 import java.net.UnknownHostException;
 import java.util.ArrayList;
+import java.util.Date;
 
 import static com.alvkeke.tools.todo.Network.Constants.*;
 
@@ -206,45 +207,75 @@ public class NetworkOperator {
     }
 
     public void modifyProject(final long proId, final String proName, final int proColor){
-//
-//        new Thread(new Runnable() {
-//            @Override
-//            public void run() {
-//                try {
-//
-//                    Project project = new Project(proId, proName, proColor);
-//                    project.updataLastModifyTime();
-//                    //todo:修改此处以及其他类似的位置,保证本地储存的事件和网络储存的时间一致
-//                    DatagramSocket socket = new DatagramSocket();
-//                    String sSend = COMMAND_EDIT_PROJECT + String.valueOf(netkey) +"|"+ proId +"|"+
-//                            proName +"|"+ proColor +"|"+ project.getLastModifyTime();
-//                    DatagramPacket packet = new DatagramPacket(sSend.getBytes(), sSend.getBytes().length, address, port);
-//
-//                    socket.send(packet);
-//
-//                    byte[] buf = new byte[1024];
-//                    packet.setData(buf);
-//
-//                    socket.receive(packet);
-//
-//                    if(packet.getData()[0] == COMMAND_OPERATE_SUCCESS){
-//                        callback.createProjectSuccess(proId, proName, proColor, project.getLastModifyTime());
-//                    }else if(packet.getData()[0] == COMMAND_OPERATE_FAILED){
-//                        callback.createProjectFailed();
-//                    }
-//
-//                    socket.close();
-//                } catch (SocketException e) {
-//                    e.printStackTrace();
-//                } catch (IOException e) {
-//                    e.printStackTrace();
-//                }
-//            }
-//        }).start();
+
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                try {
+
+                    long lastModifyTime = new Date().getTime();
+
+                    DatagramSocket socket = new DatagramSocket();
+                    String sSend = COMMAND_EDIT_PROJECT + String.valueOf(netkey) +"|"+ proId +"|"+
+                            proName +"|"+ proColor +"|"+ lastModifyTime;
+                    DatagramPacket packet = new DatagramPacket(sSend.getBytes(), sSend.getBytes().length, address, port);
+
+                    socket.send(packet);
+
+                    byte[] buf = new byte[1024];
+                    packet.setData(buf);
+
+                    socket.receive(packet);
+
+                    if(packet.getData()[0] == COMMAND_OPERATE_SUCCESS){
+                        callback.modifyProjectSuccess(proId, proName, proColor, lastModifyTime);
+                    }else if(packet.getData()[0] == COMMAND_OPERATE_FAILED){
+                        callback.modifyProjectFailed();
+                    }
+
+                    socket.close();
+                } catch (SocketException e) {
+                    e.printStackTrace();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        }).start();
     }
 
     public void modifyTask(final long taskId, final long oldProId, final long newProId, final String todo, final long time, final int level, final boolean isFinished){
 
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    long lastModifyTime = new Date().getTime();
+
+                    DatagramSocket socket = new DatagramSocket();
+                    String sSend = COMMAND_EDIT_TASK + String.valueOf(netkey) +"|"+ taskId +"|"+
+                            oldProId +"|"+ newProId +"|"+ todo +"|"+ time +"|"+
+                            level +"|"+ isFinished +"|"+ lastModifyTime;
+                    DatagramPacket packet = new DatagramPacket(sSend.getBytes(), sSend.getBytes().length, address, port);
+                    socket.send(packet);
+
+                    byte[] buf = new byte[1024];
+                    packet.setData(buf);
+                    socket.receive(packet);
+
+                    if(packet.getData()[0] == COMMAND_OPERATE_SUCCESS){
+                        callback.modifyTaskSuccess(taskId, oldProId, newProId, todo, time, level, isFinished, lastModifyTime);
+                    }else if(packet.getData()[0] == COMMAND_OPERATE_FAILED){
+                        callback.modifyTaskFailed();
+                    }
+
+                    socket.close();
+                } catch (SocketException e) {
+                    e.printStackTrace();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        }).start();
     }
 
 }

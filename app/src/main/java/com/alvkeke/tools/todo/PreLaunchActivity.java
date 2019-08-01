@@ -11,7 +11,6 @@ import android.widget.Toast;
 import com.alvkeke.tools.todo.Network.Loginer;
 import com.alvkeke.tools.todo.Network.LoginCallback;
 
-//import java.net.DatagramSocket;
 import java.util.Objects;
 
 import static com.alvkeke.tools.todo.Network.Constants.*;
@@ -27,16 +26,12 @@ public class PreLaunchActivity extends AppCompatActivity implements LoginCallbac
     String username;
     String password;
 
-//    boolean canReLogin;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_pre_launch);
         Objects.requireNonNull(getSupportActionBar()).hide();
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
-
-//        canReLogin = false;
 
         //从本地储存中加载用户设置
         setting = getSharedPreferences("preLogin", 0);
@@ -84,18 +79,6 @@ public class PreLaunchActivity extends AppCompatActivity implements LoginCallbac
 
     }
 
-//    @Override
-//    public boolean onTouchEvent(MotionEvent event) {
-//        if(canReLogin && event.getAction() == MotionEvent.ACTION_DOWN){
-//            Toast.makeText(getApplicationContext(), "尝试重新连接", Toast.LENGTH_SHORT).show();
-//            Loginer loginer = new Loginer(PreLaunchActivity.this, username, password);
-//            loginer.setAddress(SERVER_IP, SERVER_PORT);
-//            loginer.login();
-//            canReLogin = false;
-//        }
-//        return super.onTouchEvent(event);
-//    }
-
     @Override
     public void loginSuccess(int key) {
         Intent MainIntent = new Intent(PreLaunchActivity.this, MainActivity.class);
@@ -112,36 +95,30 @@ public class PreLaunchActivity extends AppCompatActivity implements LoginCallbac
     @Override
     public void loginFailed(int failedType) {
 
-//        switch (failedType){
-//            case Loginer.LOGIN_FAILED_SERVER_DENIED:
-//                Log.e("login", "error:server denied.");
-//                //todo:弹出登录界面
-//                break;
-//            case Loginer.LOGIN_FAILED_SERVER_TIMEOUT:
-//                Log.e("login", "error:server timeout.");
-//                runOnUiThread(new Runnable() {
-//                    @Override
-//                    public void run() {
-//                        Toast.makeText(getApplicationContext(), "服务器请求超时,请重试", Toast.LENGTH_LONG).show();
-//                    }
-//                });
-//                canReLogin = true;
-//                break;
-//        }
+        switch (failedType){
+            case Loginer.LOGIN_FAILED_SERVER_DENIED:
+                Log.e("login", "error:server denied.");
+                //todo:弹出登录界面
+                break;
+            case Loginer.LOGIN_FAILED_SERVER_TIMEOUT:
+                Log.e("login", "error:server timeout.");
 
-        runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-                Toast.makeText(getApplicationContext(), "网络连接错误,登录失败", Toast.LENGTH_SHORT).show();
-            }
-        });
-        Intent MainIntent = new Intent(PreLaunchActivity.this, MainActivity.class);
-        MainIntent.putExtra("netkey", 0);
-        MainIntent.putExtra("username", username);
-        MainIntent.putExtra("password", password);
-        MainIntent.putExtra("serverIP", serverIP);
-        MainIntent.putExtra("serverPort", serverPort);
-        startActivity(MainIntent);
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        Toast.makeText(getApplicationContext(), "网络连接错误,登录失败", Toast.LENGTH_SHORT).show();
+                    }
+                });
+                Intent MainIntent = new Intent(PreLaunchActivity.this, MainActivity.class);
+                MainIntent.putExtra("netkey", 0);
+                MainIntent.putExtra("username", username);
+                MainIntent.putExtra("password", password);
+                MainIntent.putExtra("serverIP", serverIP);
+                MainIntent.putExtra("serverPort", serverPort);
+                startActivity(MainIntent);
+
+                break;
+        }
 
         finish();
     }

@@ -7,22 +7,22 @@
     format="10"
     ir-eligibility="CLASS_ADDED"
     plugin-version="3.4.2"
-    timestamp="1564682798784"
+    timestamp="1564684033256"
     token="-8626318492583812632"
     verifier="COLD_SWAP_REQUESTED" >
 
     <task
         name="javac"
-        duration="118" />
+        duration="145" />
     <task
         name="instant-run-dex"
         duration="0" />
     <task
         name="instant-run-transform"
-        duration="34" />
+        duration="202" />
     <task
         name="verifier"
-        duration="5" />
+        duration="7" />
 
     <artifact
         location="/home/alvis/desktop/work-tmp/mytodo-client-android-remake/app/build/intermediates/split-apk/debug/slices/slice_2.apk"
@@ -111,7 +111,7 @@
     <build
         build-mode="COLD"
         ir-eligibility="CLASS_ADDED"
-        timestamp="1564682798784"
+        timestamp="1564684033256"
         verifier="COLD_SWAP_REQUESTED" >
         <artifact
             location="/home/alvis/desktop/work-tmp/mytodo-client-android-remake/app/build/intermediates/split-apk/debug/slices/slice_2.apk"
