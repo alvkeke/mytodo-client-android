@@ -1,7 +1,7 @@
 package com.alvkeke.tools.todo.Network;
 
 public class Constants {
-    public final static String SERVER_IP = "192.168.1.8";
+    public final static String SERVER_IP = "192.168.1.111";
     public final static int SERVER_PORT = 9999;
 
 
@@ -45,7 +45,19 @@ public class Constants {
      * the first command must be COMMAND_SEND_DATA_BEGIN
      */
 
-    final static char COMMAND_HEART_BEAT = 15;
+    final static char COMMAND_ADD_PROJECT = 15;
+    final static char COMMAND_DEL_PROJECT = 16;
+
+    final static char COMMAND_ADD_TASK = 17;
+    final static char COMMAND_DEL_TASK = 18;
+
+    final static char COMMAND_EDIT_PROJECT = 19;
+    final static char COMMAND_EDIT_TASK = 20;
+
+    final static char COMMAND_OPERATE_SUCCESS = 21;
+    final static char COMMAND_OPERATE_FAILED = 22;
+
+    final static char COMMAND_HEART_BEAT = 255;
     //COMMAND_HEART_BEAT + netkey
 
 }

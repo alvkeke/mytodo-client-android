@@ -57,8 +57,8 @@ public class Synchronizer {
      *                      pull data end: success(callback); failed(callback)
      */
 
-    public Synchronizer(Context context, int netkey){
-        callback = ((SyncCallback)context);
+    public Synchronizer(SyncCallback callback, int netkey){
+        this.callback = callback;
         this.netkey = netkey;
 
         confirmMap = new SparseArray<>();

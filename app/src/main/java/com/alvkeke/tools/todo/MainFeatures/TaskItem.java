@@ -26,6 +26,10 @@ public class TaskItem {
         isFinished = true;
     }
 
+    public void setFinished(boolean finished) {
+        isFinished = finished;
+    }
+
     public boolean isFinished(){
         return isFinished;
     }

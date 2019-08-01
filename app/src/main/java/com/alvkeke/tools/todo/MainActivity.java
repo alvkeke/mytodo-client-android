@@ -6,7 +6,6 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Color;
-import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.view.GravityCompat;
@@ -15,14 +14,10 @@ import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.os.Bundle;
-import android.transition.Explode;
-import android.transition.Transition;
-import android.transition.TransitionInflater;
 import android.util.Log;
 import android.util.SparseBooleanArray;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.Window;
 import android.widget.AbsListView;
 import android.widget.AdapterView;
 import android.widget.ImageView;
@@ -39,10 +34,15 @@ import com.alvkeke.tools.todo.MainFeatures.Project;
 import com.alvkeke.tools.todo.MainFeatures.ProjectListAdapter;
 import com.alvkeke.tools.todo.MainFeatures.TaskItem;
 import com.alvkeke.tools.todo.MainFeatures.TaskListAdapter;
+import com.alvkeke.tools.todo.Network.LoginCallback;
+import com.alvkeke.tools.todo.Network.Loginer;
+import com.alvkeke.tools.todo.Network.NetOperatorCallback;
+import com.alvkeke.tools.todo.Network.NetworkOperator;
 import com.alvkeke.tools.todo.Network.SyncCallback;
 import com.alvkeke.tools.todo.Network.Synchronizer;
 
 import java.io.File;
+import java.sql.SQLInput;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collections;
@@ -50,9 +50,8 @@ import java.util.Date;
 import java.util.Objects;
 
 import static com.alvkeke.tools.todo.Common.Constants.*;
-import static com.alvkeke.tools.todo.Network.Constants.*;
 
-public class MainActivity extends AppCompatActivity implements SyncCallback {
+public class MainActivity extends AppCompatActivity implements LoginCallback, SyncCallback, NetOperatorCallback {
 
     DrawerLayout drawerLayout;
     ImageView mainStatusBar;
@@ -88,9 +87,12 @@ public class MainActivity extends AppCompatActivity implements SyncCallback {
     boolean proSettingMode;
     boolean showFinishedTasks;
 
+    NetworkOperator netOperator;
     Synchronizer synchronizer;
     String username;
     int netkey;
+    String serverIP;
+    int serverPort;
 
 
     @Override
@@ -143,7 +145,9 @@ public class MainActivity extends AppCompatActivity implements SyncCallback {
         lvTaskList.setAdapter(taskAdapter);
 
         username = getIntent().getStringExtra("username");
-        netkey = getIntent().getIntExtra("netkey", -1);
+        netkey = getIntent().getIntExtra("netkey", 0);  //-1是在线用户的离线模式,0是本地用户
+        serverIP = getIntent().getStringExtra("serverIP");
+        serverPort = getIntent().getIntExtra("serverPort", serverPort);
 
         usersetting = getSharedPreferences(username, 0);
         currentProjectId = usersetting.getLong("currentProjectId", -1);
@@ -152,7 +156,22 @@ public class MainActivity extends AppCompatActivity implements SyncCallback {
         showFinishedTasks = usersetting.getBoolean("showFinishedTasks", false);
 
         //二次修改界面设置
-        tvUsername.setText(username);
+        if(netkey < 0){
+            tvUsername.setText("本地用户");
+        }else {
+            String usernameShow;
+            if(username.equals("__user_test__")){
+                usernameShow = "在线测试用户";
+            }else {
+                usernameShow = username;
+            }
+
+            if(netkey == 0){
+                usernameShow = usernameShow + "(离线)";
+            }
+
+            tvUsername.setText(usernameShow);
+        }
         toolbar.getMenu().getItem(2).setChecked(showFinishedTasks);
         taskAdapter.showFinishedTasks(showFinishedTasks);
 
@@ -356,8 +375,17 @@ public class MainActivity extends AppCompatActivity implements SyncCallback {
                                             }
                                         }
 
-                                        for (TaskItem e: delArray){
-                                            deleteTask(e.getId(), e.getProId());
+                                        if(netkey <= 0) {
+//                                            for (TaskItem e : delArray) {
+//                                                deleteTask(e.getId(), e.getProId());
+//                                            }
+                                            deleteTaskList(delArray);
+                                        }else{
+                                            NetworkOperator operator = new NetworkOperator(MainActivity.this, netkey, serverIP, serverPort);
+//                                            for(TaskItem e: delArray){
+//                                                operator.deleteTask(e.getId(), e.getProId());
+//                                            }
+                                            operator.deleteTaskList(delArray);
                                         }
 
                                         deselectItem();
@@ -429,14 +457,10 @@ public class MainActivity extends AppCompatActivity implements SyncCallback {
             }
         });
 
-
-//        synchronizer = new Synchronizer(MainActivity.this, netkey);
-//        synchronizer.setAddress(SERVER_IP, SERVER_PORT);
-
         refreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-                if(netkey == -1) {
+                if(netkey < 0) {
 
                     //如果为离线模式,则清空当前项目列表,并从数据库中重新加载项目与任务
                     for(Project p :projects){
@@ -450,12 +474,17 @@ public class MainActivity extends AppCompatActivity implements SyncCallback {
                     db.close();
                     flashCurrentTaskList();
                     refreshLayout.setRefreshing(false);
-                }else if(netkey > 0){
-                    synchronizer = new Synchronizer(MainActivity.this, netkey);
-                    synchronizer.setAddress(SERVER_IP, SERVER_PORT);
-//                    synchronizer.pushData(projects);
-//                    synchronizer.pullData();
-                    synchronizer.sync(projects);
+                }else {
+                    if (netkey == 0) {
+                        String password = getIntent().getStringExtra("password");
+                        Loginer loginer = new Loginer(MainActivity.this, username, password);
+                        loginer.setAddress(serverIP, serverPort);
+                        loginer.login();
+                    }else{
+                        synchronizer = new Synchronizer(MainActivity.this, netkey);
+                        synchronizer.setAddress(serverIP, serverPort);
+                        synchronizer.sync(projects);
+                    }
                 }
             }
         });
@@ -472,6 +501,8 @@ public class MainActivity extends AppCompatActivity implements SyncCallback {
         });
 
     }
+
+//todo:修改成兼容网络模式的运行方法
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
@@ -516,8 +547,15 @@ public class MainActivity extends AppCompatActivity implements SyncCallback {
                                     @Override
                                     public void onClick(DialogInterface dialog, int which) {
                                         long proId = Functions.generateId();
-                                        createProject(proId, "自动创建", Color.BLACK);
-                                        addTask(Functions.generateId(), proId, task, time, level);
+                                        if(netkey <= 0) {
+                                            createProject(proId, "自动创建", Color.BLACK);
+                                            proAdapter.notifyDataSetChanged();
+                                            addTask(Functions.generateId(), proId, task, time, level);
+                                        }else {
+                                            NetworkOperator operator = new NetworkOperator(MainActivity.this, netkey, serverIP, serverPort);
+                                            operator.createProject(proId, "自动创建", Color.BLACK);
+                                            operator.createTask(Functions.generateId(), proId, task, time, level);
+                                        }
                                         flashCurrentTaskList();
                                     }
                                 });
@@ -530,7 +568,12 @@ public class MainActivity extends AppCompatActivity implements SyncCallback {
                 }
 
                 //添加任务
-                addTask(Functions.generateId(), proId, task, tmpTime, level);
+                if(netkey <=0) {
+                    addTask(Functions.generateId(), proId, task, tmpTime, level);
+                }else {
+                    NetworkOperator operator = new NetworkOperator(MainActivity.this, netkey, serverIP, serverPort);
+                    operator.createTask(Functions.generateId(), proId, task, tmpTime, level);
+                }
 
                 //新建任务时,刷新当前显示的列表
                 flashCurrentTaskList();
@@ -544,9 +587,14 @@ public class MainActivity extends AppCompatActivity implements SyncCallback {
                     break;
                 case RESULT_DELETE_PROJECT:
                     proId = data.getLongExtra("proId", -1);
-                    deleteProject(proId);
+                    if(netkey <= 0) {
+                        deleteProject(proId);
+                        proAdapter.notifyDataSetChanged();
+                    }else{
+                        NetworkOperator operator = new NetworkOperator(this, netkey, serverIP, serverPort);
+                        operator.deleteProject(proId);
+                    }
 
-//                    exitProjectSettingMode();
                     break;
 
                 default:
@@ -554,7 +602,13 @@ public class MainActivity extends AppCompatActivity implements SyncCallback {
                     int proColor = data.getIntExtra("proColor", 0);
                     String proName = data.getStringExtra("proName");
 
-                    modifyProject(proId, proName, proColor);
+                    if(netkey <=0) {
+                        modifyProject(proId, proName, proColor);
+                        proAdapter.notifyDataSetChanged();
+                    }else{
+                        NetworkOperator operator = new NetworkOperator(this, netkey, serverIP, serverPort);
+                        operator.modifyProject(proId, proName, proColor);
+                    }
 
             }
             flashCurrentTaskList();
@@ -564,7 +618,13 @@ public class MainActivity extends AppCompatActivity implements SyncCallback {
                 long id = data.getLongExtra("proId", -1);
                 String proName = data.getStringExtra("proName");
                 int color = data.getIntExtra("proColor", 0);
-                createProject(id, proName, color);
+                if(netkey <=0 ) {
+                    createProject(id, proName, color);
+                    proAdapter.notifyDataSetChanged();
+                }else{
+                    NetworkOperator operator = new NetworkOperator(this, netkey, serverIP, serverPort);
+                    operator.createProject(id, proName, color);
+                }
 
                 exitProjectSettingMode();
             }
@@ -584,6 +644,7 @@ public class MainActivity extends AppCompatActivity implements SyncCallback {
             String task = data.getStringExtra("content");
             int level = data.getIntExtra("level", 0);
             boolean isRemind = data.getBooleanExtra("isRemind", false);
+            boolean isFinished = data.getBooleanExtra("isFinished", false);
             long time = -1;
             if(isRemind){
                 int year = data.getIntExtra("year", 1900);
@@ -602,10 +663,14 @@ public class MainActivity extends AppCompatActivity implements SyncCallback {
                 time = calendar.getTimeInMillis();
             }
 
-            modifyTask(taskId, oldProId, newProId, task, time, level);
+            if(netkey <= 0) {
+                modifyTask(taskId, oldProId, newProId, task, time, level, isFinished);
+            }else{
+                NetworkOperator operator = new NetworkOperator(this, netkey, serverIP, serverPort);
+                operator.modifyTask(taskId, oldProId, newProId, task, time, level, isFinished);
+            }
 
             flashCurrentTaskList();
-
 
         }
     }
@@ -622,7 +687,7 @@ public class MainActivity extends AppCompatActivity implements SyncCallback {
             }
             hideTaskMenu();
         }else{
-            //super.onBackPressed();
+//            super.onBackPressed();
             //以下代码模拟Home键按下。
             Intent intent = new Intent(Intent.ACTION_MAIN);
             intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
@@ -721,6 +786,7 @@ public class MainActivity extends AppCompatActivity implements SyncCallback {
             toolbar.getMenu().getItem(4).setVisible(false);
         }
     }
+
     void flashTaskMenuItem(){
         if(lvTaskList.getCheckedItemCount() == 0){
             toolbar.getMenu().getItem(0).setVisible(false);
@@ -734,10 +800,12 @@ public class MainActivity extends AppCompatActivity implements SyncCallback {
         }
         //taskAdapter.notifyDataSetChanged();
     }
+
     void hideTaskMenu(){
         toolbar.getMenu().getItem(0).setVisible(false);
         toolbar.getMenu().getItem(1).setVisible(false);
     }
+
     void deselectItem(){
         for(int i = 0; i<lvTaskList.getCount(); i++){
             lvTaskList.setItemChecked(i, false);
@@ -801,7 +869,7 @@ public class MainActivity extends AppCompatActivity implements SyncCallback {
         db.close();
     }
 
-    public void modifyTask(long taskId, long oldProId, long newProId, String content, long time, int level) {
+    public void modifyTask(long taskId, long oldProId, long newProId, String content, long time, int level, boolean isFinished) {
         Project oldProject = Functions.findProjectInProjectList(projects, oldProId);
         if(oldProject == null){
             Toast.makeText(this, "信息出错:找不到项目", Toast.LENGTH_LONG).show();
@@ -812,7 +880,7 @@ public class MainActivity extends AppCompatActivity implements SyncCallback {
         taskItem.setContent(content);
         taskItem.setLevel(level);
         taskItem.setTime(time);
-//        taskItem.setLastModifyTime(new Date().getTime());
+        taskItem.setFinished(isFinished);
         taskItem.updataLastModifyTime();
 
         if(oldProId != newProId){
@@ -832,20 +900,42 @@ public class MainActivity extends AppCompatActivity implements SyncCallback {
         if(!DBFun.modifyTask(db, taskId, newProId, content, time, level, taskItem.getLastModifyTime())) {
             Toast.makeText(this, "数据库修改失败", Toast.LENGTH_LONG).show();
         }
+        if(!DBFun.setFinishTask(db, taskId, isFinished, taskItem.getLastModifyTime())) {
+            Toast.makeText(this, "数据库修改失败", Toast.LENGTH_LONG).show();
+        }
         db.close();
     }
 
     public void toggleTaskFinishState(TaskItem taskItem) {
-        if(!taskItem.isFinished()){
-            taskItem.finish();
-        }else {
-            taskItem.unFinish();
-        }
+//        if(!taskItem.isFinished()){
+//            taskItem.finish();
+//        }else {
+//            taskItem.unFinish();
+//        }
+        taskItem.setFinished(isFinishing());
         taskItem.updataLastModifyTime();
 
         db = SQLiteDatabase.openOrCreateDatabase(dbfile, null);
         if (!DBFun.setFinishTask(db, taskItem.getId(), taskItem.isFinished(), new Date().getTime())){
             Toast.makeText(MainActivity.this, "数据库修改失败", Toast.LENGTH_LONG).show();
+        }
+        db.close();
+    }
+
+    public void deleteTaskList(ArrayList<TaskItem> tasks){
+        db = SQLiteDatabase.openOrCreateDatabase(dbfile, null);
+        for (TaskItem e : tasks) {
+            Project p = Functions.findProjectInProjectList(projects, e.getProId());
+            if(p != null){
+                TaskItem taskItem = p.findTask(e.getId());
+                if(taskItem != null){
+                    p.getTaskList().remove(taskItem);
+
+                    if(!DBFun.deleteTask(db, taskItem.getId(), new Date().getTime())){
+                        Toast.makeText(MainActivity.this, "数据库修改失败", Toast.LENGTH_LONG).show();
+                    }
+                }
+            }
         }
         db.close();
     }
@@ -877,7 +967,7 @@ public class MainActivity extends AppCompatActivity implements SyncCallback {
             Toast.makeText(this, "数据库修改失败", Toast.LENGTH_LONG).show();
         }
         db.close();
-        proAdapter.notifyDataSetChanged();
+//        proAdapter.notifyDataSetChanged();
     }
 
     public void modifyProject(long proId, String name, int color) {
@@ -900,7 +990,7 @@ public class MainActivity extends AppCompatActivity implements SyncCallback {
             }
             db.close();
         }
-        proAdapter.notifyDataSetChanged();
+//        proAdapter.notifyDataSetChanged();
     }
 
     public void deleteProject(long proId) {
@@ -913,7 +1003,7 @@ public class MainActivity extends AppCompatActivity implements SyncCallback {
             Toast.makeText(this, "数据库修改失败", Toast.LENGTH_LONG).show();
         }
         db.close();
-        proAdapter.notifyDataSetChanged();
+//        proAdapter.notifyDataSetChanged();
     }
 
     public void flashCurrentTaskList(){
@@ -954,6 +1044,7 @@ public class MainActivity extends AppCompatActivity implements SyncCallback {
         taskAdapter.notifyDataSetChanged();
     }
 
+    /**call back of the synchronize module**/
     @Override
     public void syncDataFailed(int FailedType) {
 
@@ -979,11 +1070,9 @@ public class MainActivity extends AppCompatActivity implements SyncCallback {
 
     @Override
     public void syncDataSuccess(final ArrayList<Project> projects) {
-        //todo:完成此方法
-
         Functions.mergeProjectList(this.projects, projects);
 
-        proAdapter.changeProjectList(this.projects);
+//        proAdapter.changeProjectList(this.projects);
         db = SQLiteDatabase.openOrCreateDatabase(dbfile, null);
         DBFun.mergeDataToDatabase(db, projects);
         db.close();
@@ -991,7 +1080,6 @@ public class MainActivity extends AppCompatActivity implements SyncCallback {
         runOnUiThread(new Runnable() {
             @Override
             public void run() {
-//                proAdapter.changeProjectList(projects);
                 proAdapter.notifyDataSetChanged();
                 flashCurrentTaskList();
             }
@@ -1000,4 +1088,270 @@ public class MainActivity extends AppCompatActivity implements SyncCallback {
         refreshLayout.setRefreshing(false);
     }
 
+    /**call back of the network operator**/
+
+    @Override
+    public void createProjectSuccess(long proId, String proName, int proColor, long lastModifyTime) {
+        Project project = new Project(proId, proName, proColor);
+        project.setLastModifyTime(lastModifyTime);
+        projects.add(project);
+
+        db = SQLiteDatabase.openOrCreateDatabase(dbfile, null);
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+
+            }
+        });
+        if(!DBFun.createProject(db, project)){
+            runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    Toast.makeText(MainActivity.this, "数据库修改失败", Toast.LENGTH_SHORT).show();
+                }
+            });
+        }
+        db.close();
+
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                proAdapter.notifyDataSetChanged();
+            }
+        });
+
+    }
+
+    @Override
+    public void createProjectFailed() {
+
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                Toast.makeText(getApplicationContext(), "操作失败,网络连接错误", Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
+    @Override
+    public void deleteProjectSuccess(long proId) {
+        deleteProject(proId);
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                proAdapter.notifyDataSetChanged();
+                flashCurrentTaskList();
+            }
+        });
+    }
+
+    @Override
+    public void deleteProjectFailed() {
+
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                Toast.makeText(getApplicationContext(), "操作失败,网络连接错误", Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
+    @Override
+    public void createTaskSuccess(long taskId, long proId, String todo, long time, int level, long lastModifyTime) {
+
+        Project project = Functions.findProjectInProjectList(projects, proId);
+        if(project == null){
+            Toast.makeText(this, "信息出错：找不到项目", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        //保存到本地，建立一个函数专门储存任务
+        TaskItem taskItem = new TaskItem(proId, taskId, todo, time, level);
+        taskItem.setLastModifyTime(lastModifyTime);
+        project.addTask(taskItem);
+
+        db = SQLiteDatabase.openOrCreateDatabase(dbfile, null);
+        if(!DBFun.createTask(db, taskItem)){
+            runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    Toast.makeText(MainActivity.this, "数据库修改失败", Toast.LENGTH_LONG).show();
+                }
+            });
+        }
+        db.close();
+
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                flashCurrentTaskList();
+            }
+        });
+;
+    }
+
+    @Override
+    public void createTaskFailed() {
+
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                Toast.makeText(getApplicationContext(), "操作失败,网络连接错误", Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
+    @Override
+    public void deleteTaskSuccess(long taskId, long proId) {
+        deleteTask(taskId, proId);
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                flashCurrentTaskList();
+            }
+        });
+    }
+
+    @Override
+    public void deleteTaskFailed() {
+
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                Toast.makeText(getApplicationContext(), "操作失败,网络连接错误", Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
+    @Override
+    public void modifyProjectSuccess(long proId, String name, int color, long lastModifyTime) {
+
+        Project project = proAdapter.findItem(proId);
+
+        if (project != null) {
+            project.changeName(name);
+
+            if (color!= 0) {
+                project.changeColor(color);
+            }else{
+                color = project.getColor();
+            }
+            project.setLastModifyTime(lastModifyTime);
+
+            //建立一个函数专门修改项目信息，并保存到本地
+            db = SQLiteDatabase.openOrCreateDatabase(dbfile, null);
+            if(!DBFun.modifyProject(db, proId, name, color, new Date().getTime())){
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        Toast.makeText(MainActivity.this, "数据库修改失败", Toast.LENGTH_LONG).show();
+                    }
+                });
+            }
+            db.close();
+        }
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                proAdapter.notifyDataSetChanged();
+            }
+        });
+
+    }
+
+    @Override
+    public void modifyProjectFailed() {
+
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                Toast.makeText(getApplicationContext(), "操作失败,网络连接错误", Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
+    @Override
+    public void modifyTaskSuccess(long taskId, long oldProId, long newProId, String todo, long time, int level, boolean isFinished, long lastModifyTime) {
+        Project oldProject = Functions.findProjectInProjectList(projects, oldProId);
+        if(oldProject == null){
+            Toast.makeText(this, "信息出错:找不到项目", Toast.LENGTH_LONG).show();
+            return;
+        }
+
+        TaskItem taskItem = oldProject.findTask(taskId);
+        taskItem.setContent(todo);
+        taskItem.setLevel(level);
+        taskItem.setTime(time);
+        taskItem.setFinished(isFinished);
+        taskItem.setLastModifyTime(lastModifyTime);
+
+        if(oldProId != newProId){
+            Project newProject = Functions.findProjectInProjectList(projects, newProId);
+            if(newProject == null){
+                Toast.makeText(this, "修改项目出错,找不到项目", Toast.LENGTH_LONG).show();
+                return;
+            }
+            newProject.addTask(taskItem);
+            oldProject.getTaskList().remove(taskItem);
+            taskItem.setProId(newProId);
+        }
+
+        //存储到本地
+
+        db = SQLiteDatabase.openOrCreateDatabase(dbfile, null);
+        if(!DBFun.modifyTask(db, taskId, newProId, todo, time, level, taskItem.getLastModifyTime())) {
+            Toast.makeText(this, "数据库修改失败", Toast.LENGTH_LONG).show();
+        }
+        if(!DBFun.setFinishTask(db, taskId, isFinished, taskItem.getLastModifyTime())) {
+            Toast.makeText(this, "数据库修改失败", Toast.LENGTH_LONG).show();
+        }
+        db.close();
+
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                flashCurrentTaskList();
+            }
+        });
+
+    }
+
+    @Override
+    public void modifyTaskFailed() {
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                Toast.makeText(getApplicationContext(), "操作失败,网络连接错误", Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
+    /**call back of the loginer**/
+
+    @Override
+    public void loginSuccess(int key) {
+        this.netkey = key;
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                tvUsername.setText(username);
+                Toast.makeText(getApplicationContext(), "登录成功,开始同步数据", Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        Synchronizer synchronizer = new Synchronizer(MainActivity.this, netkey);
+        synchronizer.setAddress(serverIP, serverPort);
+        synchronizer.sync(projects);
+    }
+
+    @Override
+    public void loginFailed(int failedType) {
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                Toast.makeText(getApplicationContext(), "登录失败,请稍后重试", Toast.LENGTH_SHORT).show();
+                refreshLayout.setRefreshing(false);
+            }
+        });
+    }
 }

@@ -861,6 +861,7 @@ id addTask_btn_cancel
 id addTask_btn_ok
 id addTask_et_remind_date
 id addTask_et_remind_time
+id addTask_label_finished
 id addTask_label_remind_me
 id addTask_label_task_content
 id addTask_level_select
@@ -868,6 +869,7 @@ id addTask_project_select
 id addTask_remind_me
 id addTask_reminder_setting_area
 id addTask_task_content
+id addTask_task_finished
 id alertTitle
 id aligned
 id all
@@ -1222,6 +1224,7 @@ string label_project_setting
 string label_project_setting_finish
 string label_remind_me
 string label_task_content
+string label_task_finished
 string search_menu_title
 string status_bar_notification_info_overflow
 string str_main_title

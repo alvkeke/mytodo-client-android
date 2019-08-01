@@ -5,14 +5,13 @@ import android.content.SharedPreferences;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.MotionEvent;
 import android.view.WindowManager;
 import android.widget.Toast;
 
 import com.alvkeke.tools.todo.Network.Loginer;
 import com.alvkeke.tools.todo.Network.LoginCallback;
 
-import java.net.DatagramSocket;
+//import java.net.DatagramSocket;
 import java.util.Objects;
 
 import static com.alvkeke.tools.todo.Network.Constants.*;
@@ -20,15 +19,15 @@ import static com.alvkeke.tools.todo.Network.Constants.*;
 
 public class PreLaunchActivity extends AppCompatActivity implements LoginCallback {
 
-    DatagramSocket socket;
-
     SharedPreferences setting;
     boolean networkMode;
+    String serverIP;
+    int serverPort;
 
     String username;
     String password;
 
-    boolean canReLogin;
+//    boolean canReLogin;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,11 +36,14 @@ public class PreLaunchActivity extends AppCompatActivity implements LoginCallbac
         Objects.requireNonNull(getSupportActionBar()).hide();
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
 
-        canReLogin = false;
+//        canReLogin = false;
 
         //从本地储存中加载用户设置
         setting = getSharedPreferences("preLogin", 0);
         networkMode = setting.getBoolean("networkMode", false);
+        serverIP = setting.getString("serverIP", SERVER_IP);
+        serverPort = setting.getInt("serverPort", SERVER_PORT);
+
 
         boolean appFirstRun = setting.getBoolean("appFirstRun", true);
         if(appFirstRun) {   //建立一个测试用账户,便于调试
@@ -69,7 +71,7 @@ public class PreLaunchActivity extends AppCompatActivity implements LoginCallbac
             }
             //联网验证,通过interface进行回调
             Loginer loginer = new Loginer(PreLaunchActivity.this, username, password);
-            loginer.setAddress(SERVER_IP, SERVER_PORT);
+            loginer.setAddress(serverIP, serverPort);
             loginer.login();
 
         }else{
@@ -82,56 +84,65 @@ public class PreLaunchActivity extends AppCompatActivity implements LoginCallbac
 
     }
 
-    @Override
-    public boolean onTouchEvent(MotionEvent event) {
-        if(canReLogin && event.getAction() == MotionEvent.ACTION_DOWN){
-            Toast.makeText(getApplicationContext(), "尝试重新连接", Toast.LENGTH_SHORT).show();
-            Loginer loginer = new Loginer(PreLaunchActivity.this, username, password);
-            loginer.setAddress(SERVER_IP, SERVER_PORT);
-            loginer.login();
-            canReLogin = false;
-        }
-        return super.onTouchEvent(event);
-    }
+//    @Override
+//    public boolean onTouchEvent(MotionEvent event) {
+//        if(canReLogin && event.getAction() == MotionEvent.ACTION_DOWN){
+//            Toast.makeText(getApplicationContext(), "尝试重新连接", Toast.LENGTH_SHORT).show();
+//            Loginer loginer = new Loginer(PreLaunchActivity.this, username, password);
+//            loginer.setAddress(SERVER_IP, SERVER_PORT);
+//            loginer.login();
+//            canReLogin = false;
+//        }
+//        return super.onTouchEvent(event);
+//    }
 
     @Override
     public void loginSuccess(int key) {
         Intent MainIntent = new Intent(PreLaunchActivity.this, MainActivity.class);
         MainIntent.putExtra("netkey", key);
         MainIntent.putExtra("username", username);
+        MainIntent.putExtra("serverIP", serverIP);
+        MainIntent.putExtra("serverPort", serverPort);
         startActivity(MainIntent);
 
-        if(socket != null) {
-            socket.close();
-        }else{
-            Log.e("login", "error:cannot create socket");
-        }
         Log.e("login", "success");
+        finish();
     }
 
     @Override
     public void loginFailed(int failedType) {
-        if(socket != null){
-            socket.close();
-        }else{
-            Log.e("login", "error:cannot create socket.");
-        }
-        switch (failedType){
-            case Loginer.LOGIN_FAILED_SERVER_DENIED:
-                Log.e("login", "error:server denied.");
-                //todo:弹出登录界面
-                break;
-            case Loginer.LOGIN_FAILED_SERVER_TIMEOUT:
-                Log.e("login", "error:server timeout.");
-                runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        Toast.makeText(getApplicationContext(), "服务器请求超时,请重试", Toast.LENGTH_LONG).show();
-                    }
-                });
-                canReLogin = true;
-                break;
-        }
-//        finish();
+
+//        switch (failedType){
+//            case Loginer.LOGIN_FAILED_SERVER_DENIED:
+//                Log.e("login", "error:server denied.");
+//                //todo:弹出登录界面
+//                break;
+//            case Loginer.LOGIN_FAILED_SERVER_TIMEOUT:
+//                Log.e("login", "error:server timeout.");
+//                runOnUiThread(new Runnable() {
+//                    @Override
+//                    public void run() {
+//                        Toast.makeText(getApplicationContext(), "服务器请求超时,请重试", Toast.LENGTH_LONG).show();
+//                    }
+//                });
+//                canReLogin = true;
+//                break;
+//        }
+
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                Toast.makeText(getApplicationContext(), "网络连接错误,登录失败", Toast.LENGTH_SHORT).show();
+            }
+        });
+        Intent MainIntent = new Intent(PreLaunchActivity.this, MainActivity.class);
+        MainIntent.putExtra("netkey", 0);
+        MainIntent.putExtra("username", username);
+        MainIntent.putExtra("password", password);
+        MainIntent.putExtra("serverIP", serverIP);
+        MainIntent.putExtra("serverPort", serverPort);
+        startActivity(MainIntent);
+
+        finish();
     }
 }

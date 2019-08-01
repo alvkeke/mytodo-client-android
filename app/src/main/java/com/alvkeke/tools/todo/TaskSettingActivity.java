@@ -28,7 +28,9 @@ import java.util.Calendar;
 public class TaskSettingActivity extends AppCompatActivity {
 
     Switch reminderSwitch;
+    Switch finishedSwitch;
     TextView labelReminder;
+    TextView labelFinished;
     EditText etTaskContent;
     EditText etRemindTime;
     EditText etRemindDate;
@@ -49,6 +51,8 @@ public class TaskSettingActivity extends AppCompatActivity {
     int hour;
     int minute;
 
+    boolean isFinished;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -58,6 +62,8 @@ public class TaskSettingActivity extends AppCompatActivity {
 
         reminderSwitch = findViewById(R.id.addTask_remind_me);
         labelReminder = findViewById(R.id.addTask_label_remind_me);
+        finishedSwitch = findViewById(R.id.addTask_task_finished);
+        labelFinished = findViewById(R.id.addTask_label_finished);
         etTaskContent = findViewById(R.id.addTask_task_content);
         etRemindDate = findViewById(R.id.addTask_et_remind_date);
         etRemindTime = findViewById(R.id.addTask_et_remind_time);
@@ -79,6 +85,7 @@ public class TaskSettingActivity extends AppCompatActivity {
         String content = intent.getStringExtra("content");
         long time = intent.getLongExtra("time", -1);
         int level = intent.getIntExtra("level", 0);
+        isFinished = intent.getBooleanExtra("isFinished", false);
         ArrayList<String> projectsInfo = intent.getStringArrayListExtra("projectsInfo");
         ArrayList<Project> list = Functions.projectListFromStringList(projectsInfo);
         ProjectListAdapter projectListAdapter = new ProjectListAdapter(this, list);
@@ -99,6 +106,7 @@ public class TaskSettingActivity extends AppCompatActivity {
         levelSelector.setSelection(level);
         projectSelector.setSelection(projectListAdapter.getItemPosition(proId));
 
+        finishedSwitch.setChecked(isFinished);
         isRemind = time != -1;
         reminderSwitch.setChecked(isRemind);
         if(isRemind){
@@ -120,11 +128,6 @@ public class TaskSettingActivity extends AppCompatActivity {
             month = -1;
             dayOfMonth = -1;
         }
-
-
-
-
-
 
         reminderSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
@@ -210,6 +213,7 @@ public class TaskSettingActivity extends AppCompatActivity {
                     intent.putExtra("hour", hour);
                     intent.putExtra("minute", minute);
                     intent.putExtra("level", levelSelector.getSelectedItemPosition());
+                    intent.putExtra("isFinished", finishedSwitch.isChecked());
 
                     setResult(0, intent);
                     TaskSettingActivity.this.finish();

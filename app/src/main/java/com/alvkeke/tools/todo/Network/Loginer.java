@@ -29,7 +29,7 @@ public class Loginer {
 
     private LoginCallback callback;
 
-    public Loginer(Context context, String username, String password){
+    public Loginer(LoginCallback callback, String username, String password){
 
         try {
             socket = new DatagramSocket();
@@ -39,7 +39,7 @@ public class Loginer {
 
         this.username = username;
         this.password = password;
-        callback = ((LoginCallback)context);
+        this.callback = callback;
     }
 
     public boolean setAddress(String ip, int port){

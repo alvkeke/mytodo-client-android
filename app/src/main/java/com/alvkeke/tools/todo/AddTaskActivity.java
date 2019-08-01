@@ -29,7 +29,9 @@ import java.util.Calendar;
 public class AddTaskActivity extends AppCompatActivity {
 
     Switch reminderSwitch;
+    Switch finishedSwitch;
     TextView labelReminder;
+    TextView labelFinished;
     EditText etTaskContent;
     EditText etRemindTime;
     EditText etRemindDate;
@@ -55,7 +57,9 @@ public class AddTaskActivity extends AppCompatActivity {
         setTitle("添加任务");
 
         reminderSwitch = findViewById(R.id.addTask_remind_me);
+        finishedSwitch = findViewById(R.id.addTask_task_finished);
         labelReminder = findViewById(R.id.addTask_label_remind_me);
+        labelFinished = findViewById(R.id.addTask_label_finished);
         etTaskContent = findViewById(R.id.addTask_task_content);
         etRemindDate = findViewById(R.id.addTask_et_remind_date);
         etRemindTime = findViewById(R.id.addTask_et_remind_time);
@@ -77,6 +81,8 @@ public class AddTaskActivity extends AppCompatActivity {
         etRemindTime.setFocusable(false);
         etRemindDate.setFocusable(false);
 
+        labelFinished.setVisibility(View.GONE);
+        finishedSwitch.setVisibility(View.GONE);
 
         //获取从MainActivity中传入的项目信息(字符串列表),并从中提取信息,
         // 用于显示在用户选择项目的下拉列表框
