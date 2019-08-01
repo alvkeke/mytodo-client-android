@@ -285,7 +285,7 @@ public class Synchronizer {
                         address, port);
 
                 socket.send(packet);
-//                Log.e("push", "push begin");
+//                Log.e("push", "push start");
 
                 int dataId = 0;
                 int loopTime = 0;

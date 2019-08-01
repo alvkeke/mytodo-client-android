@@ -99,6 +99,13 @@ public class PreLaunchActivity extends AppCompatActivity implements LoginCallbac
             case Loginer.LOGIN_FAILED_SERVER_DENIED:
                 Log.e("login", "error:server denied.");
                 //todo:弹出登录界面
+
+                Intent intent = new Intent(PreLaunchActivity.this, LoginActivity.class);
+                intent.putExtra("serverIP", serverIP);
+                intent.putExtra("serverPort", serverPort);
+
+                startActivity(intent);
+
                 break;
             case Loginer.LOGIN_FAILED_SERVER_TIMEOUT:
                 Log.e("login", "error:server timeout.");

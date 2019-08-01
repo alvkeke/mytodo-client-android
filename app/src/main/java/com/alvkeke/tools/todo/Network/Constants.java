@@ -57,7 +57,7 @@ public class Constants {
     final static char COMMAND_OPERATE_SUCCESS = 21;
     final static char COMMAND_OPERATE_FAILED = 22;
 
-    final static char COMMAND_HEART_BEAT = 255;
+    final static char COMMAND_HEART_BEAT = 127;
     //COMMAND_HEART_BEAT + netkey
 
 }

@@ -34,6 +34,7 @@ import com.alvkeke.tools.todo.MainFeatures.Project;
 import com.alvkeke.tools.todo.MainFeatures.ProjectListAdapter;
 import com.alvkeke.tools.todo.MainFeatures.TaskItem;
 import com.alvkeke.tools.todo.MainFeatures.TaskListAdapter;
+import com.alvkeke.tools.todo.Network.HeartBeat;
 import com.alvkeke.tools.todo.Network.LoginCallback;
 import com.alvkeke.tools.todo.Network.Loginer;
 import com.alvkeke.tools.todo.Network.NetOperatorCallback;
@@ -42,7 +43,6 @@ import com.alvkeke.tools.todo.Network.SyncCallback;
 import com.alvkeke.tools.todo.Network.Synchronizer;
 
 import java.io.File;
-import java.sql.SQLInput;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collections;
@@ -87,13 +87,13 @@ public class MainActivity extends AppCompatActivity implements LoginCallback, Sy
     boolean proSettingMode;
     boolean showFinishedTasks;
 
-    NetworkOperator netOperator;
     Synchronizer synchronizer;
     String username;
     int netkey;
     String serverIP;
     int serverPort;
 
+    HeartBeat heartBeat;
 
     @Override
     protected void onCreate(final Bundle savedInstanceState) {
@@ -175,7 +175,7 @@ public class MainActivity extends AppCompatActivity implements LoginCallback, Sy
         toolbar.getMenu().getItem(2).setChecked(showFinishedTasks);
         taskAdapter.showFinishedTasks(showFinishedTasks);
 
-        //加载本地存储的项目已经任务.todo:根据存储的用户信息判断加载的为local文件还是用户个人文件夹
+        //加载本地存储的项目已经任务,根据存储的用户信息判断加载的为local文件还是用户个人文件夹
         File dir;
         dir = getExternalFilesDir(username);
         if(!Objects.requireNonNull(dir).exists()){
@@ -191,6 +191,13 @@ public class MainActivity extends AppCompatActivity implements LoginCallback, Sy
 
         //刷新列表界面
         flashCurrentTaskList();
+
+        //初始化一些必要变量
+        if(netkey >0){
+            heartBeat = new HeartBeat(netkey);
+            heartBeat.setAddress(serverIP, serverPort);
+            heartBeat.start();
+        }
 
         //设置事件响应
 
@@ -221,6 +228,13 @@ public class MainActivity extends AppCompatActivity implements LoginCallback, Sy
             @Override
             public void onClick(View v) {
                 //TODO:添加用户登录的功能
+                if(netkey <0){
+                    Intent intent = new Intent(MainActivity.this, LoginActivity.class);
+                    intent.putExtra("serverIP", serverIP);
+                    intent.putExtra("serverPort", serverPort);
+
+                    startActivity(intent);
+                }
             }
         });
 
@@ -282,8 +296,7 @@ public class MainActivity extends AppCompatActivity implements LoginCallback, Sy
                 intentProSetting.putExtra("proColor", proAdapter.getItem(position).getColor());
 
                 startActivityForResult(intentProSetting, Constants.REQUEST_CODE_SETTING_PROJECT);
-                return true
-                        ;
+                return true;
             }
         });
 
@@ -376,15 +389,11 @@ public class MainActivity extends AppCompatActivity implements LoginCallback, Sy
                                         }
 
                                         if(netkey <= 0) {
-//                                            for (TaskItem e : delArray) {
-//                                                deleteTask(e.getId(), e.getProId());
-//                                            }
+
                                             deleteTaskList(delArray);
                                         }else{
                                             NetworkOperator operator = new NetworkOperator(MainActivity.this, netkey, serverIP, serverPort);
-//                                            for(TaskItem e: delArray){
-//                                                operator.deleteTask(e.getId(), e.getProId());
-//                                            }
+
                                             operator.deleteTaskList(delArray);
                                         }
 
@@ -501,8 +510,6 @@ public class MainActivity extends AppCompatActivity implements LoginCallback, Sy
         });
 
     }
-
-//todo:修改成兼容网络模式的运行方法
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
@@ -1331,6 +1338,11 @@ public class MainActivity extends AppCompatActivity implements LoginCallback, Sy
     @Override
     public void loginSuccess(int key) {
         this.netkey = key;
+
+        heartBeat = new HeartBeat(netkey);
+        heartBeat.setAddress(serverIP, serverPort);
+        heartBeat.start();
+
         runOnUiThread(new Runnable() {
             @Override
             public void run() {
