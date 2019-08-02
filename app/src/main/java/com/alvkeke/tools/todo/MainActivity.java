@@ -159,15 +159,15 @@ public class MainActivity extends AppCompatActivity implements LoginCallback, Sy
         if(netkey < 0){
             tvUsername.setText("本地用户");
         }else {
-            String usernameShow;
-            if(username.equals("__user_test__")){
-                usernameShow = "在线测试用户";
-            }else {
-                usernameShow = username;
-            }
+            String usernameShow = username;
+//            if(username.equals("__user_test__")){
+//                usernameShow = "在线测试用户";
+//            }else {
+//                usernameShow = username;
+//            }
 
             if(netkey == 0){
-                usernameShow = usernameShow + "(离线)";
+                usernameShow = username + "(离线)";
             }
 
             tvUsername.setText(usernameShow);
@@ -1168,7 +1168,12 @@ public class MainActivity extends AppCompatActivity implements LoginCallback, Sy
 
         Project project = Functions.findProjectInProjectList(projects, proId);
         if(project == null){
-            Toast.makeText(this, "信息出错：找不到项目", Toast.LENGTH_SHORT).show();
+            runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    Toast.makeText(MainActivity.this, "信息出错：找不到项目", Toast.LENGTH_SHORT).show();
+                }
+            });
             return;
         }
 
@@ -1210,7 +1215,27 @@ public class MainActivity extends AppCompatActivity implements LoginCallback, Sy
 
     @Override
     public void deleteTaskSuccess(long taskId, long proId) {
-        deleteTask(taskId, proId);
+
+        Project p = Functions.findProjectInProjectList(projects, proId);
+        if (p != null) {
+            TaskItem taskItem = p.findTask(taskId);
+            if(taskItem != null) {
+                p.getTaskList().remove(taskItem);
+
+                db = SQLiteDatabase.openOrCreateDatabase(dbfile, null);
+                if(!DBFun.deleteTask(db, taskItem.getId(), new Date().getTime())){
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+
+                            Toast.makeText(MainActivity.this, "数据库修改失败", Toast.LENGTH_LONG).show();
+                        }
+                    });
+                }
+                db.close();
+            }
+        }
+
         runOnUiThread(new Runnable() {
             @Override
             public void run() {
