@@ -103,7 +103,7 @@ public class Functions {
         return taskItems;
     }
 
-    public static TaskItem findTaskItemInTaskList(ArrayList<TaskItem> taskItems, long taskId){
+    private static TaskItem findTaskItemInTaskList(ArrayList<TaskItem> taskItems, long taskId){
         for(TaskItem e : taskItems){
             if(e.getId() == taskId){
                 return e;
@@ -112,7 +112,7 @@ public class Functions {
         return null;
     }
 
-    public static void mergeTaskList(ArrayList<TaskItem> tasklistTo, ArrayList<TaskItem> tasklistFrom){
+    private static void mergeTaskList(ArrayList<TaskItem> tasklistTo, ArrayList<TaskItem> tasklistFrom){
         for(TaskItem t : tasklistFrom){
 
             TaskItem tOld = findTaskItemInTaskList(tasklistTo, t.getId());

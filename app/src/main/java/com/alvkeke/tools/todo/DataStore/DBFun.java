@@ -4,7 +4,6 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.util.Log;
 
-import com.alvkeke.tools.todo.MainFeatures.Functions;
 import com.alvkeke.tools.todo.MainFeatures.Project;
 import com.alvkeke.tools.todo.MainFeatures.TaskItem;
 
@@ -330,7 +329,7 @@ public class DBFun {
         }
         cursor.close();
         if(!canContinue){
-            return false;
+            return true;
         }
 
         cursor = db.rawQuery("select id from tasks order by id", null);
@@ -343,7 +342,7 @@ public class DBFun {
         }
         cursor.close();
         if(!canContinue){
-            return false;
+            return true;
         }
 
         int isfinished;
@@ -355,7 +354,7 @@ public class DBFun {
         String dbcmd = "update tasks set isfinished="+ isfinished +",lastModifyTime=" + modifyTime + " where id="+taskId;
         db.execSQL(dbcmd);
 
-        return true;
+        return false;
     }
 
     public static void restoreTasks(SQLiteDatabase db, ArrayList<Project> projects){

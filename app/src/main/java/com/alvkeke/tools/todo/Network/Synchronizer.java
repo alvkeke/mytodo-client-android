@@ -1,7 +1,5 @@
 package com.alvkeke.tools.todo.Network;
 
-import android.content.Context;
-//import android.util.Log;
 import android.util.SparseArray;
 
 import com.alvkeke.tools.todo.MainFeatures.Functions;
@@ -19,14 +17,13 @@ import java.net.SocketTimeoutException;
 import java.net.UnknownHostException;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Iterator;
 
 public class Synchronizer {
 
-    public final static int FAILED_TYPE_SERVER_TIMEOUT = 1;
-    public final static int FAILED_TYPE_SERVER_DENIED = 2;
-    public final static int FAILED_TYPE_IO_ERROR = 3;
-    public final static int FAILED_TYPE_SOCKET_ERROR = 4;
+    private final static int FAILED_TYPE_SERVER_TIMEOUT = 1;
+    private final static int FAILED_TYPE_SERVER_DENIED = 2;
+    private final static int FAILED_TYPE_IO_ERROR = 3;
+    private final static int FAILED_TYPE_SOCKET_ERROR = 4;
 
     private volatile DatagramSocket socket;
     private int netkey;
@@ -251,6 +248,7 @@ public class Synchronizer {
                         checkConfirmMap();
                         break;
                     } else if (cmd == COMMAND_CONFIRM_SEND_BEGIN) {
+                        callback.syncDataBegin();
                     } else if (cmd == COMMAND_CONFIRM_DATA) {
                         delConfirmDataId(Integer.valueOf(sid));
                     }
@@ -285,11 +283,9 @@ public class Synchronizer {
                         address, port);
 
                 socket.send(packet);
-//                Log.e("push", "push start");
 
                 int dataId = 0;
                 int loopTime = 0;
-                Iterator<Project> it = projects.iterator();
                 for (Project p : projects){
 
                     System.out.println(loopTime++);
@@ -298,7 +294,6 @@ public class Synchronizer {
                     packet.setData(sSend.getBytes());
 
                     socket.send(packet);
-//                    Log.e("push", "send project:" + sSend);
 
                     addConfirmDataId(dataId++, sSend);
 
@@ -309,18 +304,15 @@ public class Synchronizer {
                         packet.setData(sSend.getBytes());
 
                         socket.send(packet);
-//                        Log.e("push", "send task:" + sSend);
 
                         addConfirmDataId(dataId++, sSend);
 
                     }
-//                    System.out.println();
                 }
 
                 sSend = COMMAND_SEND_DATA_END + String.valueOf(netkey);
                 packet.setData(sSend.getBytes());
                 socket.send(packet);
-//                Log.e("push", "push end");
 
             } catch (UnknownHostException e) {
                 e.printStackTrace();

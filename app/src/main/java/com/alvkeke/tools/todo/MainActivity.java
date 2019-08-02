@@ -913,7 +913,7 @@ public class MainActivity extends AppCompatActivity implements LoginCallback, Sy
         if(!DBFun.modifyTask(db, taskId, newProId, content, time, level, taskItem.getLastModifyTime())) {
             Toast.makeText(this, "数据库修改失败", Toast.LENGTH_LONG).show();
         }
-        if(!DBFun.setFinishTask(db, taskId, isFinished, taskItem.getLastModifyTime())) {
+        if(DBFun.setFinishTask(db, taskId, isFinished, taskItem.getLastModifyTime())) {
             Toast.makeText(this, "数据库修改失败", Toast.LENGTH_LONG).show();
         }
         db.close();
@@ -925,7 +925,7 @@ public class MainActivity extends AppCompatActivity implements LoginCallback, Sy
         taskItem.updataLastModifyTime();
 
         db = SQLiteDatabase.openOrCreateDatabase(dbfile, null);
-        if (!DBFun.setFinishTask(db, taskItem.getId(), taskItem.isFinished(), new Date().getTime())){
+        if (DBFun.setFinishTask(db, taskItem.getId(), taskItem.isFinished(), new Date().getTime())){
             Toast.makeText(MainActivity.this, "数据库修改失败", Toast.LENGTH_LONG).show();
         }
         db.close();
@@ -948,22 +948,22 @@ public class MainActivity extends AppCompatActivity implements LoginCallback, Sy
         }
         db.close();
     }
-
-    public void deleteTask(long taskId, long proId) {
-        Project p = Functions.findProjectInProjectList(projects, proId);
-        if (p != null) {
-            TaskItem taskItem = p.findTask(taskId);
-            if(taskItem != null) {
-                p.getTaskList().remove(taskItem);
-
-                db = SQLiteDatabase.openOrCreateDatabase(dbfile, null);
-                if(!DBFun.deleteTask(db, taskItem.getId(), new Date().getTime())){
-                    Toast.makeText(MainActivity.this, "数据库修改失败", Toast.LENGTH_LONG).show();
-                }
-                db.close();
-            }
-        }
-    }
+//
+//    public void deleteTask(long taskId, long proId) {
+//        Project p = Functions.findProjectInProjectList(projects, proId);
+//        if (p != null) {
+//            TaskItem taskItem = p.findTask(taskId);
+//            if(taskItem != null) {
+//                p.getTaskList().remove(taskItem);
+//
+//                db = SQLiteDatabase.openOrCreateDatabase(dbfile, null);
+//                if(!DBFun.deleteTask(db, taskItem.getId(), new Date().getTime())){
+//                    Toast.makeText(MainActivity.this, "数据库修改失败", Toast.LENGTH_LONG).show();
+//                }
+//                db.close();
+//            }
+//        }
+//    }
 
     public void createProject(long proId, String name, int color) {
         Project project = new Project(proId, name, color);
@@ -1051,6 +1051,11 @@ public class MainActivity extends AppCompatActivity implements LoginCallback, Sy
 
         taskAdapter.changeTaskList(taskList_Show);
         taskAdapter.notifyDataSetChanged();
+    }
+
+    @Override
+    public void syncDataBegin() {
+
     }
 
     /**call back of the synchronize module**/
@@ -1336,7 +1341,7 @@ public class MainActivity extends AppCompatActivity implements LoginCallback, Sy
         if(!DBFun.modifyTask(db, taskId, newProId, todo, time, level, taskItem.getLastModifyTime())) {
             Toast.makeText(this, "数据库修改失败", Toast.LENGTH_LONG).show();
         }
-        if(!DBFun.setFinishTask(db, taskId, isFinished, taskItem.getLastModifyTime())) {
+        if(DBFun.setFinishTask(db, taskId, isFinished, taskItem.getLastModifyTime())) {
             Toast.makeText(this, "数据库修改失败", Toast.LENGTH_LONG).show();
         }
         db.close();

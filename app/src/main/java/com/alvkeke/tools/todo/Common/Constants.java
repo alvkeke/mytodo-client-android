@@ -10,7 +10,6 @@ public class Constants {
     public static final int RESULT_CODE_ADD_TASK = 1;
     public static final int RESULT_CANCEL = 2;
     public static final int RESULT_DELETE_PROJECT = 3;
-    public static final int RESULT_CODE_FINISH = 4;
 
     public static final int TASK_LIST_USER_PROJECT = 0;
     public static final int TASK_LIST_ALL_TASK = 1;

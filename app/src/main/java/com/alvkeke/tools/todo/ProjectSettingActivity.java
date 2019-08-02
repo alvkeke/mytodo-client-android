@@ -48,12 +48,9 @@ public class ProjectSettingActivity extends AppCompatActivity {
         if (proId == -1){
             proId = Functions.generateId();
         }
-        int proColor = intent.getIntExtra("proColor", Color.TRANSPARENT);
+//        int proColor = intent.getIntExtra("proColor", Color.TRANSPARENT);
 
         etProjectName.setText(proName);
-
-
-
 
         btnOk.setOnClickListener(new View.OnClickListener() {
             @Override

@@ -13,35 +13,33 @@ public class HeartBeat {
 
     public static final int HEART_BEAT_DEFAULT_BREAK_TIME = 30000;
 
-    int netkey;
+    private int netkey;
 
-    InetAddress address;
-    int port;
+    private InetAddress address;
+    private int port;
 
-    boolean keepBeat;
+    private boolean keepBeat;
 
-    Thread heartBeatThread;
+    private Thread heartBeatThread;
 
-    int heartBreaktime;
+    private int heartBreakTime;
 
-    public HeartBeat(int netkey, int heartBreaktime){
+    public HeartBeat(int netkey, int heartBreakTime){
 
         this.netkey = netkey;
         keepBeat = true;
-        this.heartBreaktime = heartBreaktime;
+        this.heartBreakTime = heartBreakTime;
     }
 
-    public boolean setAddress(String ip, int port){
+    public void setAddress(String ip, int port){
 
         this.port = port;
         try {
             address = InetAddress.getByName(ip);
         } catch (UnknownHostException e) {
             e.printStackTrace();
-            return false;
         }
 
-        return true;
     }
 
     public void start(){
@@ -74,7 +72,7 @@ public class HeartBeat {
                     //发送数据的try代码块应放在循环内,这样可以避免线程在发生错误是突然中断
                     try {
                         socket.send(packet);
-                        Thread.sleep(heartBreaktime);    //time break : 80s, server should check the client online each 100s
+                        Thread.sleep(heartBreakTime);    //time break : 80s, server should check the client online each 100s
                     } catch (IOException e) {
                         e.printStackTrace();
                     } catch (InterruptedException e) {

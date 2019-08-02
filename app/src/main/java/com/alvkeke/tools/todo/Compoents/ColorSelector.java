@@ -125,11 +125,17 @@ public class ColorSelector extends AppCompatImageView {
 
                 break;
             case MotionEvent.ACTION_UP:
+                performClick();
                 break;
         }
         return true;
 
 
+    }
+
+    @Override
+    public boolean performClick() {
+        return super.performClick();
     }
 
     void createColorWheel(){

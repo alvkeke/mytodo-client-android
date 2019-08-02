@@ -1,6 +1,5 @@
 package com.alvkeke.tools.todo.MainFeatures;
 
-import android.provider.ContactsContract;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -43,9 +42,9 @@ public class Project {
         tasks.add(e);
     }
 
-    public TaskItem getTask(int pos){
-        return tasks.get(pos);
-    }
+//    public TaskItem getTask(int pos){
+//        return tasks.get(pos);
+//    }
 
     public TaskItem findTask(long taskId){
         for(int i = 0; i<tasks.size(); i++){

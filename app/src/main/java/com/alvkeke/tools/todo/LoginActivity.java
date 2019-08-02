@@ -11,12 +11,6 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import com.alvkeke.tools.todo.Network.LoginCallback;
-import com.alvkeke.tools.todo.Network.Loginer;
-
-import java.util.logging.SocketHandler;
-
-import static com.alvkeke.tools.todo.Network.Constants.SERVER_PORT;
 
 public class LoginActivity extends AppCompatActivity {
 

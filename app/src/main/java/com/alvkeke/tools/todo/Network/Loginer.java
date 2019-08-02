@@ -1,7 +1,5 @@
 package com.alvkeke.tools.todo.Network;
 
-import android.content.Context;
-
 import java.io.IOException;
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
@@ -42,15 +40,13 @@ public class Loginer {
         this.callback = callback;
     }
 
-    public boolean setAddress(String ip, int port){
+    public void setAddress(String ip, int port){
         try {
             address = InetAddress.getByName(ip);
             serPort = port;
         } catch (UnknownHostException e) {
             e.printStackTrace();
-            return false;
         }
-        return true;
     }
 
     public void login(){

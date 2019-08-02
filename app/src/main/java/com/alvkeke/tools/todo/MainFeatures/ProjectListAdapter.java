@@ -21,10 +21,10 @@ public class ProjectListAdapter extends BaseAdapter {
         mInflater = LayoutInflater.from(context);
         this.projects = projects;
     }
-
-    public void changeProjectList(ArrayList<Project> p){
-        this.projects = p;
-    }
+//
+//    public void changeProjectList(ArrayList<Project> p){
+//        this.projects = p;
+//    }
 
     @Override
     public int getCount() {
