@@ -526,6 +526,7 @@ color color_light_gray
 color color_light_pink
 color color_pink
 color color_red
+color color_transparent
 color color_white
 color dim_foreground_disabled_material_dark
 color dim_foreground_disabled_material_light
@@ -665,6 +666,8 @@ dimen disabled_alpha_material_dark
 dimen disabled_alpha_material_light
 dimen distance_addTask_margin
 dimen distance_add_task_btn_to_right_bottom
+dimen distance_edit_left_and_right_margin
+dimen distance_login_margin_to_top
 dimen distance_pro_setting_margin
 dimen distance_project_list_to_start
 dimen distance_project_margin
@@ -967,6 +970,10 @@ id line3
 id linear
 id listMode
 id list_item
+id login_btn_login
+id login_edit_password
+id login_edit_username
+id login_icon
 id main_btn_add_task
 id main_client_area
 id main_context
@@ -1126,6 +1133,7 @@ layout activity_main
 layout activity_pre_launch
 layout activity_project_setting
 layout activity_task_setting
+layout activity_user_setting
 layout drawer_main
 layout notification_action
 layout notification_action_tombstone
@@ -1232,6 +1240,7 @@ string str_reminder_divider_between_time_and_date
 string str_test
 string str_user_project
 string title_btn_cancel
+string title_btn_login
 string title_btn_ok
 string title_delete_project
 string title_menu_delete

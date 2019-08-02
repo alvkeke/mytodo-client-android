@@ -11,7 +11,7 @@ import static com.alvkeke.tools.todo.Network.Constants.*;
 
 public class HeartBeat {
 
-    public static final int HEART_BEAT_BREAK_TIME_ms = 30000;
+    public static final int HEART_BEAT_DEFAULT_BREAK_TIME = 30000;
 
     int netkey;
 
@@ -22,10 +22,13 @@ public class HeartBeat {
 
     Thread heartBeatThread;
 
-    public HeartBeat(int netkey){
+    int heartBreaktime;
+
+    public HeartBeat(int netkey, int heartBreaktime){
 
         this.netkey = netkey;
         keepBeat = true;
+        this.heartBreaktime = heartBreaktime;
     }
 
     public boolean setAddress(String ip, int port){
@@ -71,7 +74,7 @@ public class HeartBeat {
                     //发送数据的try代码块应放在循环内,这样可以避免线程在发生错误是突然中断
                     try {
                         socket.send(packet);
-                        Thread.sleep(HEART_BEAT_BREAK_TIME_ms);    //time break : 80s, server should check the client online each 100s
+                        Thread.sleep(heartBreaktime);    //time break : 80s, server should check the client online each 100s
                     } catch (IOException e) {
                         e.printStackTrace();
                     } catch (InterruptedException e) {

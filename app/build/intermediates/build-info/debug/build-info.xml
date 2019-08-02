@@ -6,7 +6,7 @@
     density="xxhdpi"
     format="10"
     plugin-version="3.4.2"
-    timestamp="1564719858897"
+    timestamp="1564725812659"
     token="-8626318492583812632"
     verifier="FULL_BUILD_REQUESTED" >
 
@@ -65,7 +65,7 @@
 
     <build
         build-mode="FULL"
-        timestamp="1564719858897"
+        timestamp="1564725812659"
         verifier="FULL_BUILD_REQUESTED" >
         <artifact
             location="/home/alvis/desktop/work-tmp/mytodo-client-android-remake/app/build/intermediates/split-apk/debug/slices/slice_9.apk"

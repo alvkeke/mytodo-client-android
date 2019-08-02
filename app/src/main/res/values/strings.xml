@@ -21,4 +21,5 @@
     <string name="title_menu_project_setting">项目设置</string>
     <string name="title_menu_preferences">首选项</string>
     <string name="label_task_finished">已完成</string>
+    <string name="title_btn_login">登录</string>
 </resources>

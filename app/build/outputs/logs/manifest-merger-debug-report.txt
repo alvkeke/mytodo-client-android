@@ -1,9 +1,9 @@
 -- Merging decision tree log ---
 manifest
-ADDED from /home/alvis/desktop/work-tmp/mytodo-client-android-remake/app/src/main/AndroidManifest.xml:2:1-28:12
-INJECTED from /home/alvis/desktop/work-tmp/mytodo-client-android-remake/app/src/main/AndroidManifest.xml:2:1-28:12
-INJECTED from /home/alvis/desktop/work-tmp/mytodo-client-android-remake/app/src/main/AndroidManifest.xml:2:1-28:12
-INJECTED from /home/alvis/desktop/work-tmp/mytodo-client-android-remake/app/src/main/AndroidManifest.xml:2:1-28:12
+ADDED from /home/alvis/desktop/work-tmp/mytodo-client-android-remake/app/src/main/AndroidManifest.xml:2:1-29:12
+INJECTED from /home/alvis/desktop/work-tmp/mytodo-client-android-remake/app/src/main/AndroidManifest.xml:2:1-29:12
+INJECTED from /home/alvis/desktop/work-tmp/mytodo-client-android-remake/app/src/main/AndroidManifest.xml:2:1-29:12
+INJECTED from /home/alvis/desktop/work-tmp/mytodo-client-android-remake/app/src/main/AndroidManifest.xml:2:1-29:12
 MERGED from [com.android.support.constraint:constraint-layout:2.0.0-beta1] /home/alvis/.gradle/caches/transforms-2/files-2.1/1fcca29564d3c70aef7e19eeaf3529e7/AndroidManifest.xml:2:1-11:12
 MERGED from [com.android.support:appcompat-v7:28.0.0] /home/alvis/.gradle/caches/transforms-2/files-2.1/7e59606ad76e74a5eebdbc82bfb0feeb/AndroidManifest.xml:17:1-22:12
 MERGED from [com.android.support:support-fragment:28.0.0] /home/alvis/.gradle/caches/transforms-2/files-2.1/45e40c722ca07b3394cd7500437147f0/AndroidManifest.xml:17:1-22:12
@@ -32,20 +32,20 @@ MERGED from [android.arch.lifecycle:livedata:1.1.1] /home/alvis/.gradle/caches/t
 MERGED from [android.arch.lifecycle:livedata-core:1.1.1] /home/alvis/.gradle/caches/transforms-2/files-2.1/a9f64615cc7d25a9682b53d5fa54b5fd/AndroidManifest.xml:17:1-22:12
 MERGED from [android.arch.core:runtime:1.1.1] /home/alvis/.gradle/caches/transforms-2/files-2.1/3fa2fb2682ae28d38613a16c6086d6c1/AndroidManifest.xml:17:1-22:12
 MERGED from [com.android.support:interpolator:28.0.0] /home/alvis/.gradle/caches/transforms-2/files-2.1/f4fbec4d1a0f8fafb32771cadabdb133/AndroidManifest.xml:17:1-22:12
-INJECTED from /home/alvis/desktop/work-tmp/mytodo-client-android-remake/app/src/main/AndroidManifest.xml:2:1-28:12
-INJECTED from /home/alvis/desktop/work-tmp/mytodo-client-android-remake/app/src/main/AndroidManifest.xml:2:1-28:12
-INJECTED from /home/alvis/desktop/work-tmp/mytodo-client-android-remake/app/src/main/AndroidManifest.xml:2:1-28:12
+INJECTED from /home/alvis/desktop/work-tmp/mytodo-client-android-remake/app/src/main/AndroidManifest.xml:2:1-29:12
+INJECTED from /home/alvis/desktop/work-tmp/mytodo-client-android-remake/app/src/main/AndroidManifest.xml:2:1-29:12
+INJECTED from /home/alvis/desktop/work-tmp/mytodo-client-android-remake/app/src/main/AndroidManifest.xml:2:1-29:12
 	package
 		ADDED from /home/alvis/desktop/work-tmp/mytodo-client-android-remake/app/src/main/AndroidManifest.xml:3:5-37
 		INJECTED from /home/alvis/desktop/work-tmp/mytodo-client-android-remake/app/src/main/AndroidManifest.xml
 		INJECTED from /home/alvis/desktop/work-tmp/mytodo-client-android-remake/app/src/main/AndroidManifest.xml
 	android:versionName
 		INJECTED from /home/alvis/desktop/work-tmp/mytodo-client-android-remake/app/src/main/AndroidManifest.xml
-		ADDED from /home/alvis/desktop/work-tmp/mytodo-client-android-remake/app/src/main/AndroidManifest.xml:2:1-28:12
+		ADDED from /home/alvis/desktop/work-tmp/mytodo-client-android-remake/app/src/main/AndroidManifest.xml:2:1-29:12
 		INJECTED from /home/alvis/desktop/work-tmp/mytodo-client-android-remake/app/src/main/AndroidManifest.xml
 	android:versionCode
 		INJECTED from /home/alvis/desktop/work-tmp/mytodo-client-android-remake/app/src/main/AndroidManifest.xml
-		ADDED from /home/alvis/desktop/work-tmp/mytodo-client-android-remake/app/src/main/AndroidManifest.xml:2:1-28:12
+		ADDED from /home/alvis/desktop/work-tmp/mytodo-client-android-remake/app/src/main/AndroidManifest.xml:2:1-29:12
 		INJECTED from /home/alvis/desktop/work-tmp/mytodo-client-android-remake/app/src/main/AndroidManifest.xml
 	xmlns:android
 		ADDED from /home/alvis/desktop/work-tmp/mytodo-client-android-remake/app/src/main/AndroidManifest.xml:2:11-69
@@ -54,7 +54,7 @@ ADDED from /home/alvis/desktop/work-tmp/mytodo-client-android-remake/app/src/mai
 	android:name
 		ADDED from /home/alvis/desktop/work-tmp/mytodo-client-android-remake/app/src/main/AndroidManifest.xml:5:22-64
 application
-ADDED from /home/alvis/desktop/work-tmp/mytodo-client-android-remake/app/src/main/AndroidManifest.xml:7:5-26:19
+ADDED from /home/alvis/desktop/work-tmp/mytodo-client-android-remake/app/src/main/AndroidManifest.xml:7:5-27:19
 MERGED from [com.android.support.constraint:constraint-layout:2.0.0-beta1] /home/alvis/.gradle/caches/transforms-2/files-2.1/1fcca29564d3c70aef7e19eeaf3529e7/AndroidManifest.xml:9:5-20
 MERGED from [com.android.support.constraint:constraint-layout:2.0.0-beta1] /home/alvis/.gradle/caches/transforms-2/files-2.1/1fcca29564d3c70aef7e19eeaf3529e7/AndroidManifest.xml:9:5-20
 MERGED from [com.android.support:support-compat:28.0.0] /home/alvis/.gradle/caches/transforms-2/files-2.1/32111a3842c754ab854ceb727fbd7783/AndroidManifest.xml:22:5-94
@@ -75,40 +75,44 @@ MERGED from [com.android.support:versionedparcelable:28.0.0] /home/alvis/.gradle
 		ADDED from /home/alvis/desktop/work-tmp/mytodo-client-android-remake/app/src/main/AndroidManifest.xml:8:9-35
 	android:theme
 		ADDED from /home/alvis/desktop/work-tmp/mytodo-client-android-remake/app/src/main/AndroidManifest.xml:13:9-40
+activity#com.alvkeke.tools.todo.UserSettingActivity
+ADDED from /home/alvis/desktop/work-tmp/mytodo-client-android-remake/app/src/main/AndroidManifest.xml:14:9-66
+	android:name
+		ADDED from /home/alvis/desktop/work-tmp/mytodo-client-android-remake/app/src/main/AndroidManifest.xml:14:19-54
 activity#com.alvkeke.tools.todo.LoginActivity
-ADDED from /home/alvis/desktop/work-tmp/mytodo-client-android-remake/app/src/main/AndroidManifest.xml:14:9-60
+ADDED from /home/alvis/desktop/work-tmp/mytodo-client-android-remake/app/src/main/AndroidManifest.xml:15:9-51
 	android:name
-		ADDED from /home/alvis/desktop/work-tmp/mytodo-client-android-remake/app/src/main/AndroidManifest.xml:14:19-48
+		ADDED from /home/alvis/desktop/work-tmp/mytodo-client-android-remake/app/src/main/AndroidManifest.xml:15:19-48
 activity#com.alvkeke.tools.todo.PreLaunchActivity
-ADDED from /home/alvis/desktop/work-tmp/mytodo-client-android-remake/app/src/main/AndroidManifest.xml:15:9-21:20
+ADDED from /home/alvis/desktop/work-tmp/mytodo-client-android-remake/app/src/main/AndroidManifest.xml:16:9-22:20
 	android:name
-		ADDED from /home/alvis/desktop/work-tmp/mytodo-client-android-remake/app/src/main/AndroidManifest.xml:15:19-52
+		ADDED from /home/alvis/desktop/work-tmp/mytodo-client-android-remake/app/src/main/AndroidManifest.xml:16:19-52
 intent-filter#action:name:android.intent.action.MAIN+category:name:android.intent.category.LAUNCHER
-ADDED from /home/alvis/desktop/work-tmp/mytodo-client-android-remake/app/src/main/AndroidManifest.xml:16:13-20:29
+ADDED from /home/alvis/desktop/work-tmp/mytodo-client-android-remake/app/src/main/AndroidManifest.xml:17:13-21:29
 action#android.intent.action.MAIN
-ADDED from /home/alvis/desktop/work-tmp/mytodo-client-android-remake/app/src/main/AndroidManifest.xml:17:17-69
+ADDED from /home/alvis/desktop/work-tmp/mytodo-client-android-remake/app/src/main/AndroidManifest.xml:18:17-69
 	android:name
-		ADDED from /home/alvis/desktop/work-tmp/mytodo-client-android-remake/app/src/main/AndroidManifest.xml:17:25-66
+		ADDED from /home/alvis/desktop/work-tmp/mytodo-client-android-remake/app/src/main/AndroidManifest.xml:18:25-66
 category#android.intent.category.LAUNCHER
-ADDED from /home/alvis/desktop/work-tmp/mytodo-client-android-remake/app/src/main/AndroidManifest.xml:19:17-77
+ADDED from /home/alvis/desktop/work-tmp/mytodo-client-android-remake/app/src/main/AndroidManifest.xml:20:17-77
 	android:name
-		ADDED from /home/alvis/desktop/work-tmp/mytodo-client-android-remake/app/src/main/AndroidManifest.xml:19:27-74
+		ADDED from /home/alvis/desktop/work-tmp/mytodo-client-android-remake/app/src/main/AndroidManifest.xml:20:27-74
 activity#com.alvkeke.tools.todo.TaskSettingActivity
-ADDED from /home/alvis/desktop/work-tmp/mytodo-client-android-remake/app/src/main/AndroidManifest.xml:22:9-57
+ADDED from /home/alvis/desktop/work-tmp/mytodo-client-android-remake/app/src/main/AndroidManifest.xml:23:9-57
 	android:name
-		ADDED from /home/alvis/desktop/work-tmp/mytodo-client-android-remake/app/src/main/AndroidManifest.xml:22:19-54
+		ADDED from /home/alvis/desktop/work-tmp/mytodo-client-android-remake/app/src/main/AndroidManifest.xml:23:19-54
 activity#com.alvkeke.tools.todo.ProjectSettingActivity
-ADDED from /home/alvis/desktop/work-tmp/mytodo-client-android-remake/app/src/main/AndroidManifest.xml:23:9-60
+ADDED from /home/alvis/desktop/work-tmp/mytodo-client-android-remake/app/src/main/AndroidManifest.xml:24:9-60
 	android:name
-		ADDED from /home/alvis/desktop/work-tmp/mytodo-client-android-remake/app/src/main/AndroidManifest.xml:23:19-57
+		ADDED from /home/alvis/desktop/work-tmp/mytodo-client-android-remake/app/src/main/AndroidManifest.xml:24:19-57
 activity#com.alvkeke.tools.todo.AddTaskActivity
-ADDED from /home/alvis/desktop/work-tmp/mytodo-client-android-remake/app/src/main/AndroidManifest.xml:24:9-53
+ADDED from /home/alvis/desktop/work-tmp/mytodo-client-android-remake/app/src/main/AndroidManifest.xml:25:9-53
 	android:name
-		ADDED from /home/alvis/desktop/work-tmp/mytodo-client-android-remake/app/src/main/AndroidManifest.xml:24:19-50
+		ADDED from /home/alvis/desktop/work-tmp/mytodo-client-android-remake/app/src/main/AndroidManifest.xml:25:19-50
 activity#com.alvkeke.tools.todo.MainActivity
-ADDED from /home/alvis/desktop/work-tmp/mytodo-client-android-remake/app/src/main/AndroidManifest.xml:25:9-50
+ADDED from /home/alvis/desktop/work-tmp/mytodo-client-android-remake/app/src/main/AndroidManifest.xml:26:9-50
 	android:name
-		ADDED from /home/alvis/desktop/work-tmp/mytodo-client-android-remake/app/src/main/AndroidManifest.xml:25:19-47
+		ADDED from /home/alvis/desktop/work-tmp/mytodo-client-android-remake/app/src/main/AndroidManifest.xml:26:19-47
 uses-sdk
 INJECTED from /home/alvis/desktop/work-tmp/mytodo-client-android-remake/app/src/main/AndroidManifest.xml reason: use-sdk injection requested
 INJECTED from /home/alvis/desktop/work-tmp/mytodo-client-android-remake/app/src/main/AndroidManifest.xml

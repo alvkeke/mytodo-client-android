@@ -49,8 +49,6 @@ public class PreLaunchActivity extends AppCompatActivity implements LoginCallbac
             editor1.apply();
         }
 
-        networkMode = true;
-//        networkMode = false;
         //加载登录前设置,判断当前储存模式是否为在线模式
         if(networkMode){    //根据是在线/离线模式加载用户设置
             username = setting.getString("username", "");
@@ -75,6 +73,7 @@ public class PreLaunchActivity extends AppCompatActivity implements LoginCallbac
             MainIntent.putExtra("username", username);
             MainIntent.putExtra("netkey", -1);
             startActivity(MainIntent);
+            finish();
         }
 
     }
@@ -98,11 +97,19 @@ public class PreLaunchActivity extends AppCompatActivity implements LoginCallbac
         switch (failedType){
             case Loginer.LOGIN_FAILED_SERVER_DENIED:
                 Log.e("login", "error:server denied.");
-                //todo:弹出登录界面
+                //弹出登录界面
 
+                SharedPreferences.Editor editor = setting.edit();
+                editor.putBoolean("networkMode", false);
+                editor.apply();
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        Toast.makeText(getApplicationContext(), "账户或密码出错,服务器拒绝登录,请重试", Toast.LENGTH_SHORT).show();
+                    }
+                });
                 Intent intent = new Intent(PreLaunchActivity.this, LoginActivity.class);
-                intent.putExtra("serverIP", serverIP);
-                intent.putExtra("serverPort", serverPort);
+                intent.putExtra("isReLogin", true);
 
                 startActivity(intent);
 

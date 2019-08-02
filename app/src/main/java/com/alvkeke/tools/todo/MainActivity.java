@@ -160,11 +160,6 @@ public class MainActivity extends AppCompatActivity implements LoginCallback, Sy
             tvUsername.setText("本地用户");
         }else {
             String usernameShow = username;
-//            if(username.equals("__user_test__")){
-//                usernameShow = "在线测试用户";
-//            }else {
-//                usernameShow = username;
-//            }
 
             if(netkey == 0){
                 usernameShow = username + "(离线)";
@@ -194,7 +189,8 @@ public class MainActivity extends AppCompatActivity implements LoginCallback, Sy
 
         //初始化一些必要变量
         if(netkey >0){
-            heartBeat = new HeartBeat(netkey);
+            heartBeat = new HeartBeat(netkey, HeartBeat.HEART_BEAT_DEFAULT_BREAK_TIME);
+//            heartBeat = new HeartBeat(netkey, 1000);
             heartBeat.setAddress(serverIP, serverPort);
             heartBeat.start();
         }
@@ -227,11 +223,13 @@ public class MainActivity extends AppCompatActivity implements LoginCallback, Sy
         ivUserIcon.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //TODO:添加用户登录的功能
+                //添加用户登录的功能
                 if(netkey <0){
                     Intent intent = new Intent(MainActivity.this, LoginActivity.class);
-                    intent.putExtra("serverIP", serverIP);
-                    intent.putExtra("serverPort", serverPort);
+
+                    startActivityForResult(intent, REQUEST_CODE_LOGIN);
+                }else{
+                    Intent intent = new Intent(MainActivity.this, UserSettingActivity.class);
 
                     startActivity(intent);
                 }
@@ -441,6 +439,13 @@ public class MainActivity extends AppCompatActivity implements LoginCallback, Sy
 
                         startActivityForResult(intentProSetting, Constants.REQUEST_CODE_SETTING_PROJECT);
 
+                        break;
+                    case R.id.menu_global_setting:
+                        //todo:替换成打开首选项设置的页面,以下代码只是暂时将在线模式转换为离线模式,以后需删除
+                        SharedPreferences setting = getSharedPreferences("preLogin", 0);
+                        SharedPreferences.Editor settingEditor = setting.edit();
+                        settingEditor.putBoolean("networkMode", false);
+                        settingEditor.apply();
                         break;
                 }
                 return false;
@@ -679,6 +684,8 @@ public class MainActivity extends AppCompatActivity implements LoginCallback, Sy
 
             flashCurrentTaskList();
 
+        }else if(requestCode == REQUEST_CODE_LOGIN){
+            finish();
         }
     }
 
@@ -865,7 +872,6 @@ public class MainActivity extends AppCompatActivity implements LoginCallback, Sy
 
         //保存到本地，建立一个函数专门储存任务
         TaskItem taskItem = new TaskItem(proId, taskId, content, time, level);
-//        taskItem.setLastModifyTime(new Date().getTime());
         taskItem.updataLastModifyTime();
         project.addTask(taskItem);
 
@@ -914,11 +920,7 @@ public class MainActivity extends AppCompatActivity implements LoginCallback, Sy
     }
 
     public void toggleTaskFinishState(TaskItem taskItem) {
-//        if(!taskItem.isFinished()){
-//            taskItem.finish();
-//        }else {
-//            taskItem.unFinish();
-//        }
+
         taskItem.setFinished(isFinishing());
         taskItem.updataLastModifyTime();
 
@@ -1199,7 +1201,7 @@ public class MainActivity extends AppCompatActivity implements LoginCallback, Sy
                 flashCurrentTaskList();
             }
         });
-;
+
     }
 
     @Override
@@ -1364,7 +1366,8 @@ public class MainActivity extends AppCompatActivity implements LoginCallback, Sy
     public void loginSuccess(int key) {
         this.netkey = key;
 
-        heartBeat = new HeartBeat(netkey);
+        heartBeat = new HeartBeat(netkey, HeartBeat.HEART_BEAT_DEFAULT_BREAK_TIME);
+//        heartBeat = new HeartBeat(netkey, 1000);
         heartBeat.setAddress(serverIP, serverPort);
         heartBeat.start();
 
