@@ -606,27 +606,13 @@ public class MainActivity extends AppCompatActivity implements LoginCallback, Sy
                                                     operator1.createTask(Functions.generateId(), proId, task, time, level);
                                                 }
 
-                                                @Override
-                                                public void createProjectFailed() {
-
-                                                }
 
                                                 @Override
                                                 public void deleteProjectSuccess(long proId) {
                                                 }
 
                                                 @Override
-                                                public void deleteProjectFailed() {
-
-                                                }
-
-                                                @Override
                                                 public void createTaskSuccess(long taskId, long proId, String todo, long time, int level, long lastModifyTime) {
-
-                                                }
-
-                                                @Override
-                                                public void createTaskFailed() {
 
                                                 }
 
@@ -636,17 +622,7 @@ public class MainActivity extends AppCompatActivity implements LoginCallback, Sy
                                                 }
 
                                                 @Override
-                                                public void deleteTaskFailed() {
-
-                                                }
-
-                                                @Override
                                                 public void modifyProjectSuccess(long proId, String proName, int proColor, long lastModifyTime) {
-
-                                                }
-
-                                                @Override
-                                                public void modifyProjectFailed() {
 
                                                 }
 
@@ -656,9 +632,11 @@ public class MainActivity extends AppCompatActivity implements LoginCallback, Sy
                                                 }
 
                                                 @Override
-                                                public void modifyTaskFailed() {
+                                                public void operateFailed(int failedOperate, int failedType) {
 
                                                 }
+
+
                                             }, netkey, serverIP, serverPort);
                                             operator.createProject(proId, "自动创建", Color.BLACK);
 
@@ -1252,17 +1230,6 @@ public class MainActivity extends AppCompatActivity implements LoginCallback, Sy
     }
 
     @Override
-    public void createProjectFailed() {
-
-        runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-                Toast.makeText(getApplicationContext(), "操作失败,网络连接错误", Toast.LENGTH_SHORT).show();
-            }
-        });
-    }
-
-    @Override
     public void deleteProjectSuccess(long proId) {
         deleteProject(proId);
         runOnUiThread(new Runnable() {
@@ -1270,17 +1237,6 @@ public class MainActivity extends AppCompatActivity implements LoginCallback, Sy
             public void run() {
                 proAdapter.notifyDataSetChanged();
                 flashCurrentTaskList();
-            }
-        });
-    }
-
-    @Override
-    public void deleteProjectFailed() {
-
-        runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-                Toast.makeText(getApplicationContext(), "操作失败,网络连接错误", Toast.LENGTH_SHORT).show();
             }
         });
     }
@@ -1325,17 +1281,6 @@ public class MainActivity extends AppCompatActivity implements LoginCallback, Sy
     }
 
     @Override
-    public void createTaskFailed() {
-
-        runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-                Toast.makeText(getApplicationContext(), "操作失败,网络连接错误", Toast.LENGTH_SHORT).show();
-            }
-        });
-    }
-
-    @Override
     public void deleteTaskSuccess(long taskId, long proId) {
 
         Project p = Functions.findProjectInProjectList(projects, proId);
@@ -1362,17 +1307,6 @@ public class MainActivity extends AppCompatActivity implements LoginCallback, Sy
             @Override
             public void run() {
                 flashCurrentTaskList();
-            }
-        });
-    }
-
-    @Override
-    public void deleteTaskFailed() {
-
-        runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-                Toast.makeText(getApplicationContext(), "操作失败,网络连接错误", Toast.LENGTH_SHORT).show();
             }
         });
     }
@@ -1413,16 +1347,6 @@ public class MainActivity extends AppCompatActivity implements LoginCallback, Sy
 
     }
 
-    @Override
-    public void modifyProjectFailed() {
-
-        runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-                Toast.makeText(getApplicationContext(), "操作失败,网络连接错误", Toast.LENGTH_SHORT).show();
-            }
-        });
-    }
 
     @Override
     public void modifyTaskSuccess(long taskId, long oldProId, long newProId, String todo, long time, int level, boolean isFinished, long lastModifyTime) {
@@ -1471,11 +1395,16 @@ public class MainActivity extends AppCompatActivity implements LoginCallback, Sy
     }
 
     @Override
-    public void modifyTaskFailed() {
+    public void operateFailed(int failedOperate, final int failedType) {
+
         runOnUiThread(new Runnable() {
             @Override
             public void run() {
-                Toast.makeText(getApplicationContext(), "操作失败,网络连接错误", Toast.LENGTH_SHORT).show();
+                if(failedType == NetworkOperator.FAILED_TYPE_TIMEOUT) {
+                    Toast.makeText(getApplicationContext(), "操作失败,网络连接超时", Toast.LENGTH_SHORT).show();
+                }else if(failedType == NetworkOperator.FAILED_TYPE_SERVER_DENIED){
+                    Toast.makeText(getApplicationContext(), "操作失败,服务器拒绝操作", Toast.LENGTH_SHORT).show();
+                }
             }
         });
     }

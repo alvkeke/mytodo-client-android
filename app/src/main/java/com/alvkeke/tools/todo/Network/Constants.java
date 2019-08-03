@@ -5,6 +5,7 @@ public class Constants {
     public final static String SERVER_IP = "192.168.1.9";
     public final static int SERVER_PORT = 9999;
 
+    public final static int SOCKET_SO_TIMEOUT = 5000;
 
     final static char COMMAND_LOGIN = 0;
     //COMMAND_LOGIN + username + ":" + password
