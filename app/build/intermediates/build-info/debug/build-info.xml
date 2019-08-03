@@ -7,13 +7,13 @@
     format="10"
     ir-eligibility="COMPATIBLE"
     plugin-version="3.4.2"
-    timestamp="1564815561810"
+    timestamp="1564816930172"
     token="-8626318492583812632"
     verifier="COLD_SWAP_REQUESTED" >
 
     <task
         name="javac"
-        duration="232" />
+        duration="101" />
     <task
         name="instant-run-dex"
         duration="0" />
@@ -22,16 +22,22 @@
         duration="3" />
     <task
         name="verifier"
-        duration="1" />
+        duration="0" />
 
     <artifact
-        location="/home/alvis/desktop/work-tmp/mytodo-client-android-remake/app/build/intermediates/split-apk/debug/slices/slice_2.apk"
+        location="/home/alvis/desktop/work-tmp/mytodo-client-android-remake/app/build/intermediates/split-apk/debug/slices/slice_7.apk"
         type="SPLIT" />
 
     <build
         build-mode="FULL"
-        timestamp="1564815395657"
+        timestamp="1564816389397"
         verifier="FULL_BUILD_REQUESTED" >
+        <artifact
+            location="/home/alvis/desktop/work-tmp/mytodo-client-android-remake/app/build/intermediates/split-apk/debug/slices/slice_0.apk"
+            type="SPLIT" />
+        <artifact
+            location="/home/alvis/desktop/work-tmp/mytodo-client-android-remake/app/build/intermediates/split-apk/debug/slices/slice_2.apk"
+            type="SPLIT" />
         <artifact
             location="/home/alvis/desktop/work-tmp/mytodo-client-android-remake/app/build/intermediates/split-apk/debug/slices/slice_7.apk"
             type="SPLIT" />
@@ -54,12 +60,6 @@
             location="/home/alvis/desktop/work-tmp/mytodo-client-android-remake/app/build/intermediates/split-apk/debug/slices/slice_1.apk"
             type="SPLIT" />
         <artifact
-            location="/home/alvis/desktop/work-tmp/mytodo-client-android-remake/app/build/intermediates/split-apk/debug/slices/slice_0.apk"
-            type="SPLIT" />
-        <artifact
-            location="/home/alvis/desktop/work-tmp/mytodo-client-android-remake/app/build/intermediates/split-apk/debug/slices/slice_2.apk"
-            type="SPLIT" />
-        <artifact
             location="/home/alvis/desktop/work-tmp/mytodo-client-android-remake/app/build/intermediates/split-apk/debug/slices/slice_5.apk"
             type="SPLIT" />
         <artifact
@@ -75,19 +75,10 @@
     <build
         build-mode="COLD"
         ir-eligibility="COMPATIBLE"
-        timestamp="1564815445084"
+        timestamp="1564816930172"
         verifier="COLD_SWAP_REQUESTED" >
         <artifact
             location="/home/alvis/desktop/work-tmp/mytodo-client-android-remake/app/build/intermediates/split-apk/debug/slices/slice_7.apk"
-            type="SPLIT" />
-    </build>
-    <build
-        build-mode="COLD"
-        ir-eligibility="COMPATIBLE"
-        timestamp="1564815561810"
-        verifier="COLD_SWAP_REQUESTED" >
-        <artifact
-            location="/home/alvis/desktop/work-tmp/mytodo-client-android-remake/app/build/intermediates/split-apk/debug/slices/slice_2.apk"
             type="SPLIT" />
     </build>
 

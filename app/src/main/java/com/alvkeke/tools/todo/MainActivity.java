@@ -465,8 +465,15 @@ public class MainActivity extends AppCompatActivity implements LoginCallback, Sy
             public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
                 TaskItem task = taskList_Show.get(position);
 
-                toggleTaskFinishState(task);
-                flashCurrentTaskList();
+                if(netkey <0) {
+                    toggleTaskFinishState(task);
+                    flashCurrentTaskList();
+                }else {
+
+                    NetworkOperator operator = new NetworkOperator(MainActivity.this, netkey, serverIP, serverPort);
+                    operator.modifyTask(task.getId(), task.getProId(), task.getProId(),
+                            task.getTaskContent(), task.getTime(), task.getLevel(), !task.isFinished());
+                }
                 return true;
             }
         });
@@ -1009,7 +1016,7 @@ public class MainActivity extends AppCompatActivity implements LoginCallback, Sy
 
     public void toggleTaskFinishState(TaskItem taskItem) {
 
-        taskItem.setFinished(isFinishing());
+        taskItem.setFinished(!isFinishing());
         taskItem.updateLastModifyTime();
 
         db = SQLiteDatabase.openOrCreateDatabase(dbfile, null);
