@@ -109,7 +109,7 @@ public class NetworkOperator {
                 try {
                     TaskItem task = new TaskItem(proId, taskId, todo, time, level);
                     task.unFinish();
-                    task.updataLastModifyTime();
+                    task.updateLastModifyTime();
 
                     DatagramSocket socket = new DatagramSocket();
                     String sSend = COMMAND_ADD_TASK + String.valueOf(netkey) +"|"+ taskId +"|"+

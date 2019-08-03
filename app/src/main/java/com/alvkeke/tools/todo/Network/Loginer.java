@@ -70,7 +70,8 @@ public class Loginer {
 //                    packet.setData(data);
                     Arrays.fill(data, (byte)0);
 
-                    socket.setSoTimeout(5000);
+//                    socket.setSoTimeout(5000);
+                    packet.setData(data);
                     socket.receive(packet);
 
                     byte cmd = packet.getData()[0];
@@ -86,6 +87,7 @@ public class Loginer {
                     callback.loginFailed(LOGIN_FAILED_SERVER_TIMEOUT);
                 } catch (IOException e){
                     e.printStackTrace();
+                    callback.loginFailed(LOGIN_FAILED_SERVER_TIMEOUT);
                 }
             }
         });

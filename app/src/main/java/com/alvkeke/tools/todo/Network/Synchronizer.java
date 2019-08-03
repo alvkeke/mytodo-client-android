@@ -1,8 +1,5 @@
 package com.alvkeke.tools.todo.Network;
 
-import android.util.SparseArray;
-
-import com.alvkeke.tools.todo.MainFeatures.Functions;
 import com.alvkeke.tools.todo.MainFeatures.Project;
 import com.alvkeke.tools.todo.MainFeatures.TaskItem;
 
@@ -20,10 +17,11 @@ import java.util.Arrays;
 
 public class Synchronizer {
 
-    private final static int FAILED_TYPE_SERVER_TIMEOUT = 1;
-    private final static int FAILED_TYPE_SERVER_DENIED = 2;
-    private final static int FAILED_TYPE_IO_ERROR = 3;
-    private final static int FAILED_TYPE_SOCKET_ERROR = 4;
+    public final static int FAILED_TYPE_SERVER_TIMEOUT = 1;
+    public final static int FAILED_TYPE_SERVER_DENIED = 2;
+    public final static int FAILED_TYPE_IO_ERROR = 3;
+    public final static int FAILED_TYPE_SOCKET_ERROR = 4;
+    public final static int FAILED_TYPE_MISSING_DATA = 5;
 
     private volatile DatagramSocket socket;
     private int netkey;
@@ -32,8 +30,9 @@ public class Synchronizer {
     private InetAddress address;
     private int port;
 
-    private SparseArray<String> confirmMap;
+//    private SparseArray<String> confirmMap;
 
+    private ArrayList<Integer> confirmMap;
 
     /**
      * usage:
@@ -58,7 +57,8 @@ public class Synchronizer {
         this.callback = callback;
         this.netkey = netkey;
 
-        confirmMap = new SparseArray<>();
+//        confirmMap = new SparseArray<>();
+        confirmMap = new ArrayList<>();
 
     }
 
@@ -87,7 +87,7 @@ public class Synchronizer {
             public void run() {
                 try {
                     socket = new DatagramSocket();
-                    socket.setSoTimeout(6000);
+//                    socket.setSoTimeout(6000);
 
                     new Thread(new RecvCheckRunnable()).start();
                     new Thread(new SendDataRunnable(projects)).start();
@@ -122,6 +122,7 @@ public class Synchronizer {
             String msg, sSend;
 
             ArrayList<Project> projects = new ArrayList<>();
+            ArrayList<TaskItem> taskItems = new ArrayList<>();
 
             long proId;
             long taskId;
@@ -161,11 +162,13 @@ public class Synchronizer {
                             lastModifyTime = Long.valueOf(projInfo[5]);
                             Project p = new Project(proId, proName, proColor);
                             p.setLastModifyTime(lastModifyTime);
-                            projects.add(p);
 
-                            sSend = COMMAND_CONFIRM_DATA + projInfo[1];
+                            sSend = COMMAND_CONFIRM_DATA + String.valueOf(netkey) +"|"+ projInfo[1];
                             packet.setData(sSend.getBytes());
                             socket.send(packet);
+
+                            projects.add(p);
+
                             break;
                         case COMMAND_SEND_DATA_TASKS:
                             String[] taskInfo = msg.split("\\|");
@@ -185,22 +188,30 @@ public class Synchronizer {
                             else
                                 t.unFinish();
 
-                            Project pP = Functions.findProjectInProjectList(projects, proId);
-                            if (pP == null) {
-                                break;
-                            }
-                            pP.addTask(t);
-
-                            sSend = COMMAND_CONFIRM_DATA + taskInfo[1];
+                            sSend = COMMAND_CONFIRM_DATA + String.valueOf(netkey) +"|"+ taskInfo[1];
                             packet.setData(sSend.getBytes());
                             socket.send(packet);
+
+                            taskItems.add(t);
 
                             break;
                         case COMMAND_SEND_DATA_END:
                             sSend = COMMAND_CONFIRM_SEND_END + String.valueOf(netkey);
                             packet.setData(sSend.getBytes());
                             socket.send(packet);
-                            callback.syncDataSuccess(projects);
+//                            callback.syncDataSuccess(projects);
+
+                            //等待服务器6s, 判断数据是否完成发送
+                            Arrays.fill(buf, (byte)0);
+                            socket.receive(packet);
+                            if(packet.getData()[0] == COMMAND_RESEND_NEED){
+//                                callback.syncDataFailed(FAILED_TYPE_MISSING_DATA);
+                                projects.clear();
+                                pullData();
+                            }else if(packet.getData()[0] == COMMAND_RESEND_NO_NEED){
+                                callback.syncDataSuccess(projects, taskItems);
+                            }
+
                             socket.close();
                             breakLoop = true;
                             break;
@@ -295,7 +306,7 @@ public class Synchronizer {
 
                     socket.send(packet);
 
-                    addConfirmDataId(dataId++, sSend);
+                    addConfirmDataId(dataId++);
 
                     for (TaskItem e : p.getTaskList()){
                         sSend = COMMAND_SEND_DATA_TASKS + String.valueOf(netkey) +"|"+ dataId +"|" + e.getId() +"|"+
@@ -305,7 +316,7 @@ public class Synchronizer {
 
                         socket.send(packet);
 
-                        addConfirmDataId(dataId++, sSend);
+                        addConfirmDataId(dataId++);
 
                     }
                 }
@@ -348,62 +359,25 @@ public class Synchronizer {
         }
     }
 
-    class ResendDataRunnable implements Runnable{
-
-        @Override
-        public void run() {
-            String sSend = COMMAND_RESEND_DATA_BEGIN + String.valueOf(netkey);
-            DatagramPacket packet;
-            try {
-
-                packet = new DatagramPacket(sSend.getBytes(), sSend.getBytes().length,
-                        address, port);
-
-                socket.send(packet);
-
-                for (int i = 0; i<confirmMap.size(); i++){
-
-                    packet.setData(confirmMap.valueAt(i).getBytes());
-
-                    socket.send(packet);
-
-                }
-
-                sSend = COMMAND_RESEND_DATA_END + String.valueOf(netkey);
-                packet.setData(sSend.getBytes());
-                socket.send(packet);
-
-            } catch (UnknownHostException e) {
-                e.printStackTrace();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
-    }
-
     private void continueSync(){
         pullData();
     }
 
-    private void addConfirmDataId(int dataId, String sSend){
-        confirmMap.append(dataId, sSend);
+    private void addConfirmDataId(int dataId){
+        confirmMap.add(dataId);
     }
 
     private void delConfirmDataId(int dataId) {
-        confirmMap.delete(dataId);
+        confirmMap.remove(Integer.valueOf(dataId));
     }
 
     private void checkConfirmMap(){
-        if(confirmMap.size() == 0){
+        if(confirmMap.isEmpty()){
             callback.pushDataSuccess();
             continueSync();
         }else{
-            repushMapData();
+            callback.syncDataFailed(FAILED_TYPE_MISSING_DATA);
         }
     }
 
-    private void repushMapData(){
-        new Thread(new RecvCheckRunnable()).start();
-        new Thread(new ResendDataRunnable()).start();
-    }
 }

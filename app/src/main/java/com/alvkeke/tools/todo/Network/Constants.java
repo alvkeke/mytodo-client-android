@@ -34,8 +34,10 @@ public class Constants {
     //COMMAND_SEND_DATA_END + netkey
 
     /**resend the data which is not be confirmed**/
-    final static char COMMAND_RESEND_DATA_BEGIN = 12;
-    final static char COMMAND_RESEND_DATA_END = 13;
+//    final static char COMMAND_RESEND_DATA_BEGIN = 12;
+//    final static char COMMAND_RESEND_DATA_END = 13;
+    public final static char COMMAND_RESEND_NEED = 12;
+    public final static char COMMAND_RESEND_NO_NEED = 13;
 
     /**receiver send**/
     final static char COMMAND_GET_DATA = 14;

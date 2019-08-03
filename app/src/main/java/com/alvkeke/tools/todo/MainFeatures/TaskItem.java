@@ -78,7 +78,7 @@ public class TaskItem {
         return lastModifyTime;
     }
 
-    public void updataLastModifyTime(){
+    public void updateLastModifyTime(){
         lastModifyTime = new Date().getTime();
     }
     public void setLastModifyTime(long lastModifyTime) {

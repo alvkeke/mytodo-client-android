@@ -48,6 +48,7 @@ public class Functions {
     }
 
     public static void mergeProjectList(ArrayList<Project> projListTo, ArrayList<Project> projListFrom) {
+
         for(Project p : projListFrom){
             Project pOld = findProjectInProjectList(projListTo, p.getId());
             if(pOld == null){
@@ -57,11 +58,22 @@ public class Functions {
                     pOld.changeName(p.getName());
                     pOld.changeColor(p.getColor());
                     pOld.setLastModifyTime(p.getLastModifyTime());
-//                    mergeTaskList(pOld.getTaskList(), p.getTaskList());
                 }
-                mergeTaskList(pOld.getTaskList(), p.getTaskList());
             }
         }
+
+    }
+
+    public static void autoMoveTaskToProject(ArrayList<Project> projects, ArrayList<TaskItem> taskItems){
+        for(TaskItem t : taskItems){
+            for(Project p : projects){
+                if(p.getId() == t.getProId()){
+                    p.addTask(t);
+                    break;
+                }
+            }
+        }
+        taskItems.clear();
     }
 
     /*Task List Handler Functions*/
@@ -112,7 +124,7 @@ public class Functions {
         return null;
     }
 
-    private static void mergeTaskList(ArrayList<TaskItem> tasklistTo, ArrayList<TaskItem> tasklistFrom){
+    public static void mergeTaskList(ArrayList<TaskItem> tasklistTo, ArrayList<TaskItem> tasklistFrom){
         for(TaskItem t : tasklistFrom){
 
             TaskItem tOld = findTaskItemInTaskList(tasklistTo, t.getId());

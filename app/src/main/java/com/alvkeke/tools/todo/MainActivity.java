@@ -495,6 +495,7 @@ public class MainActivity extends AppCompatActivity implements LoginCallback, Sy
                         loginer.setAddress(serverIP, serverPort);
                         loginer.login();
                     }else{
+//                        Synchronizer synchronizer = new Synchronizer(MainActivity.this, netkey);
                         synchronizer = new Synchronizer(MainActivity.this, netkey);
                         synchronizer.setAddress(serverIP, serverPort);
                         synchronizer.sync(projects);
@@ -959,7 +960,7 @@ public class MainActivity extends AppCompatActivity implements LoginCallback, Sy
 
         //保存到本地，建立一个函数专门储存任务
         TaskItem taskItem = new TaskItem(proId, taskId, content, time, level);
-        taskItem.updataLastModifyTime();
+        taskItem.updateLastModifyTime();
         project.addTask(taskItem);
 
         db = SQLiteDatabase.openOrCreateDatabase(dbfile, null);
@@ -981,7 +982,7 @@ public class MainActivity extends AppCompatActivity implements LoginCallback, Sy
         taskItem.setLevel(level);
         taskItem.setTime(time);
         taskItem.setFinished(isFinished);
-        taskItem.updataLastModifyTime();
+        taskItem.updateLastModifyTime();
 
         if(oldProId != newProId){
             Project newProject = Functions.findProjectInProjectList(projects, newProId);
@@ -1009,7 +1010,7 @@ public class MainActivity extends AppCompatActivity implements LoginCallback, Sy
     public void toggleTaskFinishState(TaskItem taskItem) {
 
         taskItem.setFinished(isFinishing());
-        taskItem.updataLastModifyTime();
+        taskItem.updateLastModifyTime();
 
         db = SQLiteDatabase.openOrCreateDatabase(dbfile, null);
         if (DBFun.setFinishTask(db, taskItem.getId(), taskItem.isFinished(), new Date().getTime())){
@@ -1149,6 +1150,12 @@ public class MainActivity extends AppCompatActivity implements LoginCallback, Sy
     @Override
     public void syncDataFailed(int FailedType) {
 
+        if(FailedType == Synchronizer.FAILED_TYPE_MISSING_DATA){
+//            new Synchronizer(this, netkey).sync(projects);
+            synchronizer.sync(projects);
+            return;
+        }
+
         runOnUiThread(new Runnable() {
             @Override
             public void run() {
@@ -1164,9 +1171,28 @@ public class MainActivity extends AppCompatActivity implements LoginCallback, Sy
         Log.e("sync data", "push data success");
     }
 
+    private void printProjectList(ArrayList<Project> projects){
+        for(Project p : projects){
+            System.out.println("p: " + p.getId() +":"+ p.getName() +":"+ p.getColor() +":"+ p.getLastModifyTime());
+            for(TaskItem e: p.getTaskList()){
+                System.out.println("\tt: " + e.getId() +":"+ e.getProId() +":"+ e.getTaskContent() +":"+
+                        e.getTime() +":"+ e.getLevel() +":"+ e.getLastModifyTime());
+            }
+        }
+    }
+
     @Override
-    public void syncDataSuccess(final ArrayList<Project> projects) {
+    public void syncDataSuccess(final ArrayList<Project> projects, ArrayList<TaskItem> taskItems) {
         Functions.mergeProjectList(this.projects, projects);
+        ArrayList<TaskItem> tmp = new ArrayList<>();
+        for(Project p : projects){
+            tmp.addAll(p.getTaskList());
+            p.getTaskList().clear();
+        }
+        Functions.mergeTaskList(tmp, taskItems);
+        Functions.autoMoveTaskToProject(projects, tmp);
+
+//        printProjectList(projects);
 
         db = SQLiteDatabase.openOrCreateDatabase(dbfile, null);
         DBFun.mergeDataToDatabase(db, projects);
