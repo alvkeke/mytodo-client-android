@@ -171,8 +171,8 @@ public class Synchronizer {
                             String[] taskInfo = msg.split("\\|");
                             if(taskInfo.length < 9) break;
 
-                            proId = Long.valueOf(taskInfo[2]);
-                            taskId = Long.valueOf(taskInfo[3]);
+                            taskId = Long.valueOf(taskInfo[2]);
+                            proId = Long.valueOf(taskInfo[3]);
                             taskContent = taskInfo[4];
                             taskTime = Long.valueOf(taskInfo[5]);
                             taskLevel = Integer.valueOf(taskInfo[6]);
@@ -298,8 +298,8 @@ public class Synchronizer {
                     addConfirmDataId(dataId++, sSend);
 
                     for (TaskItem e : p.getTaskList()){
-                        sSend = COMMAND_SEND_DATA_TASKS + String.valueOf(netkey) +"|"+ dataId +"|" + e.getProId() +"|"+
-                                e.getId() +"|"+ e.getTaskContent() +"|"+ e.getTime() +"|"+
+                        sSend = COMMAND_SEND_DATA_TASKS + String.valueOf(netkey) +"|"+ dataId +"|" + e.getId() +"|"+
+                                e.getProId() +"|"+ e.getTaskContent() +"|"+ e.getTime() +"|"+
                                 e.getLevel() +"|"+ e.isFinished() +"|"+ e.getLastModifyTime();
                         packet.setData(sSend.getBytes());
 

@@ -92,46 +92,48 @@ public class PreLaunchActivity extends AppCompatActivity implements LoginCallbac
     }
 
     @Override
-    public void loginFailed(int failedType) {
+    public void loginFailed(final int failedType) {
 
-        switch (failedType){
-            case Loginer.LOGIN_FAILED_SERVER_DENIED:
-                Log.e("login", "error:server denied.");
-                //弹出登录界面
+        if(failedType == Loginer.LOGIN_FAILED_SERVER_TIMEOUT && !getIntent().getBooleanExtra("firstLogin", false)){
 
-                SharedPreferences.Editor editor = setting.edit();
-                editor.putBoolean("networkMode", false);
-                editor.apply();
-                runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
+            Log.e("login", "error:server timeout.");
+
+            runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    Toast.makeText(getApplicationContext(), "网络连接错误,登录失败", Toast.LENGTH_SHORT).show();
+                }
+            });
+            Intent MainIntent = new Intent(PreLaunchActivity.this, MainActivity.class);
+            MainIntent.putExtra("netkey", 0);
+            MainIntent.putExtra("username", username);
+            MainIntent.putExtra("password", password);
+            MainIntent.putExtra("serverIP", serverIP);
+            MainIntent.putExtra("serverPort", serverPort);
+            startActivity(MainIntent);
+
+        }else{
+
+            //弹出登录界面
+
+            SharedPreferences.Editor editor = setting.edit();
+            editor.putBoolean("networkMode", false);
+            editor.apply();
+            runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    if(failedType == Loginer.LOGIN_FAILED_SERVER_DENIED) {
                         Toast.makeText(getApplicationContext(), "账户或密码出错,服务器拒绝登录,请重试", Toast.LENGTH_SHORT).show();
+                    }else{
+                        Toast.makeText(getApplicationContext(), "服务器未响应,请稍后重试", Toast.LENGTH_SHORT).show();
                     }
-                });
-                Intent intent = new Intent(PreLaunchActivity.this, LoginActivity.class);
-                intent.putExtra("isReLogin", true);
+                }
+            });
+            Intent intent = new Intent(PreLaunchActivity.this, LoginActivity.class);
+            intent.putExtra("isReLogin", true);
 
-                startActivity(intent);
+            startActivity(intent);
 
-                break;
-            case Loginer.LOGIN_FAILED_SERVER_TIMEOUT:
-                Log.e("login", "error:server timeout.");
-
-                runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        Toast.makeText(getApplicationContext(), "网络连接错误,登录失败", Toast.LENGTH_SHORT).show();
-                    }
-                });
-                Intent MainIntent = new Intent(PreLaunchActivity.this, MainActivity.class);
-                MainIntent.putExtra("netkey", 0);
-                MainIntent.putExtra("username", username);
-                MainIntent.putExtra("password", password);
-                MainIntent.putExtra("serverIP", serverIP);
-                MainIntent.putExtra("serverPort", serverPort);
-                startActivity(MainIntent);
-
-                break;
         }
 
         finish();

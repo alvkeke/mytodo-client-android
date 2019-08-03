@@ -112,8 +112,8 @@ public class NetworkOperator {
                     task.updataLastModifyTime();
 
                     DatagramSocket socket = new DatagramSocket();
-                    String sSend = COMMAND_ADD_TASK + String.valueOf(netkey) +"|"+ proId +"|"+
-                            taskId +"|"+ todo +"|"+ time +"|"+
+                    String sSend = COMMAND_ADD_TASK + String.valueOf(netkey) +"|"+ taskId +"|"+
+                            proId +"|"+ todo +"|"+ time +"|"+
                             level +"|"+ task.isFinished() +"|"+ task.getLastModifyTime();
                     DatagramPacket packet = new DatagramPacket(sSend.getBytes(), sSend.getBytes().length, address, port);
                     socket.send(packet);
@@ -243,7 +243,8 @@ public class NetworkOperator {
         }).start();
     }
 
-    public void modifyTask(final long taskId, final long oldProId, final long newProId, final String todo, final long time, final int level, final boolean isFinished){
+    public void modifyTask(final long taskId, final long oldProId, final long newProId,
+                           final String todo, final long time, final int level, final boolean isFinished){
 
         new Thread(new Runnable() {
             @Override
@@ -276,6 +277,14 @@ public class NetworkOperator {
                 }
             }
         }).start();
+    }
+
+    public void finishedTask(long taskId, long proId){
+
+    }
+
+    public void unFinishedTask(long taskId, long proId){
+
     }
 
 }

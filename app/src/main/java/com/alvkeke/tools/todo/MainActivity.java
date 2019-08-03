@@ -564,9 +564,96 @@ public class MainActivity extends AppCompatActivity implements LoginCallback, Sy
                                             proAdapter.notifyDataSetChanged();
                                             addTask(Functions.generateId(), proId, task, time, level);
                                         }else {
-                                            NetworkOperator operator = new NetworkOperator(MainActivity.this, netkey, serverIP, serverPort);
+                                            NetworkOperator operator = new NetworkOperator(new NetOperatorCallback() {
+                                                @Override
+                                                public void createProjectSuccess(long proId, String proName, int proColor, long lastModifyTime) {
+                                                    Project project = new Project(proId, proName, proColor);
+                                                    project.setLastModifyTime(lastModifyTime);
+                                                    projects.add(project);
+
+                                                    db = SQLiteDatabase.openOrCreateDatabase(dbfile, null);
+                                                    runOnUiThread(new Runnable() {
+                                                        @Override
+                                                        public void run() {
+
+                                                        }
+                                                    });
+                                                    if(!DBFun.createProject(db, project)){
+                                                        runOnUiThread(new Runnable() {
+                                                            @Override
+                                                            public void run() {
+                                                                Toast.makeText(MainActivity.this, "数据库修改失败", Toast.LENGTH_SHORT).show();
+                                                            }
+                                                        });
+                                                    }
+                                                    db.close();
+
+                                                    runOnUiThread(new Runnable() {
+                                                        @Override
+                                                        public void run() {
+                                                            proAdapter.notifyDataSetChanged();
+                                                        }
+                                                    });
+                                                    NetworkOperator operator1 = new NetworkOperator(MainActivity.this, netkey, serverIP, serverPort);
+                                                    operator1.createTask(Functions.generateId(), proId, task, time, level);
+                                                }
+
+                                                @Override
+                                                public void createProjectFailed() {
+
+                                                }
+
+                                                @Override
+                                                public void deleteProjectSuccess(long proId) {
+                                                }
+
+                                                @Override
+                                                public void deleteProjectFailed() {
+
+                                                }
+
+                                                @Override
+                                                public void createTaskSuccess(long taskId, long proId, String todo, long time, int level, long lastModifyTime) {
+
+                                                }
+
+                                                @Override
+                                                public void createTaskFailed() {
+
+                                                }
+
+                                                @Override
+                                                public void deleteTaskSuccess(long taskId, long proId) {
+
+                                                }
+
+                                                @Override
+                                                public void deleteTaskFailed() {
+
+                                                }
+
+                                                @Override
+                                                public void modifyProjectSuccess(long proId, String proName, int proColor, long lastModifyTime) {
+
+                                                }
+
+                                                @Override
+                                                public void modifyProjectFailed() {
+
+                                                }
+
+                                                @Override
+                                                public void modifyTaskSuccess(long taskId, long oldProId, long newProId, String todo, long time, int level, boolean isFinished, long lastModifyTime) {
+
+                                                }
+
+                                                @Override
+                                                public void modifyTaskFailed() {
+
+                                                }
+                                            }, netkey, serverIP, serverPort);
                                             operator.createProject(proId, "自动创建", Color.BLACK);
-                                            operator.createTask(Functions.generateId(), proId, task, time, level);
+
                                         }
                                         flashCurrentTaskList();
                                     }
@@ -1074,19 +1161,13 @@ public class MainActivity extends AppCompatActivity implements LoginCallback, Sy
 
     @Override
     public void pushDataSuccess() {
-        runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-                Toast.makeText(getApplicationContext(), "同步完成", Toast.LENGTH_SHORT).show();
-            }
-        });
+        Log.e("sync data", "push data success");
     }
 
     @Override
     public void syncDataSuccess(final ArrayList<Project> projects) {
         Functions.mergeProjectList(this.projects, projects);
 
-//        proAdapter.changeProjectList(this.projects);
         db = SQLiteDatabase.openOrCreateDatabase(dbfile, null);
         DBFun.mergeDataToDatabase(db, projects);
         db.close();
@@ -1096,6 +1177,7 @@ public class MainActivity extends AppCompatActivity implements LoginCallback, Sy
             public void run() {
                 proAdapter.notifyDataSetChanged();
                 flashCurrentTaskList();
+                Toast.makeText(getApplicationContext(), "同步完成", Toast.LENGTH_SHORT).show();
             }
         });
 
