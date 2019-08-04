@@ -64,4 +64,6 @@ public class Constants {
     final static char COMMAND_HEART_BEAT = 127;
     //COMMAND_HEART_BEAT + netkey
 
+    final static char COMMAND_YOU_ARE_OFFLINE = 126;
+
 }

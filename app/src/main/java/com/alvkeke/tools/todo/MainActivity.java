@@ -35,6 +35,7 @@ import com.alvkeke.tools.todo.MainFeatures.ProjectListAdapter;
 import com.alvkeke.tools.todo.MainFeatures.TaskItem;
 import com.alvkeke.tools.todo.MainFeatures.TaskListAdapter;
 import com.alvkeke.tools.todo.Network.HeartBeat;
+import com.alvkeke.tools.todo.Network.HeartBeatCallback;
 import com.alvkeke.tools.todo.Network.LoginCallback;
 import com.alvkeke.tools.todo.Network.Loginer;
 import com.alvkeke.tools.todo.Network.NetOperatorCallback;
@@ -51,7 +52,7 @@ import java.util.Objects;
 
 import static com.alvkeke.tools.todo.Common.Constants.*;
 
-public class MainActivity extends AppCompatActivity implements LoginCallback, SyncCallback, NetOperatorCallback {
+public class MainActivity extends AppCompatActivity implements LoginCallback, SyncCallback, NetOperatorCallback, HeartBeatCallback {
 
     DrawerLayout drawerLayout;
     ImageView mainStatusBar;
@@ -189,7 +190,7 @@ public class MainActivity extends AppCompatActivity implements LoginCallback, Sy
 
         //初始化一些必要变量
         if(netkey >0){
-            heartBeat = new HeartBeat(netkey, HeartBeat.HEART_BEAT_DEFAULT_BREAK_TIME);
+            heartBeat = new HeartBeat(this, netkey, HeartBeat.HEART_BEAT_DEFAULT_BREAK_TIME);
 //            heartBeat = new HeartBeat(netkey, 1000);
             heartBeat.setAddress(serverIP, serverPort);
             heartBeat.start();
@@ -497,12 +498,20 @@ public class MainActivity extends AppCompatActivity implements LoginCallback, Sy
                     refreshLayout.setRefreshing(false);
                 }else {
                     if (netkey == 0) {
-                        String password = getIntent().getStringExtra("password");
+                        SharedPreferences setting = getSharedPreferences("preLogin", 0);
+                        String username = setting.getString("username", "");
+                        String password;
+                        if(MainActivity.this.username.equals(username)){
+                            password = setting.getString("password", "");
+                        }else{
+                            Toast.makeText(getApplicationContext(), "用户信息出错,请重新登录", Toast.LENGTH_SHORT).show();
+                            MainActivity.this.finish();
+                            return;
+                        }
                         Loginer loginer = new Loginer(MainActivity.this, username, password);
                         loginer.setAddress(serverIP, serverPort);
                         loginer.login();
                     }else{
-//                        Synchronizer synchronizer = new Synchronizer(MainActivity.this, netkey);
                         synchronizer = new Synchronizer(MainActivity.this, netkey);
                         synchronizer.setAddress(serverIP, serverPort);
                         synchronizer.sync(projects);
@@ -1145,9 +1154,13 @@ public class MainActivity extends AppCompatActivity implements LoginCallback, Sy
             @Override
             public void run() {
                 Toast.makeText(getApplicationContext(), "同步失败", Toast.LENGTH_SHORT).show();
+                netkey = 0;
+                String strShow = username + "(离线)";
+                tvUsername.setText(strShow);
             }
         });
         refreshLayout.setRefreshing(false);
+        heartBeat.stop();
 
     }
 
@@ -1405,8 +1418,12 @@ public class MainActivity extends AppCompatActivity implements LoginCallback, Sy
                 }else if(failedType == NetworkOperator.FAILED_TYPE_SERVER_DENIED){
                     Toast.makeText(getApplicationContext(), "操作失败,服务器拒绝操作", Toast.LENGTH_SHORT).show();
                 }
+                netkey = 0;
+                String strShow = username + "(离线)";
+                tvUsername.setText(strShow);
             }
         });
+        heartBeat.stop();
     }
 
     /**call back of the loginer**/
@@ -1415,7 +1432,7 @@ public class MainActivity extends AppCompatActivity implements LoginCallback, Sy
     public void loginSuccess(int key) {
         this.netkey = key;
 
-        heartBeat = new HeartBeat(netkey, HeartBeat.HEART_BEAT_DEFAULT_BREAK_TIME);
+        heartBeat = new HeartBeat(this, netkey, HeartBeat.HEART_BEAT_DEFAULT_BREAK_TIME);
 //        heartBeat = new HeartBeat(netkey, 1000);
         heartBeat.setAddress(serverIP, serverPort);
         heartBeat.start();
@@ -1442,5 +1459,19 @@ public class MainActivity extends AppCompatActivity implements LoginCallback, Sy
                 refreshLayout.setRefreshing(false);
             }
         });
+    }
+
+    @Override
+    public void offline() {
+
+        netkey = 0;
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                String s = username + "(离线)";
+                tvUsername.setText(s);
+            }
+        });
+
     }
 }

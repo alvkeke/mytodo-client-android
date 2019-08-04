@@ -31,6 +31,7 @@ public class Loginer {
 
         try {
             socket = new DatagramSocket();
+            socket.setSoTimeout(SOCKET_SO_TIMEOUT);
         } catch (SocketException e) {
             e.printStackTrace();
         }
@@ -66,12 +67,9 @@ public class Loginer {
                     packet = new DatagramPacket(data, data.length, address, serPort);
                     socket.send(packet);
 
-//                    data = new byte[1024];
-//                    packet.setData(data);
                     Arrays.fill(data, (byte)0);
-
-//                    socket.setSoTimeout(5000);
                     packet.setData(data);
+
                     socket.receive(packet);
 
                     byte cmd = packet.getData()[0];

@@ -87,7 +87,7 @@ public class Synchronizer {
             public void run() {
                 try {
                     socket = new DatagramSocket();
-//                    socket.setSoTimeout(6000);
+                    socket.setSoTimeout(SOCKET_SO_TIMEOUT);
 
                     new Thread(new RecvCheckRunnable()).start();
                     new Thread(new SendDataRunnable(projects)).start();

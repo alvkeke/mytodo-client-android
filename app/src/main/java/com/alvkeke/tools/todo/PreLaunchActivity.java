@@ -107,7 +107,7 @@ public class PreLaunchActivity extends AppCompatActivity implements LoginCallbac
             Intent MainIntent = new Intent(PreLaunchActivity.this, MainActivity.class);
             MainIntent.putExtra("netkey", 0);
             MainIntent.putExtra("username", username);
-            MainIntent.putExtra("password", password);
+//            MainIntent.putExtra("password", password);
             MainIntent.putExtra("serverIP", serverIP);
             MainIntent.putExtra("serverPort", serverPort);
             startActivity(MainIntent);
