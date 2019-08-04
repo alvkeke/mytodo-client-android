@@ -82,6 +82,7 @@ public class Loginer {
                     }
                     socket.close();
                 } catch (SocketTimeoutException e){
+                    e.printStackTrace();
                     callback.loginFailed(LOGIN_FAILED_SERVER_TIMEOUT);
                 } catch (IOException e){
                     e.printStackTrace();

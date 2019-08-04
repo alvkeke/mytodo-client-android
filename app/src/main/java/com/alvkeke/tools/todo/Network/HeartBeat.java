@@ -63,11 +63,6 @@ public class HeartBeat {
     public void stop(){
         keepBeat = false;
         socket.close();
-        heartBeatThread.stop();
-    }
-
-    public boolean isThreadAlive(){
-        return heartBeatThread.isAlive();
     }
 
     class HeartBeatRunnable implements Runnable {
@@ -87,8 +82,10 @@ public class HeartBeat {
                     Thread.sleep(heartBreakTime);    //time break : 80s, server should check the client online each 100s
                 } catch (IOException e) {
                     e.printStackTrace();
+                    break;
                 } catch (InterruptedException e) {
                     e.printStackTrace();
+                    break;
                 }
             }
 
@@ -107,7 +104,7 @@ public class HeartBeat {
             byte[] buf = new byte[1024];
             DatagramPacket packet = new DatagramPacket(buf, buf.length);
 
-            while (true) {
+            while (!socket.isClosed()) {
                 Arrays.fill(buf, (byte)0);
                 packet.setData(buf);
 
@@ -121,6 +118,7 @@ public class HeartBeat {
                     }
                 } catch (IOException e) {
                     e.printStackTrace();
+                    return;
                 }
             }
         }

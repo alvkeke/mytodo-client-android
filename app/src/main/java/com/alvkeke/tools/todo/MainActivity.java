@@ -1433,7 +1433,6 @@ public class MainActivity extends AppCompatActivity implements LoginCallback, Sy
         this.netkey = key;
 
         heartBeat = new HeartBeat(this, netkey, HeartBeat.HEART_BEAT_DEFAULT_BREAK_TIME);
-//        heartBeat = new HeartBeat(netkey, 1000);
         heartBeat.setAddress(serverIP, serverPort);
         heartBeat.start();
 
@@ -1452,13 +1451,20 @@ public class MainActivity extends AppCompatActivity implements LoginCallback, Sy
 
     @Override
     public void loginFailed(int failedType) {
-        runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-                Toast.makeText(getApplicationContext(), "登录失败,请稍后重试", Toast.LENGTH_SHORT).show();
-                refreshLayout.setRefreshing(false);
-            }
-        });
+        if(failedType == Loginer.LOGIN_FAILED_SERVER_DENIED){
+            Intent intent = new Intent(MainActivity.this, LoginActivity.class);
+            startActivity(intent);
+
+            MainActivity.this.finish();
+        }else {
+            runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    Toast.makeText(getApplicationContext(), "登录失败,请稍后重试", Toast.LENGTH_SHORT).show();
+                    refreshLayout.setRefreshing(false);
+                }
+            });
+        }
     }
 
     @Override

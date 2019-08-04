@@ -1,7 +1,10 @@
 package com.alvkeke.tools.todo;
 
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -107,7 +110,6 @@ public class PreLaunchActivity extends AppCompatActivity implements LoginCallbac
             Intent MainIntent = new Intent(PreLaunchActivity.this, MainActivity.class);
             MainIntent.putExtra("netkey", 0);
             MainIntent.putExtra("username", username);
-//            MainIntent.putExtra("password", password);
             MainIntent.putExtra("serverIP", serverIP);
             MainIntent.putExtra("serverPort", serverPort);
             startActivity(MainIntent);
