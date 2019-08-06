@@ -21,13 +21,13 @@ import static com.alvkeke.tools.todo.Network.Constants.*;
 
 public class PreLaunchActivity extends AppCompatActivity implements LoginCallback {
 
-    SharedPreferences setting;
-    boolean networkMode;
-    String serverIP;
-    int serverPort;
+    private SharedPreferences setting;
+    private boolean networkMode;
+    private String serverIP;
+    private int serverPort;
 
-    String username;
-    String password;
+    private String username;
+    private String password;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

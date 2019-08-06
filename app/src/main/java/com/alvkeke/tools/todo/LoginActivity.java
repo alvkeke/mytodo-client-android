@@ -14,12 +14,12 @@ import android.widget.Toast;
 
 public class LoginActivity extends AppCompatActivity {
 
-    EditText etUsername;
-    EditText etPassword;
+    private EditText etUsername;
+    private EditText etPassword;
 
-    Button btnLogin;
+    private Button btnLogin;
 
-    boolean isReLogin;
+    private boolean isReLogin;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

@@ -27,26 +27,26 @@ import java.util.Calendar;
 
 public class AddTaskActivity extends AppCompatActivity {
 
-    Switch reminderSwitch;
-    Switch finishedSwitch;
-    TextView labelReminder;
-    TextView labelFinished;
-    EditText etTaskContent;
-    EditText etRemindTime;
-    EditText etRemindDate;
-    Button btnOk;
-    Button btnCancel;
-    RelativeLayout reminderSettingArea;
-    Spinner projectSelector;
-    Spinner levelSelector;
+    private Switch reminderSwitch;
+    private Switch finishedSwitch;
+    private TextView labelReminder;
+    private TextView labelFinished;
+    private EditText etTaskContent;
+    private EditText etRemindTime;
+    private EditText etRemindDate;
+    private Button btnOk;
+    private Button btnCancel;
+    private RelativeLayout reminderSettingArea;
+    private Spinner projectSelector;
+    private Spinner levelSelector;
 
-    Boolean isRemind;
-    int year;
-    int month;
-    int dayOfMonth;
+    private Boolean isRemind;
+    private int year;
+    private int month;
+    private int dayOfMonth;
 
-    int hour;
-    int minute;
+    private int hour;
+    private int minute;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

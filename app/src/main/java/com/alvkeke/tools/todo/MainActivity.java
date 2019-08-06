@@ -54,47 +54,47 @@ import static com.alvkeke.tools.todo.Common.Constants.*;
 
 public class MainActivity extends AppCompatActivity implements LoginCallback, SyncCallback, NetOperatorCallback, HeartBeatCallback {
 
-    DrawerLayout drawerLayout;
-    ImageView mainStatusBar;
-    ImageView drawerStatusBar;
-    RelativeLayout toolbarArea;
-    Toolbar toolbar;
-    ImageView btnAddTask;
+    private DrawerLayout drawerLayout;
+    private ImageView mainStatusBar;
+    private ImageView drawerStatusBar;
+    private RelativeLayout toolbarArea;
+    private Toolbar toolbar;
+    private ImageView btnAddTask;
     public ListView lvTaskList;
-    SwipeRefreshLayout refreshLayout;
+    private SwipeRefreshLayout refreshLayout;
 
-    ImageView ivUserIcon;
-    TextView tvUsername;
-    ListView lvTaskRank;
-    ListView lvProject;
-    RelativeLayout btnProjectSetting;
-    ImageView btnAddProject;
+    private ImageView ivUserIcon;
+    private TextView tvUsername;
+    private ListView lvTaskRank;
+    private ListView lvProject;
+    private RelativeLayout btnProjectSetting;
+    private ImageView btnAddProject;
 
-    ArrayList<Project> projects;
-    ProjectListAdapter proAdapter;
-    DefaultTaskListAdapter defaultProAdapter;
-    TaskListAdapter taskAdapter;
+    private ArrayList<Project> projects;
+    private ProjectListAdapter proAdapter;
+    private DefaultTaskListAdapter defaultProAdapter;
+    private TaskListAdapter taskAdapter;
 
-    ArrayList<TaskItem> taskList_Show;
+    private ArrayList<TaskItem> taskList_Show;
 
-    File dbfile;
-    SQLiteDatabase db;
+    private File dbfile;
+    private SQLiteDatabase db;
 
-    SharedPreferences usersetting;
+    private SharedPreferences usersetting;
 
-    long currentProjectId;
-    int currentTaskList;
-    int sortTaskListWay;
-    boolean proSettingMode;
-    boolean showFinishedTasks;
+    private long currentProjectId;
+    private int currentTaskList;
+    private int sortTaskListWay;
+    private boolean proSettingMode;
+    private boolean showFinishedTasks;
 
-    Synchronizer synchronizer;
-    String username;
-    int netkey;
-    String serverIP;
-    int serverPort;
+    private Synchronizer synchronizer;
+    private String username;
+    private int netkey;
+    private String serverIP;
+    private int serverPort;
 
-    HeartBeat heartBeat;
+    private HeartBeat heartBeat;
 
     @Override
     protected void onCreate(final Bundle savedInstanceState) {
@@ -793,7 +793,7 @@ public class MainActivity extends AppCompatActivity implements LoginCallback, Sy
 
     }
 
-    void sortTaskList(){
+    private void sortTaskList(){
         if(sortTaskListWay == SORT_LIST_LEVEL_FIRST){
             ArrayList<TaskItem> high = new ArrayList<>();
             ArrayList<TaskItem> mid = new ArrayList<>();
@@ -829,7 +829,7 @@ public class MainActivity extends AppCompatActivity implements LoginCallback, Sy
         }
     }
 
-    void selectSort_level(ArrayList<TaskItem> arrayList){
+    private void selectSort_level(ArrayList<TaskItem> arrayList){
         if (arrayList == null || arrayList.isEmpty()){
             return;
         }
@@ -844,7 +844,7 @@ public class MainActivity extends AppCompatActivity implements LoginCallback, Sy
         }
     }
 
-    void selectSort_time(ArrayList<TaskItem> arrayList){
+    private void selectSort_time(ArrayList<TaskItem> arrayList){
         if(arrayList == null || arrayList.isEmpty()){
             return;
         }
@@ -875,7 +875,7 @@ public class MainActivity extends AppCompatActivity implements LoginCallback, Sy
         arrayList.addAll(notime);
     }
 
-    void flashMenuItem(){
+    private void flashMenuItem(){
         if(currentTaskList == TASK_LIST_USER_PROJECT){
             toolbar.getMenu().getItem(4).setVisible(true);
         }else{
@@ -883,7 +883,7 @@ public class MainActivity extends AppCompatActivity implements LoginCallback, Sy
         }
     }
 
-    void flashTaskMenuItem(){
+    private void flashTaskMenuItem(){
         if(lvTaskList.getCheckedItemCount() == 0){
             toolbar.getMenu().getItem(0).setVisible(false);
             toolbar.getMenu().getItem(1).setVisible(false);
@@ -897,12 +897,12 @@ public class MainActivity extends AppCompatActivity implements LoginCallback, Sy
         //taskAdapter.notifyDataSetChanged();
     }
 
-    void hideTaskMenu(){
+    private void hideTaskMenu(){
         toolbar.getMenu().getItem(0).setVisible(false);
         toolbar.getMenu().getItem(1).setVisible(false);
     }
 
-    void deselectItem(){
+    private void deselectItem(){
         for(int i = 0; i<lvTaskList.getCount(); i++){
             lvTaskList.setItemChecked(i, false);
         }
@@ -910,7 +910,7 @@ public class MainActivity extends AppCompatActivity implements LoginCallback, Sy
         lvTaskList.setChoiceMode(AbsListView.CHOICE_MODE_MULTIPLE);
     }
 
-    void setStatusBarHeight(){
+    private void setStatusBarHeight(){
         int systemStatusBarHeight = 0;
         int resId = getApplicationContext().getResources().getIdentifier("status_bar_height",
                 "dimen", "android");
@@ -928,7 +928,7 @@ public class MainActivity extends AppCompatActivity implements LoginCallback, Sy
 
     }
 
-    void enterProjectSettingMode(){
+    private void enterProjectSettingMode(){
         proSettingMode = true;
         TextView tvTitle = (TextView)btnProjectSetting.getChildAt(1);
         tvTitle.setText(R.string.label_project_setting_finish);
@@ -936,7 +936,7 @@ public class MainActivity extends AppCompatActivity implements LoginCallback, Sy
         btnAddProject.setVisibility(View.VISIBLE);
     }
 
-    void exitProjectSettingMode(){
+    private void exitProjectSettingMode(){
         proSettingMode = false;
         TextView tvTitle = (TextView)btnProjectSetting.getChildAt(1);
         tvTitle.setText(R.string.label_project_setting);
@@ -944,7 +944,7 @@ public class MainActivity extends AppCompatActivity implements LoginCallback, Sy
         btnAddProject.setVisibility(View.GONE);
     }
 
-    public void addTask(long taskId, long proId, String content, long time, int level) {
+    private void addTask(long taskId, long proId, String content, long time, int level) {
 
         Project project = Functions.findProjectInProjectList(projects, proId);
         if(project == null){
@@ -964,7 +964,7 @@ public class MainActivity extends AppCompatActivity implements LoginCallback, Sy
         db.close();
     }
 
-    public void modifyTask(long taskId, long oldProId, long newProId, String content, long time, int level, boolean isFinished) {
+    private void modifyTask(long taskId, long oldProId, long newProId, String content, long time, int level, boolean isFinished) {
         Project oldProject = Functions.findProjectInProjectList(projects, oldProId);
         if(oldProject == null){
             Toast.makeText(this, "信息出错:找不到项目", Toast.LENGTH_LONG).show();
@@ -1001,7 +1001,7 @@ public class MainActivity extends AppCompatActivity implements LoginCallback, Sy
         db.close();
     }
 
-    public void toggleTaskFinishState(TaskItem taskItem) {
+    private void toggleTaskFinishState(TaskItem taskItem) {
 
         taskItem.setFinished(!isFinishing());
         taskItem.updateLastModifyTime();
@@ -1013,7 +1013,7 @@ public class MainActivity extends AppCompatActivity implements LoginCallback, Sy
         db.close();
     }
 
-    public void deleteTaskList(ArrayList<TaskItem> tasks){
+    private void deleteTaskList(ArrayList<TaskItem> tasks){
         db = SQLiteDatabase.openOrCreateDatabase(dbfile, null);
         for (TaskItem e : tasks) {
             Project p = Functions.findProjectInProjectList(projects, e.getProId());
@@ -1047,7 +1047,7 @@ public class MainActivity extends AppCompatActivity implements LoginCallback, Sy
 //        }
 //    }
 
-    public void createProject(long proId, String name, int color) {
+    private void createProject(long proId, String name, int color) {
         Project project = new Project(proId, name, color);
         project.updataLastModifyTime();
         projects.add(project);
@@ -1061,7 +1061,7 @@ public class MainActivity extends AppCompatActivity implements LoginCallback, Sy
 //        proAdapter.notifyDataSetChanged();
     }
 
-    public void modifyProject(long proId, String name, int color) {
+    private void modifyProject(long proId, String name, int color) {
         Project project = proAdapter.findItem(proId);
 
         if (project != null) {
@@ -1084,7 +1084,7 @@ public class MainActivity extends AppCompatActivity implements LoginCallback, Sy
 //        proAdapter.notifyDataSetChanged();
     }
 
-    public void deleteProject(long proId) {
+    private void deleteProject(long proId) {
         Project p = proAdapter.findItem(proId);
         projects.remove(p);
 
@@ -1097,7 +1097,7 @@ public class MainActivity extends AppCompatActivity implements LoginCallback, Sy
 //        proAdapter.notifyDataSetChanged();
     }
 
-    public void flashCurrentTaskList(){
+    private void flashCurrentTaskList(){
 
         switch (currentTaskList){
             case TASK_LIST_ALL_TASK:
