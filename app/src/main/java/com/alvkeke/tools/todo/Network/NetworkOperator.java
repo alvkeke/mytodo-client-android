@@ -76,13 +76,9 @@ public class NetworkOperator {
                     }
 
                     socket.close();
-                } catch (SocketTimeoutException e){
+                } catch (IOException e){
                     e.printStackTrace();
                     callback.operateFailed(FAILED_OPERATE_CREATE_PROJECT, FAILED_TYPE_TIMEOUT);
-                } catch (SocketException e) {
-                    e.printStackTrace();
-                } catch (IOException e) {
-                    e.printStackTrace();
                 }
             }
         }).start();
@@ -111,13 +107,9 @@ public class NetworkOperator {
                     }
 
                     socket.close();
-                } catch (SocketTimeoutException e){
+                } catch (IOException e){
                     e.printStackTrace();
                     callback.operateFailed(FAILED_OPERATE_DELETE_PROJECT, FAILED_TYPE_TIMEOUT);
-                } catch (SocketException e) {
-                    e.printStackTrace();
-                } catch (IOException e) {
-                    e.printStackTrace();
                 }
             }
         }).start();
@@ -151,13 +143,9 @@ public class NetworkOperator {
                     }
 
                     socket.close();
-                } catch (SocketTimeoutException e){
+                } catch (IOException e){
                     e.printStackTrace();
                     callback.operateFailed(FAILED_OPERATE_CREATE_TASK, FAILED_TYPE_TIMEOUT);
-                } catch (SocketException e) {
-                    e.printStackTrace();
-                } catch (IOException e) {
-                    e.printStackTrace();
                 }
             }
         }).start();
@@ -190,13 +178,9 @@ public class NetworkOperator {
                     }
 
                     socket.close();
-                } catch (SocketTimeoutException e){
+                } catch (IOException e){
                     e.printStackTrace();
                     callback.operateFailed(FAILED_OPERATE_DELETE_TASK, FAILED_TYPE_TIMEOUT);
-                } catch (SocketException e) {
-                    e.printStackTrace();
-                } catch (IOException e) {
-                    e.printStackTrace();
                 }
             }
         }).start();
@@ -227,13 +211,9 @@ public class NetworkOperator {
                     }
 
                     socket.close();
-                } catch (SocketTimeoutException e){
+                } catch (IOException e){
                     e.printStackTrace();
                     callback.operateFailed(FAILED_OPERATE_DELETE_TASK, FAILED_TYPE_TIMEOUT);
-                } catch (SocketException e) {
-                    e.printStackTrace();
-                } catch (IOException e) {
-                    e.printStackTrace();
                 }
             }
         }).start();
@@ -268,13 +248,9 @@ public class NetworkOperator {
                     }
 
                     socket.close();
-                } catch (SocketTimeoutException e){
-                    e.printStackTrace();
-                    callback.operateFailed(FAILED_OPERATE_MODIFY_PROJECT, FAILED_TYPE_TIMEOUT);
-                } catch (SocketException e) {
-                    e.printStackTrace();
                 } catch (IOException e) {
                     e.printStackTrace();
+                    callback.operateFailed(FAILED_OPERATE_MODIFY_PROJECT, FAILED_TYPE_TIMEOUT);
                 }
             }
         }).start();
@@ -308,13 +284,9 @@ public class NetworkOperator {
                     }
 
                     socket.close();
-                } catch (SocketTimeoutException e){
+                } catch (IOException e){
                     e.printStackTrace();
                     callback.operateFailed(FAILED_OPERATE_MODIFY_TASK, FAILED_TYPE_TIMEOUT);
-                } catch (SocketException e) {
-                    e.printStackTrace();
-                } catch (IOException e) {
-                    e.printStackTrace();
                 }
             }
         }).start();

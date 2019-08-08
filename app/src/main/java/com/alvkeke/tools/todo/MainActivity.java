@@ -466,7 +466,7 @@ public class MainActivity extends AppCompatActivity implements LoginCallback, Sy
             public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
                 TaskItem task = taskList_Show.get(position);
 
-                if(netkey <0) {
+                if(netkey <= 0) {
                     toggleTaskFinishState(task);
                     flashCurrentTaskList();
                 }else {
@@ -1003,11 +1003,11 @@ public class MainActivity extends AppCompatActivity implements LoginCallback, Sy
 
     private void toggleTaskFinishState(TaskItem taskItem) {
 
-        taskItem.setFinished(!isFinishing());
+        taskItem.setFinished(!taskItem.isFinished());
         taskItem.updateLastModifyTime();
 
         db = SQLiteDatabase.openOrCreateDatabase(dbfile, null);
-        if (DBFun.setFinishTask(db, taskItem.getId(), taskItem.isFinished(), new Date().getTime())){
+        if (DBFun.setFinishTask(db, taskItem.getId(), taskItem.isFinished(), taskItem.getLastModifyTime())){
             Toast.makeText(MainActivity.this, "数据库修改失败", Toast.LENGTH_LONG).show();
         }
         db.close();
@@ -1076,7 +1076,7 @@ public class MainActivity extends AppCompatActivity implements LoginCallback, Sy
 
             //建立一个函数专门修改项目信息，并保存到本地
             db = SQLiteDatabase.openOrCreateDatabase(dbfile, null);
-            if(!DBFun.modifyProject(db, proId, name, color, new Date().getTime())){
+            if(!DBFun.modifyProject(db, proId, name, color, project.getLastModifyTime())){
                 Toast.makeText(this, "数据库修改失败", Toast.LENGTH_LONG).show();
             }
             db.close();
