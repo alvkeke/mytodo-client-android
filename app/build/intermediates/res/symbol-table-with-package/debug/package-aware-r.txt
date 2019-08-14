@@ -524,6 +524,7 @@ color colorPrimaryDark
 color color_black
 color color_light_gray
 color color_light_pink
+color color_menu_icon
 color color_pink
 color color_red
 color color_transparent
@@ -818,6 +819,7 @@ drawable ic_launcher_foreground
 drawable ic_navigation
 drawable ic_ok
 drawable ic_project_setting_24dp
+drawable ic_select_all
 drawable notification_action_background
 drawable notification_bg
 drawable notification_bg_low
@@ -987,6 +989,8 @@ id main_replace_to_status_bar
 id main_task_list
 id main_toolbar
 id main_toolbar_area
+id menu_item_cancel
+id menu_item_ok
 id message
 id middle
 id multiply
@@ -1006,8 +1010,6 @@ id percent
 id position
 id positionX
 id positionY
-id preference_menu_item_cancel
-id preference_menu_item_ok
 id pro_setting_btn_cancel
 id pro_setting_btn_ok
 id pro_setting_color_selector
@@ -1087,6 +1089,7 @@ id titleDividerNoCustom
 id title_template
 id tk_menu_global_setting
 id tk_menu_project_setting
+id tk_menu_select_all
 id tk_menu_show_all_task
 id tk_menu_task_delete
 id tk_menu_task_edit
@@ -1157,7 +1160,7 @@ layout select_dialog_multichoice_material
 layout select_dialog_singlechoice_material
 layout support_simple_spinner_dropdown_item
 layout task_item_layout
-menu preference_menu
+menu menu_ok_and_cancel
 menu project_setting_menu
 menu task_list_menu
 mipmap ic_all_tasks
@@ -1252,6 +1255,7 @@ string str_main_title
 string str_reminder_divider_between_time_and_date
 string str_test
 string str_user_project
+string string_unfinished
 string title_btn_cancel
 string title_btn_login
 string title_btn_ok
@@ -1261,6 +1265,7 @@ string title_menu_edit
 string title_menu_preferences
 string title_menu_project_setting
 string title_menu_rank
+string title_menu_select_all
 string title_menu_showalltasks
 style AlertDialog_AppCompat
 style AlertDialog_AppCompat_Light

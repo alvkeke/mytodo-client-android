@@ -16,6 +16,7 @@ import android.support.v7.widget.Toolbar;
 import android.os.Bundle;
 import android.util.Log;
 import android.util.SparseBooleanArray;
+import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AbsListView;
@@ -168,7 +169,8 @@ public class MainActivity extends AppCompatActivity implements LoginCallback, Sy
 
             tvUsername.setText(usernameShow);
         }
-        toolbar.getMenu().getItem(2).setChecked(showFinishedTasks);
+//        toolbar.getMenu().getItem(3).setChecked(showFinishedTasks);
+        toolbar.getMenu().findItem(R.id.tk_menu_show_all_task).setChecked(showFinishedTasks);
         taskAdapter.showFinishedTasks(showFinishedTasks);
 
         //加载本地存储的项目已经任务,根据存储的用户信息判断加载的为local文件还是用户个人文件夹
@@ -186,7 +188,7 @@ public class MainActivity extends AppCompatActivity implements LoginCallback, Sy
         db.close();
 
         //刷新列表界面
-        flashCurrentTaskList();
+        refreshCurrentTaskList();
 
         //初始化一些必要变量
         if(netkey >0){
@@ -253,7 +255,7 @@ public class MainActivity extends AppCompatActivity implements LoginCallback, Sy
                 }
 
                 currentTaskList = position + 1;
-                flashCurrentTaskList();
+                refreshCurrentTaskList();
                 taskAdapter.changeTaskList(taskList_Show);
                 taskAdapter.notifyDataSetChanged();
 
@@ -272,7 +274,7 @@ public class MainActivity extends AppCompatActivity implements LoginCallback, Sy
 
                     currentTaskList = TASK_LIST_USER_PROJECT;
                     drawerLayout.closeDrawer(GravityCompat.START);
-                    flashCurrentTaskList();
+                    refreshCurrentTaskList();
                 }else{
                     Intent intentProSetting = new Intent(MainActivity.this, ProjectSettingActivity.class);
                     intentProSetting.putExtra("proId", id);
@@ -327,139 +329,12 @@ public class MainActivity extends AppCompatActivity implements LoginCallback, Sy
             }
         });
 
-        toolbar.setOnMenuItemClickListener(new Toolbar.OnMenuItemClickListener() {
-            @Override
-            public boolean onMenuItemClick(MenuItem menuItem) {
-
-                AlertDialog.Builder builder;
-
-                switch (menuItem.getItemId()){
-                    case R.id.tk_menu_task_edit:
-                        Log.e("debug", "edit");
-                        SparseBooleanArray array = lvTaskList.getCheckedItemPositions();
-                        int pos = 0;
-                        for (; pos < lvTaskList.getCount(); pos++) {
-                            if (array.get(pos)) {
-                                Log.e("edit task", "position:" + pos);
-                                break;
-                            }
-                        }
-                        long proId = taskList_Show.get(pos).getProId();
-                        final long taskId = taskList_Show.get(pos).getId();
-                        String content = taskList_Show.get(pos).getTaskContent();
-                        long time = taskList_Show.get(pos).getTime();
-                        int level = taskList_Show.get(pos).getLevel();
-                        ArrayList<String> projectsInfo = Functions.stringListFromProjectList(projects);
-                        Intent intent = new Intent(MainActivity.this, TaskSettingActivity.class);
-
-                        intent.putExtra("proId", proId);
-                        intent.putExtra("taskId", taskId);
-                        intent.putExtra("content", content);
-                        intent.putExtra("time", time);
-                        intent.putExtra("level", level);
-                        intent.putStringArrayListExtra("projectsInfo", projectsInfo);
-                        deselectItem();
-                        hideTaskMenu();
-                        startActivityForResult(intent, REQUEST_CODE_SETTING_TASK);
-
-                        break;
-                    case R.id.tk_menu_task_delete:
-
-                        builder = new AlertDialog.Builder(MainActivity.this);
-                        builder.setMessage("您确定要删除该任务吗？\n\n此操作不可以回退。")
-                                .setNegativeButton(R.string.title_btn_cancel, new DialogInterface.OnClickListener() {
-                                    @Override
-                                    public void onClick(DialogInterface dialog, int which) {
-                                        deselectItem();
-                                        hideTaskMenu();
-                                    }
-                                })
-                                .setPositiveButton(R.string.title_btn_ok, new DialogInterface.OnClickListener() {
-                                    @Override
-                                    public void onClick(DialogInterface dialog, int which) {
-                                        SparseBooleanArray array = lvTaskList.getCheckedItemPositions();
-                                        ArrayList<TaskItem> delArray = new ArrayList<>();
-                                        for (int i = 0; i<lvTaskList.getCount(); i++){
-                                            if(array.get(i)){
-                                                TaskItem taskItem = taskList_Show.get(i);
-                                                //deleteTask(taskItem.getId(), taskItem.getProId());
-                                                delArray.add(taskItem);
-                                            }
-                                        }
-
-                                        if(netkey <= 0) {
-
-                                            deleteTaskList(delArray);
-                                        }else{
-                                            NetworkOperator operator = new NetworkOperator(MainActivity.this, netkey, serverIP, serverPort);
-
-                                            operator.deleteTaskList(delArray);
-                                        }
-
-                                        deselectItem();
-                                        flashCurrentTaskList();
-                                        hideTaskMenu();
-                                    }
-                                });
-                        builder.create().show();
-
-                        break;
-                    case R.id.tk_menu_show_all_task:
-                        showFinishedTasks = !showFinishedTasks;
-                        menuItem.setChecked(showFinishedTasks);
-                        SharedPreferences.Editor editor = usersetting.edit();
-                        editor.putBoolean("showFinishedTasks", showFinishedTasks);
-                        editor.apply();
-                        taskAdapter.showFinishedTasks(showFinishedTasks);
-                        break;
-                    case R.id.tk_menu_task_rank:
-                        //排列任务
-                        builder = new AlertDialog.Builder(MainActivity.this);
-                        builder.setItems(new String[]{"等级优先", "时间优先"}, new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                sortTaskListWay = which;
-                                flashCurrentTaskList();
-                                SharedPreferences.Editor editor = usersetting.edit();
-                                editor.putInt("sortTaskListWay", sortTaskListWay);
-                                editor.apply();
-                            }
-                        });
-                        builder.create().show();
-                        break;
-                    case R.id.tk_menu_project_setting:
-                        //完成打开项目设置的页面
-                        Intent intentProSetting = new Intent(MainActivity.this, ProjectSettingActivity.class);
-                        intentProSetting.putExtra("proId", currentProjectId);
-                        Project currentProject = Functions.findProjectInProjectList(projects, currentProjectId);
-                        if(currentProject == null){
-                            break;
-                        }
-                        intentProSetting.putExtra("proName", currentProject.getName());
-                        intentProSetting.putExtra("proColor", currentProject.getColor());
-
-                        startActivityForResult(intentProSetting, Constants.REQUEST_CODE_SETTING_PROJECT);
-
-                        break;
-                    case R.id.tk_menu_global_setting:
-                        //todo:替换成打开首选项设置的页面,以下代码只是暂时将在线模式转换为离线模式,以后需删除
-//                        SharedPreferences setting = getSharedPreferences("preLogin", 0);
-//                        SharedPreferences.Editor settingEditor = setting.edit();
-//                        settingEditor.putBoolean("networkMode", false);
-//                        settingEditor.apply();
-                        Intent preferIntent = new Intent(MainActivity.this, PreferenceActivity.class);
-
-                        startActivity(preferIntent);
-                        break;
-                }
-                return false;
-            }
-        });
+        toolbar.setOnMenuItemClickListener(new MenuClickListener());
 
         lvTaskList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                flashTaskMenuItem();
+                refreshTaskMenuItem();
                 taskAdapter.notifyDataSetChanged();
             }
         });
@@ -471,7 +346,7 @@ public class MainActivity extends AppCompatActivity implements LoginCallback, Sy
 
                 if(netkey <= 0) {
                     toggleTaskFinishState(task);
-                    flashCurrentTaskList();
+                    refreshCurrentTaskList();
                 }else {
 
                     NetworkOperator operator = new NetworkOperator(MainActivity.this, netkey, serverIP, serverPort);
@@ -492,12 +367,12 @@ public class MainActivity extends AppCompatActivity implements LoginCallback, Sy
                         p.getTaskList().clear();
                     }
                     projects.clear();
-                    flashCurrentTaskList();
+                    refreshCurrentTaskList();
 
                     db = SQLiteDatabase.openOrCreateDatabase(dbfile, null);
                     DBFun.restoreTasks(db, projects);
                     db.close();
-                    flashCurrentTaskList();
+                    refreshCurrentTaskList();
                     refreshLayout.setRefreshing(false);
                 }else {
                     if (netkey == 0) {
@@ -653,7 +528,7 @@ public class MainActivity extends AppCompatActivity implements LoginCallback, Sy
                                             operator.createProject(proId, "自动创建", Color.BLACK);
 
                                         }
-                                        flashCurrentTaskList();
+                                        refreshCurrentTaskList();
                                     }
                                 });
                         builder.create().show();
@@ -673,7 +548,7 @@ public class MainActivity extends AppCompatActivity implements LoginCallback, Sy
                 }
 
                 //新建任务时,刷新当前显示的列表
-                flashCurrentTaskList();
+                refreshCurrentTaskList();
 
             }
 
@@ -708,7 +583,7 @@ public class MainActivity extends AppCompatActivity implements LoginCallback, Sy
                     }
 
             }
-            flashCurrentTaskList();
+            refreshCurrentTaskList();
 
         }else if (requestCode == REQUEST_CODE_ADD_PROJECT){
             if(resultCode != RESULT_CANCEL) {
@@ -767,7 +642,7 @@ public class MainActivity extends AppCompatActivity implements LoginCallback, Sy
                 operator.modifyTask(taskId, oldProId, newProId, task, time, level, isFinished);
             }
 
-            flashCurrentTaskList();
+            refreshCurrentTaskList();
 
         }else if(requestCode == REQUEST_CODE_LOGIN){
             finish();
@@ -794,6 +669,145 @@ public class MainActivity extends AppCompatActivity implements LoginCallback, Sy
             startActivity(intent);
         }
 
+    }
+
+    class MenuClickListener implements Toolbar.OnMenuItemClickListener {
+
+        @Override
+        public boolean onMenuItemClick(MenuItem menuItem) {
+            AlertDialog.Builder builder;
+
+            switch (menuItem.getItemId()){
+                case R.id.tk_menu_task_edit:
+                    Log.e("debug", "edit");
+                    SparseBooleanArray array = lvTaskList.getCheckedItemPositions();
+                    int pos = 0;
+                    for (; pos < lvTaskList.getCount(); pos++) {
+                        if (array.get(pos)) {
+                            Log.e("edit task", "position:" + pos);
+                            break;
+                        }
+                    }
+                    long proId = taskList_Show.get(pos).getProId();
+                    final long taskId = taskList_Show.get(pos).getId();
+                    String content = taskList_Show.get(pos).getTaskContent();
+                    long time = taskList_Show.get(pos).getTime();
+                    int level = taskList_Show.get(pos).getLevel();
+                    boolean isFinished = taskList_Show.get(pos).isFinished();
+                    ArrayList<String> projectsInfo = Functions.stringListFromProjectList(projects);
+                    Intent intent = new Intent(MainActivity.this, TaskSettingActivity.class);
+
+                    intent.putExtra("proId", proId);
+                    intent.putExtra("taskId", taskId);
+                    intent.putExtra("content", content);
+                    intent.putExtra("time", time);
+                    intent.putExtra("level", level);
+                    intent.putExtra("isFinished", isFinished);
+                    intent.putStringArrayListExtra("projectsInfo", projectsInfo);
+                    deselectItem();
+                    hideTaskMenu();
+                    startActivityForResult(intent, REQUEST_CODE_SETTING_TASK);
+
+                    break;
+                case R.id.tk_menu_select_all:
+                    if(lvTaskList.getCheckedItemCount() == lvTaskList.getCount()){
+                        deselectItem();
+                    }else {
+                        selectAllItem();
+                    }
+                    refreshTaskMenuItem();
+                    refreshCurrentTaskList();
+                    break;
+                case R.id.tk_menu_task_delete:
+
+                    builder = new AlertDialog.Builder(MainActivity.this);
+                    builder.setMessage("您确定要删除该任务吗？\n\n此操作不可以回退。")
+                            .setNegativeButton(R.string.title_btn_cancel, new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    deselectItem();
+                                    hideTaskMenu();
+                                }
+                            })
+                            .setPositiveButton(R.string.title_btn_ok, new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    SparseBooleanArray array = lvTaskList.getCheckedItemPositions();
+                                    ArrayList<TaskItem> delArray = new ArrayList<>();
+                                    for (int i = 0; i<lvTaskList.getCount(); i++){
+                                        if(array.get(i)){
+                                            TaskItem taskItem = taskList_Show.get(i);
+                                            //deleteTask(taskItem.getId(), taskItem.getProId());
+                                            delArray.add(taskItem);
+                                        }
+                                    }
+
+                                    if(netkey <= 0) {
+
+                                        deleteTaskList(delArray);
+                                    }else{
+                                        NetworkOperator operator = new NetworkOperator(MainActivity.this, netkey, serverIP, serverPort);
+
+                                        operator.deleteTaskList(delArray);
+                                    }
+
+                                    deselectItem();
+                                    refreshCurrentTaskList();
+                                    hideTaskMenu();
+                                }
+                            });
+                    builder.create().show();
+
+                    break;
+                case R.id.tk_menu_show_all_task:
+                    showFinishedTasks = !showFinishedTasks;
+                    menuItem.setChecked(showFinishedTasks);
+                    SharedPreferences.Editor editor = usersetting.edit();
+                    editor.putBoolean("showFinishedTasks", showFinishedTasks);
+                    editor.apply();
+                    taskAdapter.showFinishedTasks(showFinishedTasks);
+                    break;
+                case R.id.tk_menu_task_rank:
+                    //排列任务
+                    int checkItem = usersetting.getInt("sortTaskListWay", SORT_LIST_LEVEL_FIRST);
+                    builder = new AlertDialog.Builder(MainActivity.this);
+                    builder.setSingleChoiceItems(new String[]{"等级优先", "时间优先"}, checkItem,
+                            new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            sortTaskListWay = which;
+                            refreshCurrentTaskList();
+                            SharedPreferences.Editor editor = usersetting.edit();
+                            editor.putInt("sortTaskListWay", sortTaskListWay);
+                            editor.apply();
+                            dialog.dismiss();
+                        }
+                    });
+                    builder.create().show();
+                    break;
+                case R.id.tk_menu_project_setting:
+                    //完成打开项目设置的页面
+                    Intent intentProSetting = new Intent(MainActivity.this, ProjectSettingActivity.class);
+                    intentProSetting.putExtra("proId", currentProjectId);
+                    Project currentProject = Functions.findProjectInProjectList(projects, currentProjectId);
+                    if(currentProject == null){
+                        break;
+                    }
+                    intentProSetting.putExtra("proName", currentProject.getName());
+                    intentProSetting.putExtra("proColor", currentProject.getColor());
+
+                    startActivityForResult(intentProSetting, Constants.REQUEST_CODE_SETTING_PROJECT);
+
+                    break;
+                case R.id.tk_menu_global_setting:
+                    //打开首选项设置的页面
+                    Intent preferIntent = new Intent(MainActivity.this, PreferenceActivity.class);
+
+                    startActivity(preferIntent);
+                    break;
+            }
+            return false;
+        }
     }
 
     private void sortTaskList(){
@@ -878,31 +892,43 @@ public class MainActivity extends AppCompatActivity implements LoginCallback, Sy
         arrayList.addAll(notime);
     }
 
-    private void flashMenuItem(){
+    private void setMenuItemHide(){
         if(currentTaskList == TASK_LIST_USER_PROJECT){
-            toolbar.getMenu().getItem(4).setVisible(true);
+            toolbar.getMenu().findItem(R.id.tk_menu_project_setting).setVisible(true);
         }else{
-            toolbar.getMenu().getItem(4).setVisible(false);
+            toolbar.getMenu().findItem(R.id.tk_menu_project_setting).setVisible(false);
         }
     }
 
-    private void flashTaskMenuItem(){
+    private void refreshTaskMenuItem(){
+        Menu m = toolbar.getMenu();
         if(lvTaskList.getCheckedItemCount() == 0){
-            toolbar.getMenu().getItem(0).setVisible(false);
-            toolbar.getMenu().getItem(1).setVisible(false);
+            m.findItem(R.id.tk_menu_task_edit).setVisible(false);
+            m.findItem(R.id.tk_menu_task_delete).setVisible(false);
+            m.findItem(R.id.tk_menu_select_all).setVisible(false);
         }else if(lvTaskList.getCheckedItemCount() == 1){
-            toolbar.getMenu().getItem(0).setVisible(true);
-            toolbar.getMenu().getItem(1).setVisible(true);
+            m.findItem(R.id.tk_menu_task_edit).setVisible(true);
+            m.findItem(R.id.tk_menu_task_delete).setVisible(true);
+            m.findItem(R.id.tk_menu_select_all).setVisible(true);
         }else{
-            toolbar.getMenu().getItem(0).setVisible(false);
-            toolbar.getMenu().getItem(1).setVisible(true);
+            m.findItem(R.id.tk_menu_task_edit).setVisible(false);
+            m.findItem(R.id.tk_menu_task_delete).setVisible(true);
+            m.findItem(R.id.tk_menu_select_all).setVisible(true);
         }
-        //taskAdapter.notifyDataSetChanged();
     }
 
     private void hideTaskMenu(){
-        toolbar.getMenu().getItem(0).setVisible(false);
-        toolbar.getMenu().getItem(1).setVisible(false);
+        Menu m = toolbar.getMenu();
+        m.findItem(R.id.tk_menu_task_edit).setVisible(false);
+        m.findItem(R.id.tk_menu_task_delete).setVisible(false);
+        m.findItem(R.id.tk_menu_select_all).setVisible(false);
+    }
+
+    private void selectAllItem(){
+        lvTaskList.setChoiceMode(AbsListView.CHOICE_MODE_MULTIPLE);
+        for(int i = 0; i<lvTaskList.getCount(); i++){
+            lvTaskList.setItemChecked(i, true);
+        }
     }
 
     private void deselectItem(){
@@ -1061,7 +1087,6 @@ public class MainActivity extends AppCompatActivity implements LoginCallback, Sy
             Toast.makeText(this, "数据库修改失败", Toast.LENGTH_LONG).show();
         }
         db.close();
-//        proAdapter.notifyDataSetChanged();
     }
 
     private void modifyProject(long proId, String name, int color) {
@@ -1084,7 +1109,6 @@ public class MainActivity extends AppCompatActivity implements LoginCallback, Sy
             }
             db.close();
         }
-//        proAdapter.notifyDataSetChanged();
     }
 
     private void deleteProject(long proId) {
@@ -1097,10 +1121,9 @@ public class MainActivity extends AppCompatActivity implements LoginCallback, Sy
             Toast.makeText(this, "数据库修改失败", Toast.LENGTH_LONG).show();
         }
         db.close();
-//        proAdapter.notifyDataSetChanged();
     }
 
-    private void flashCurrentTaskList(){
+    private void refreshCurrentTaskList(){
 
         switch (currentTaskList){
             case TASK_LIST_ALL_TASK:
@@ -1119,7 +1142,7 @@ public class MainActivity extends AppCompatActivity implements LoginCallback, Sy
                 Project project = Functions.findProjectInProjectList(projects, currentProjectId);
                 if(project == null){
                     currentTaskList = TASK_LIST_ALL_TASK;
-                    flashCurrentTaskList();
+                    refreshCurrentTaskList();
                     return;
                 }
                 taskList_Show = project.getTaskList();
@@ -1131,7 +1154,7 @@ public class MainActivity extends AppCompatActivity implements LoginCallback, Sy
         editor.putLong("currentProjectId", currentProjectId);
 
         editor.apply();
-        flashMenuItem();
+        setMenuItemHide();
         sortTaskList();
 
         taskAdapter.changeTaskList(taskList_Show);
@@ -1148,7 +1171,6 @@ public class MainActivity extends AppCompatActivity implements LoginCallback, Sy
     public void syncDataFailed(int FailedType) {
 
         if(FailedType == Synchronizer.FAILED_TYPE_MISSING_DATA){
-//            new Synchronizer(this, netkey).sync(projects);
             synchronizer.sync(projects);
             return;
         }
@@ -1172,16 +1194,6 @@ public class MainActivity extends AppCompatActivity implements LoginCallback, Sy
         Log.e("sync data", "push data success");
     }
 
-    private void printProjectList(ArrayList<Project> projects){
-        for(Project p : projects){
-            System.out.println("p: " + p.getId() +":"+ p.getName() +":"+ p.getColor() +":"+ p.getLastModifyTime());
-            for(TaskItem e: p.getTaskList()){
-                System.out.println("\tt: " + e.getId() +":"+ e.getProId() +":"+ e.getTaskContent() +":"+
-                        e.getTime() +":"+ e.getLevel() +":"+ e.getLastModifyTime());
-            }
-        }
-    }
-
     @Override
     public void syncDataSuccess(final ArrayList<Project> projects, ArrayList<TaskItem> taskItems) {
         Functions.mergeProjectList(this.projects, projects);
@@ -1193,8 +1205,6 @@ public class MainActivity extends AppCompatActivity implements LoginCallback, Sy
         Functions.mergeTaskList(tmp, taskItems);
         Functions.autoMoveTaskToProject(projects, tmp);
 
-//        printProjectList(projects);
-
         db = SQLiteDatabase.openOrCreateDatabase(dbfile, null);
         DBFun.mergeDataToDatabase(db, projects);
         db.close();
@@ -1203,7 +1213,7 @@ public class MainActivity extends AppCompatActivity implements LoginCallback, Sy
             @Override
             public void run() {
                 proAdapter.notifyDataSetChanged();
-                flashCurrentTaskList();
+                refreshCurrentTaskList();
                 Toast.makeText(getApplicationContext(), "同步完成", Toast.LENGTH_SHORT).show();
             }
         });
@@ -1252,7 +1262,7 @@ public class MainActivity extends AppCompatActivity implements LoginCallback, Sy
             @Override
             public void run() {
                 proAdapter.notifyDataSetChanged();
-                flashCurrentTaskList();
+                refreshCurrentTaskList();
             }
         });
     }
@@ -1290,7 +1300,7 @@ public class MainActivity extends AppCompatActivity implements LoginCallback, Sy
         runOnUiThread(new Runnable() {
             @Override
             public void run() {
-                flashCurrentTaskList();
+                refreshCurrentTaskList();
             }
         });
 
@@ -1322,7 +1332,7 @@ public class MainActivity extends AppCompatActivity implements LoginCallback, Sy
         runOnUiThread(new Runnable() {
             @Override
             public void run() {
-                flashCurrentTaskList();
+                refreshCurrentTaskList();
             }
         });
     }
@@ -1404,7 +1414,7 @@ public class MainActivity extends AppCompatActivity implements LoginCallback, Sy
         runOnUiThread(new Runnable() {
             @Override
             public void run() {
-                flashCurrentTaskList();
+                refreshCurrentTaskList();
             }
         });
 

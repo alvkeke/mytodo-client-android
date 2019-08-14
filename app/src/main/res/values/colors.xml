@@ -24,4 +24,5 @@
     <color name="testColor">#22000000</color>
 
     <color name="taskItemSelect">#E5E5E5</color>
+	<color name="color_menu_icon">#BB0000</color>
 </resources>

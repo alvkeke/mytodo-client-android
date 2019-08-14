@@ -51,14 +51,14 @@ public class PreferenceActivity extends AppCompatActivity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.preference_menu, menu);
+        getMenuInflater().inflate(R.menu.menu_ok_and_cancel, menu);
         return true;
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()){
-            case R.id.preference_menu_item_ok:
+            case R.id.menu_item_ok:
                 String newIp = etIp.getText().toString();
                 int newPort = Integer.parseInt(etPort.getText().toString());
                 boolean networkMode = switchNetworkMode.isChecked();
@@ -71,7 +71,7 @@ public class PreferenceActivity extends AppCompatActivity {
                 Toast.makeText(getApplicationContext(), "下次启动生效", Toast.LENGTH_SHORT).show();
                 PreferenceActivity.this.finish();
                 break;
-            case R.id.preference_menu_item_cancel:
+            case R.id.menu_item_cancel:
                 PreferenceActivity.this.finish();
                 break;
         }

@@ -3,8 +3,11 @@ package com.alvkeke.tools.todo;
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
 import android.content.Intent;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CompoundButton;
@@ -27,31 +30,29 @@ import java.util.Calendar;
 
 public class TaskSettingActivity extends AppCompatActivity {
 
-    Switch reminderSwitch;
-    Switch finishedSwitch;
-    TextView labelReminder;
-    TextView labelFinished;
-    EditText etTaskContent;
-    EditText etRemindTime;
-    EditText etRemindDate;
-    Button btnOk;
-    Button btnCancel;
-    RelativeLayout reminderSettingArea;
-    Spinner projectSelector;
-    Spinner levelSelector;
+    private Switch reminderSwitch;
+    private Switch finishedSwitch;
+    private TextView labelReminder;
+    private TextView labelFinished;
+    private EditText etTaskContent;
+    private EditText etRemindTime;
+    private EditText etRemindDate;
+    private Button btnOk;
+    private Button btnCancel;
+    private RelativeLayout reminderSettingArea;
+    private Spinner projectSelector;
+    private Spinner levelSelector;
 
-    long proId;
-    long taskId;
+    private long proId;
+    private long taskId;
 
-    Boolean isRemind;
-    int year;
-    int month;
-    int dayOfMonth;
+    private Boolean isRemind;
+    private int year;
+    private int month;
+    private int dayOfMonth;
 
-    int hour;
-    int minute;
-
-    boolean isFinished;
+    private int hour;
+    private int minute;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -85,7 +86,7 @@ public class TaskSettingActivity extends AppCompatActivity {
         String content = intent.getStringExtra("content");
         long time = intent.getLongExtra("time", -1);
         int level = intent.getIntExtra("level", 0);
-        isFinished = intent.getBooleanExtra("isFinished", false);
+        boolean isFinished = intent.getBooleanExtra("isFinished", false);
         ArrayList<String> projectsInfo = intent.getStringArrayListExtra("projectsInfo");
         ArrayList<Project> list = Functions.projectListFromStringList(projectsInfo);
         ProjectListAdapter projectListAdapter = new ProjectListAdapter(this, list);
@@ -93,10 +94,10 @@ public class TaskSettingActivity extends AppCompatActivity {
 
         //这里用项目列表来代替任务等级的列表,通过参数上的不同来区分这任务等级和项目列表的不同
         ArrayList<Project> levelList = new ArrayList<>();
-        levelList.add(new Project(-1,"普通", this.getResources().getColor(R.color.level_none)));
-        levelList.add(new Project(-1,"优先", this.getResources().getColor(R.color.level_low)));
-        levelList.add(new Project(-1,"重要", this.getResources().getColor(R.color.level_mid)));
-        levelList.add(new Project(-1,"紧急", this.getResources().getColor(R.color.level_high)));
+        levelList.add(new Project(-1,"普通", ContextCompat.getColor(this, R.color.level_none)));
+        levelList.add(new Project(-1,"优先", ContextCompat.getColor(this, R.color.level_low)));
+        levelList.add(new Project(-1,"重要", ContextCompat.getColor(this, R.color.level_mid)));
+        levelList.add(new Project(-1,"紧急", ContextCompat.getColor(this, R.color.level_high)));
 
         ProjectListAdapter levelListAdapter = new ProjectListAdapter(this, levelList);
         levelSelector.setAdapter(levelListAdapter);
@@ -229,5 +230,25 @@ public class TaskSettingActivity extends AppCompatActivity {
             }
         });
 
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+
+        getMenuInflater().inflate(R.menu.menu_ok_and_cancel, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()){
+            case R.id.menu_item_ok:
+                btnOk.callOnClick();
+                break;
+            case R.id.menu_item_cancel:
+                btnCancel.callOnClick();
+                break;
+        }
+        return super.onOptionsItemSelected(item);
     }
 }

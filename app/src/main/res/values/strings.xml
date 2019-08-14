@@ -24,4 +24,6 @@
     <string name="title_btn_login">登录</string>
 	<string name="preference_label_ip_and_port">IP地址 : 端口</string>
     <string name="preference_title_onlineMode">在线模式</string>
+	<string name="string_unfinished">未完成，敬请期待</string>
+	<string name="title_menu_select_all">全选</string>
 </resources>
