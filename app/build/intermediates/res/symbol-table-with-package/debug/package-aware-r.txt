@@ -668,6 +668,7 @@ dimen distance_addTask_margin
 dimen distance_add_task_btn_to_right_bottom
 dimen distance_edit_left_and_right_margin
 dimen distance_login_margin_to_top
+dimen distance_margin_preference
 dimen distance_pro_setting_margin
 dimen distance_project_list_to_start
 dimen distance_project_margin
@@ -809,11 +810,13 @@ drawable ic_add_project_selector
 drawable ic_add_task
 drawable ic_add_task_pressed
 drawable ic_add_task_selector
+drawable ic_cancel
 drawable ic_delete_task
 drawable ic_edit_task
 drawable ic_launcher_background
 drawable ic_launcher_foreground
 drawable ic_navigation
+drawable ic_ok
 drawable ic_project_setting_24dp
 drawable notification_action_background
 drawable notification_bg
@@ -938,6 +941,8 @@ id easeInOut
 id easeOut
 id edit_query
 id end
+id et_ip_address
+id et_port
 id expand_activities_button
 id expanded_menu
 id fill
@@ -954,6 +959,7 @@ id home
 id homeAsUp
 id icon
 id icon_group
+id id_label_ip_address
 id ifRoom
 id ignore
 id image
@@ -981,15 +987,6 @@ id main_replace_to_status_bar
 id main_task_list
 id main_toolbar
 id main_toolbar_area
-id menu_global_setting
-id menu_item_cancel
-id menu_item_ok
-id menu_item_remove
-id menu_project_setting
-id menu_show_all_task
-id menu_task_delete
-id menu_task_edit
-id menu_task_rank
 id message
 id middle
 id multiply
@@ -1009,6 +1006,8 @@ id percent
 id position
 id positionX
 id positionY
+id preference_menu_item_cancel
+id preference_menu_item_ok
 id pro_setting_btn_cancel
 id pro_setting_btn_ok
 id pro_setting_color_selector
@@ -1017,6 +1016,9 @@ id pro_setting_label_proColor
 id pro_setting_label_proName
 id progress_circular
 id progress_horizontal
+id proj_setting_menu_item_cancel
+id proj_setting_menu_item_ok
+id proj_setting_menu_item_remove
 id radio
 id ratio
 id rectangles
@@ -1065,6 +1067,7 @@ id stop
 id submenuarrow
 id submit_area
 id swipeRefreshLayout
+id switch_networkMode
 id tabMode
 id tag_transition_group
 id tag_unhandled_key_event_manager
@@ -1082,6 +1085,12 @@ id time
 id title
 id titleDividerNoCustom
 id title_template
+id tk_menu_global_setting
+id tk_menu_project_setting
+id tk_menu_show_all_task
+id tk_menu_task_delete
+id tk_menu_task_edit
+id tk_menu_task_rank
 id toggle
 id top
 id topPanel
@@ -1131,6 +1140,7 @@ layout abc_tooltip
 layout activity_login
 layout activity_main
 layout activity_pre_launch
+layout activity_preference
 layout activity_project_setting
 layout activity_task_setting
 layout activity_user_setting
@@ -1147,6 +1157,7 @@ layout select_dialog_multichoice_material
 layout select_dialog_singlechoice_material
 layout support_simple_spinner_dropdown_item
 layout task_item_layout
+menu preference_menu
 menu project_setting_menu
 menu task_list_menu
 mipmap ic_all_tasks
@@ -1233,6 +1244,8 @@ string label_project_setting_finish
 string label_remind_me
 string label_task_content
 string label_task_finished
+string preference_label_ip_and_port
+string preference_title_onlineMode
 string search_menu_title
 string status_bar_notification_info_overflow
 string str_main_title

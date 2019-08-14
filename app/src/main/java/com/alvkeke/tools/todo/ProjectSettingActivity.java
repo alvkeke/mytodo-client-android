@@ -2,7 +2,6 @@ package com.alvkeke.tools.todo;
 
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
@@ -91,13 +90,13 @@ public class ProjectSettingActivity extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()){
-            case R.id.menu_item_ok:
+            case R.id.proj_setting_menu_item_ok:
                 btnOk.callOnClick();
                 break;
-            case R.id.menu_item_cancel:
+            case R.id.proj_setting_menu_item_cancel:
                 btnCancel.callOnClick();
                 break;
-            case R.id.menu_item_remove:
+            case R.id.proj_setting_menu_item_remove:
 
                 AlertDialog.Builder builder = new AlertDialog.Builder(this);
                 builder.setMessage("您确定要删除该项目吗？\n\n此操作不可以回退，项目内的任务将同时被删除。")

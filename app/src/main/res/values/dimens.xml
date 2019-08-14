@@ -19,4 +19,5 @@
     <dimen name="distance_pro_setting_margin">20dp</dimen>
     <dimen name="distance_edit_left_and_right_margin">40dp</dimen>
     <dimen name="distance_login_margin_to_top">50dp</dimen>
+    <dimen name="distance_margin_preference">20dp</dimen>
 </resources>

@@ -4,37 +4,37 @@
     xmlns:android="http://schemas.android.com/apk/res/android">
 
     <item
-        android:id="@+id/menu_task_edit"
+        android:id="@+id/tk_menu_task_edit"
         app:showAsAction="always"
         android:icon="@drawable/ic_edit_task"
         android:title="@string/title_menu_edit"
         />
 
     <item
-        android:id="@+id/menu_task_delete"
+        android:id="@+id/tk_menu_task_delete"
         app:showAsAction="ifRoom"
         android:icon="@drawable/ic_delete_task"
         android:title="@string/title_menu_delete"
         />
 
     <item
-        android:id="@+id/menu_show_all_task"
+        android:id="@+id/tk_menu_show_all_task"
         android:title="@string/title_menu_showalltasks"
         android:checkable="true"
         />
 
     <item
-        android:id="@+id/menu_task_rank"
+        android:id="@+id/tk_menu_task_rank"
         android:title="@string/title_menu_rank"
         />
 
     <item
-        android:id="@+id/menu_project_setting"
+        android:id="@+id/tk_menu_project_setting"
         android:title="@string/title_menu_project_setting"
         />
 
     <item
-        android:id="@+id/menu_global_setting"
+        android:id="@+id/tk_menu_global_setting"
         android:title="@string/title_menu_preferences"
         />
 

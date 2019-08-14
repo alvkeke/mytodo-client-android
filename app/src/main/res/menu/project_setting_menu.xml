@@ -3,15 +3,15 @@
     xmlns:android="http://schemas.android.com/apk/res/android">
 
     <item
-        android:id="@+id/menu_item_ok"
+        android:id="@+id/proj_setting_menu_item_ok"
         android:title="@string/title_btn_ok"
         />
     <item
-        android:id="@+id/menu_item_cancel"
+        android:id="@+id/proj_setting_menu_item_cancel"
         android:title="@string/title_btn_cancel"
         />
     <item
-        android:id="@+id/menu_item_remove"
+        android:id="@+id/proj_setting_menu_item_remove"
         android:title="@string/title_delete_project"
         />
 

@@ -12,7 +12,7 @@ import static com.alvkeke.tools.todo.Network.Constants.*;
 
 public class HeartBeat {
 
-    public static final int HEART_BEAT_DEFAULT_BREAK_TIME = 30000;
+    public static final int HEART_BEAT_DEFAULT_BREAK_TIME = 28000;
 
     private HeartBeatCallback callback;
     private int netkey;

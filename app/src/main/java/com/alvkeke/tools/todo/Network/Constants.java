@@ -5,7 +5,7 @@ public class Constants {
     public final static String SERVER_IP = "192.168.1.9";
     public final static int SERVER_PORT = 9999;
 
-    public final static int SOCKET_SO_TIMEOUT = 5000;
+    final static int SOCKET_SO_TIMEOUT = 2500;
 
     final static char COMMAND_LOGIN = 0;
     //COMMAND_LOGIN + username + ":" + password
@@ -37,8 +37,8 @@ public class Constants {
     /**resend the data which is not be confirmed**/
 //    final static char COMMAND_RESEND_DATA_BEGIN = 12;
 //    final static char COMMAND_RESEND_DATA_END = 13;
-    public final static char COMMAND_RESEND_NEED = 12;
-    public final static char COMMAND_RESEND_NO_NEED = 13;
+    final static char COMMAND_RESEND_NEED = 12;
+    final static char COMMAND_RESEND_NO_NEED = 13;
 
     /**receiver send**/
     final static char COMMAND_GET_DATA = 14;

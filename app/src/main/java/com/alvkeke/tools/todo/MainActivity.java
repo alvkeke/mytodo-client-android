@@ -334,7 +334,7 @@ public class MainActivity extends AppCompatActivity implements LoginCallback, Sy
                 AlertDialog.Builder builder;
 
                 switch (menuItem.getItemId()){
-                    case R.id.menu_task_edit:
+                    case R.id.tk_menu_task_edit:
                         Log.e("debug", "edit");
                         SparseBooleanArray array = lvTaskList.getCheckedItemPositions();
                         int pos = 0;
@@ -363,7 +363,7 @@ public class MainActivity extends AppCompatActivity implements LoginCallback, Sy
                         startActivityForResult(intent, REQUEST_CODE_SETTING_TASK);
 
                         break;
-                    case R.id.menu_task_delete:
+                    case R.id.tk_menu_task_delete:
 
                         builder = new AlertDialog.Builder(MainActivity.this);
                         builder.setMessage("您确定要删除该任务吗？\n\n此操作不可以回退。")
@@ -404,7 +404,7 @@ public class MainActivity extends AppCompatActivity implements LoginCallback, Sy
                         builder.create().show();
 
                         break;
-                    case R.id.menu_show_all_task:
+                    case R.id.tk_menu_show_all_task:
                         showFinishedTasks = !showFinishedTasks;
                         menuItem.setChecked(showFinishedTasks);
                         SharedPreferences.Editor editor = usersetting.edit();
@@ -412,7 +412,7 @@ public class MainActivity extends AppCompatActivity implements LoginCallback, Sy
                         editor.apply();
                         taskAdapter.showFinishedTasks(showFinishedTasks);
                         break;
-                    case R.id.menu_task_rank:
+                    case R.id.tk_menu_task_rank:
                         //排列任务
                         builder = new AlertDialog.Builder(MainActivity.this);
                         builder.setItems(new String[]{"等级优先", "时间优先"}, new DialogInterface.OnClickListener() {
@@ -427,7 +427,7 @@ public class MainActivity extends AppCompatActivity implements LoginCallback, Sy
                         });
                         builder.create().show();
                         break;
-                    case R.id.menu_project_setting:
+                    case R.id.tk_menu_project_setting:
                         //完成打开项目设置的页面
                         Intent intentProSetting = new Intent(MainActivity.this, ProjectSettingActivity.class);
                         intentProSetting.putExtra("proId", currentProjectId);
@@ -441,12 +441,15 @@ public class MainActivity extends AppCompatActivity implements LoginCallback, Sy
                         startActivityForResult(intentProSetting, Constants.REQUEST_CODE_SETTING_PROJECT);
 
                         break;
-                    case R.id.menu_global_setting:
+                    case R.id.tk_menu_global_setting:
                         //todo:替换成打开首选项设置的页面,以下代码只是暂时将在线模式转换为离线模式,以后需删除
-                        SharedPreferences setting = getSharedPreferences("preLogin", 0);
-                        SharedPreferences.Editor settingEditor = setting.edit();
-                        settingEditor.putBoolean("networkMode", false);
-                        settingEditor.apply();
+//                        SharedPreferences setting = getSharedPreferences("preLogin", 0);
+//                        SharedPreferences.Editor settingEditor = setting.edit();
+//                        settingEditor.putBoolean("networkMode", false);
+//                        settingEditor.apply();
+                        Intent preferIntent = new Intent(MainActivity.this, PreferenceActivity.class);
+
+                        startActivity(preferIntent);
                         break;
                 }
                 return false;

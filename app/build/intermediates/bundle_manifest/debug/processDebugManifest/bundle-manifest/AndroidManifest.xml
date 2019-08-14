@@ -21,6 +21,8 @@
         android:supportsRtl="true"
         android:testOnly="true"
         android:theme="@style/AppTheme" >
+        <activity android:name="com.alvkeke.tools.todo.PreferenceActivity" >
+        </activity>
         <activity android:name="com.alvkeke.tools.todo.UserSettingActivity" />
         <activity android:name="com.alvkeke.tools.todo.LoginActivity" />
         <activity android:name="com.alvkeke.tools.todo.PreLaunchActivity" >

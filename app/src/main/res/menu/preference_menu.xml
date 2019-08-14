@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+		xmlns:app="http://schemas.android.com/apk/res-auto">
+
+	<item
+			android:id="@+id/preference_menu_item_ok"
+			android:title="@string/title_btn_ok"
+			app:showAsAction="always"
+			android:icon="@drawable/ic_ok"/>
+
+	<item
+		android:id="@+id/preference_menu_item_cancel"
+		android:title="@string/title_btn_cancel"
+		app:showAsAction="ifRoom"
+		android:icon="@drawable/ic_cancel"/>
+
+</menu>

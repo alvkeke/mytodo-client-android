@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context=".PreferenceActivity">
+
+    <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+
+        <TextView
+                android:id="@+id/id_label_ip_address"
+				android:text="@string/preference_label_ip_and_port"
+				android:layout_marginStart="@dimen/distance_margin_preference"
+				android:layout_marginEnd="@dimen/distance_margin_preference"
+				android:layout_marginTop="@dimen/distance_margin_preference"
+                android:layout_width="wrap_content"
+				android:layout_height="wrap_content"/>
+
+		<Switch
+				android:id="@+id/switch_networkMode"
+				android:text="@string/preference_title_onlineMode"
+				android:layout_alignBottom="@id/id_label_ip_address"
+				android:layout_alignParentEnd="true"
+				android:layout_marginEnd="@dimen/distance_margin_preference"
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"/>
+
+		<EditText
+				android:id="@+id/et_ip_address"
+				android:layout_below="@id/id_label_ip_address"
+				android:layout_alignStart="@id/id_label_ip_address"
+				android:layout_marginTop="@dimen/distance_margin_preference"
+				android:layout_toStartOf="@id/et_port"
+				android:layout_marginEnd="@dimen/distance_margin_preference"
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content"
+				/>
+
+		<EditText
+				android:id="@+id/et_port"
+				android:layout_alignTop="@id/et_ip_address"
+				android:layout_alignEnd="@id/switch_networkMode"
+				android:layout_width="70dp"
+				android:layout_height="wrap_content"/>
+
+
+    </RelativeLayout>
+
+</android.support.constraint.ConstraintLayout>

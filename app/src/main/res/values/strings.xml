@@ -22,4 +22,6 @@
     <string name="title_menu_preferences">首选项</string>
     <string name="label_task_finished">已完成</string>
     <string name="title_btn_login">登录</string>
+	<string name="preference_label_ip_and_port">IP地址 : 端口</string>
+    <string name="preference_title_onlineMode">在线模式</string>
 </resources>
