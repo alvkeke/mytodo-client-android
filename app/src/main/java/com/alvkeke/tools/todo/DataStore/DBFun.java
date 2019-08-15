@@ -431,7 +431,7 @@ public class DBFun {
                     long lastModifyTime = cursor.getLong(1);
                     if(t.getId() == id){
                         existDataInDatabase = true;
-                        if(p.getLastModifyTime() > lastModifyTime){
+                        if(t.getLastModifyTime() > lastModifyTime){
                             modifyTask(db, t.getId(), t.getProId(), t.getTaskContent(), t.getTime(), t.getLevel(), t.getLastModifyTime());
                             break;
                         }

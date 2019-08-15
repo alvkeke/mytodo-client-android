@@ -156,10 +156,10 @@ public class Synchronizer {
                             String[] projInfo = msg.split("\\|");
                             if(projInfo.length < 6) break;
 
-                            proId = Long.valueOf(projInfo[2]);
+                            proId = Long.parseLong(projInfo[2]);
                             proName = projInfo[3];
-                            proColor = Integer.valueOf(projInfo[4]);
-                            lastModifyTime = Long.valueOf(projInfo[5]);
+                            proColor = Integer.parseInt(projInfo[4]);
+                            lastModifyTime = Long.parseLong(projInfo[5]);
                             Project p = new Project(proId, proName, proColor);
                             p.setLastModifyTime(lastModifyTime);
 
@@ -174,13 +174,13 @@ public class Synchronizer {
                             String[] taskInfo = msg.split("\\|");
                             if(taskInfo.length < 9) break;
 
-                            taskId = Long.valueOf(taskInfo[2]);
-                            proId = Long.valueOf(taskInfo[3]);
+                            taskId = Long.parseLong(taskInfo[2]);
+                            proId = Long.parseLong(taskInfo[3]);
                             taskContent = taskInfo[4];
-                            taskTime = Long.valueOf(taskInfo[5]);
-                            taskLevel = Integer.valueOf(taskInfo[6]);
-                            isTaskFinished = Boolean.valueOf(taskInfo[7]);
-                            lastModifyTime = Long.valueOf(taskInfo[8]);
+                            taskTime = Long.parseLong(taskInfo[5]);
+                            taskLevel = Integer.parseInt(taskInfo[6]);
+                            isTaskFinished = Boolean.parseBoolean(taskInfo[7]);
+                            lastModifyTime = Long.parseLong(taskInfo[8]);
                             TaskItem t = new TaskItem(proId, taskId, taskContent, taskTime, taskLevel);
                             t.setLastModifyTime(lastModifyTime);
                             if (isTaskFinished)
@@ -261,7 +261,7 @@ public class Synchronizer {
                     } else if (cmd == COMMAND_CONFIRM_SEND_BEGIN) {
                         callback.syncDataBegin();
                     } else if (cmd == COMMAND_CONFIRM_DATA) {
-                        delConfirmDataId(Integer.valueOf(sid));
+                        delConfirmDataId(Integer.parseInt(sid));
                     }
                 } catch (SocketTimeoutException e){
                     callback.syncDataFailed(FAILED_TYPE_SERVER_TIMEOUT);
@@ -296,10 +296,10 @@ public class Synchronizer {
                 socket.send(packet);
 
                 int dataId = 0;
-                int loopTime = 0;
+//                int loopTime = 0;
                 for (Project p : projects){
 
-                    System.out.println(loopTime++);
+//                    System.out.println(loopTime++);
                     sSend = COMMAND_SEND_DATA_PROJS + String.valueOf(netkey) +"|"+ dataId +"|"+ p.getId() +"|"+
                             p.getName() +"|"+ p.getColor() +"|"+ p.getLastModifyTime();
                     packet.setData(sSend.getBytes());
@@ -325,8 +325,6 @@ public class Synchronizer {
                 packet.setData(sSend.getBytes());
                 socket.send(packet);
 
-            } catch (UnknownHostException e) {
-                e.printStackTrace();
             } catch (IOException e) {
                 e.printStackTrace();
             }

@@ -1191,18 +1191,19 @@ public class MainActivity extends AppCompatActivity implements LoginCallback, Sy
 
     @Override
     public void pushDataSuccess() {
-        Log.e("sync data", "push data success");
+//        Log.e("sync data", "push data success");
     }
 
     @Override
-    public void syncDataSuccess(final ArrayList<Project> projects, ArrayList<TaskItem> taskItems) {
-        Functions.mergeProjectList(this.projects, projects);
+    public void syncDataSuccess(final ArrayList<Project> projsIn, ArrayList<TaskItem> tasksIn) {
+        Functions.mergeProjectList(projects, projsIn);
+
         ArrayList<TaskItem> tmp = new ArrayList<>();
         for(Project p : projects){
             tmp.addAll(p.getTaskList());
             p.getTaskList().clear();
         }
-        Functions.mergeTaskList(tmp, taskItems);
+        Functions.mergeTaskList(tmp, tasksIn);
         Functions.autoMoveTaskToProject(projects, tmp);
 
         db = SQLiteDatabase.openOrCreateDatabase(dbfile, null);

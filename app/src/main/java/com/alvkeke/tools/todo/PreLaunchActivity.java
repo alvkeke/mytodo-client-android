@@ -1,13 +1,9 @@
 package com.alvkeke.tools.todo;
 
-import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.net.ConnectivityManager;
-import android.net.NetworkInfo;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.WindowManager;
 import android.widget.Toast;
 
@@ -90,7 +86,7 @@ public class PreLaunchActivity extends AppCompatActivity implements LoginCallbac
         MainIntent.putExtra("serverPort", serverPort);
         startActivity(MainIntent);
 
-        Log.e("login", "success");
+//        Log.e("login", "success");
         finish();
     }
 
@@ -99,7 +95,7 @@ public class PreLaunchActivity extends AppCompatActivity implements LoginCallbac
 
         if(failedType == Loginer.LOGIN_FAILED_SERVER_TIMEOUT && !getIntent().getBooleanExtra("firstLogin", false)){
 
-            Log.e("login", "error:server timeout.");
+//            Log.e("login", "error:server timeout.");
 
             runOnUiThread(new Runnable() {
                 @Override
