@@ -2,7 +2,8 @@ package com.alvkeke.tools.todo.Network;
 
 public class Constants {
 //    public final static String SERVER_IP = "192.168.1.111";
-    public final static String SERVER_IP = "192.168.1.9";
+//    public final static String SERVER_IP = "192.168.1.9";
+    public final static String SERVER_IP = "47.103.138.120";
     public final static int SERVER_PORT = 9999;
 
     final static int SOCKET_SO_TIMEOUT = 2500;
