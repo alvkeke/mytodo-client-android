@@ -21,6 +21,12 @@
         android:supportsRtl="true"
         android:testOnly="true"
         android:theme="@style/AppTheme" >
+        <service
+            android:name="com.alvkeke.tools.todo.Noticication.ReminderService"
+            android:enabled="true"
+            android:exported="true" >
+        </service>
+
         <activity android:name="com.alvkeke.tools.todo.PreferenceActivity" >
         </activity>
         <activity android:name="com.alvkeke.tools.todo.UserSettingActivity" />

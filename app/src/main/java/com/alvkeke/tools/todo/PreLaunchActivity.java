@@ -1,7 +1,12 @@
 package com.alvkeke.tools.todo;
 
+import android.annotation.TargetApi;
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.os.Build;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.WindowManager;
@@ -9,6 +14,7 @@ import android.widget.Toast;
 
 import com.alvkeke.tools.todo.Network.Loginer;
 import com.alvkeke.tools.todo.Network.LoginCallback;
+import com.alvkeke.tools.todo.Noticication.ReminderService;
 
 import java.util.Objects;
 
@@ -31,6 +37,14 @@ public class PreLaunchActivity extends AppCompatActivity implements LoginCallbac
         setContentView(R.layout.activity_pre_launch);
         Objects.requireNonNull(getSupportActionBar()).hide();
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
+
+        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.O){
+            String id = "reminder";
+            String name = "任务到期提醒";
+            int importance = NotificationManager.IMPORTANCE_HIGH;
+            createNotifyChannel(id, name, importance);
+        }
+
 
         //从本地储存中加载用户设置
         setting = getSharedPreferences("preLogin", 0);
@@ -88,6 +102,13 @@ public class PreLaunchActivity extends AppCompatActivity implements LoginCallbac
 
 //        Log.e("login", "success");
         finish();
+    }
+
+    @TargetApi(Build.VERSION_CODES.O)
+    private void createNotifyChannel(String channelId, String channelName, int importance){
+        NotificationChannel channel = new NotificationChannel(channelId, channelName, importance);
+        NotificationManager manager = (NotificationManager)getSystemService(Context.NOTIFICATION_SERVICE);
+        manager.createNotificationChannel(channel);
     }
 
     @Override

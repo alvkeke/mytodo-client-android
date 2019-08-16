@@ -1,32 +1,38 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-          package="com.alvkeke.tools.todo">
+		package="com.alvkeke.tools.todo">
 
-    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
-    <uses-permission android:name="android.permission.INTERNET"/>
+	<uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+	<uses-permission android:name="android.permission.INTERNET"/>
 
-    <application
-            android:allowBackup="true"
-            android:icon="@mipmap/ic_launcher"
-            android:label="@string/app_name"
-            android:roundIcon="@mipmap/ic_launcher_round"
-            android:supportsRtl="true"
-            android:theme="@style/AppTheme">
-        <activity android:name=".PreferenceActivity">
-        </activity>
-        <activity android:name=".UserSettingActivity"/>
-        <activity android:name=".LoginActivity"/>
-        <activity android:name=".PreLaunchActivity">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN"/>
+	<application
+			android:allowBackup="true"
+			android:icon="@mipmap/ic_launcher"
+			android:label="@string/app_name"
+			android:roundIcon="@mipmap/ic_launcher_round"
+			android:supportsRtl="true"
+			android:theme="@style/AppTheme">
+		<service
+				android:name=".Noticication.ReminderService"
+				android:enabled="true"
+				android:exported="true">
+		</service>
 
-                <category android:name="android.intent.category.LAUNCHER"/>
-            </intent-filter>
-        </activity>
-        <activity android:name=".TaskSettingActivity"/>
-        <activity android:name=".ProjectSettingActivity"/>
-        <activity android:name=".AddTaskActivity"/>
-        <activity android:name=".MainActivity"/>
-    </application>
+		<activity android:name=".PreferenceActivity">
+		</activity>
+		<activity android:name=".UserSettingActivity"/>
+		<activity android:name=".LoginActivity"/>
+		<activity android:name=".PreLaunchActivity">
+			<intent-filter>
+				<action android:name="android.intent.action.MAIN"/>
+
+				<category android:name="android.intent.category.LAUNCHER"/>
+			</intent-filter>
+		</activity>
+		<activity android:name=".TaskSettingActivity"/>
+		<activity android:name=".ProjectSettingActivity"/>
+		<activity android:name=".AddTaskActivity"/>
+		<activity android:name=".MainActivity"/>
+	</application>
 
 </manifest>

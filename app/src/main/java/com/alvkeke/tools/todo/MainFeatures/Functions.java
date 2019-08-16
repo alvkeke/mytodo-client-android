@@ -145,7 +145,7 @@ public class Functions {
 
     /*Time Format Functions*/
 
-    private static boolean isToday(long time){
+    public static boolean isToday(long time){
         Date today = new Date();
         SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd", Locale.CHINA);
         return format.format(today).equals(formatDate(time));

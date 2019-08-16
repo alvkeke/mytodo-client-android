@@ -3,6 +3,7 @@ package com.alvkeke.tools.todo;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.IntentSender;
 import android.content.SharedPreferences;
 import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Color;
@@ -43,6 +44,7 @@ import com.alvkeke.tools.todo.Network.NetOperatorCallback;
 import com.alvkeke.tools.todo.Network.NetworkOperator;
 import com.alvkeke.tools.todo.Network.SyncCallback;
 import com.alvkeke.tools.todo.Network.Synchronizer;
+import com.alvkeke.tools.todo.Noticication.ReminderService;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -197,6 +199,10 @@ public class MainActivity extends AppCompatActivity implements LoginCallback, Sy
             heartBeat.setAddress(serverIP, serverPort);
             heartBeat.start();
         }
+
+        Intent intentService = new Intent(this, ReminderService.class);
+        intentService.putExtra("dbfile", dbfile.getAbsolutePath());
+        startService(intentService);
 
         //设置事件响应
 
