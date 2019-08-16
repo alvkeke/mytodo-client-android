@@ -136,6 +136,7 @@ public class Functions {
                     tOld.setTime(t.getTime());
                     tOld.setLevel(t.getLevel());
                     tOld.setContent(t.getTaskContent());
+                    tOld.setFinished(t.isFinished());
                     tOld.setLastModifyTime(t.getLastModifyTime());
                 }
             }
@@ -146,9 +147,20 @@ public class Functions {
     /*Time Format Functions*/
 
     public static boolean isToday(long time){
-        Date today = new Date();
-        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd", Locale.CHINA);
-        return format.format(today).equals(formatDate(time));
+//        Date today = new Date();
+//        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd", Locale.CHINA);
+//        return format.format(today).equals(formatDate(time));
+
+        Calendar calendar = Calendar.getInstance();
+        calendar.set(Calendar.HOUR_OF_DAY, 0);
+        //清空hour时,必须使用set来进行,否则因为AM/PM的缘故,会出现一些奇怪的问题
+        calendar.clear(Calendar.MINUTE);
+        calendar.clear(Calendar.SECOND);
+        calendar.clear(Calendar.MILLISECOND);
+        long today = calendar.getTimeInMillis();
+        calendar.add(Calendar.DAY_OF_MONTH, 1);
+        long tomorrow = calendar.getTimeInMillis();
+        return time >= today && time < tomorrow;
     }
 
     private static boolean isRecent(long time){
@@ -165,6 +177,28 @@ public class Functions {
 
         return time >= today && time < lastDay;
 
+    }
+
+    private static int next_day(long time){
+        Calendar calendar = Calendar.getInstance();
+        calendar.set(Calendar.HOUR_OF_DAY, 0);
+        calendar.clear(Calendar.MINUTE);
+        calendar.clear(Calendar.SECOND);
+        calendar.clear(Calendar.MILLISECOND);
+
+        if(time < calendar.getTimeInMillis()) return -1; //out of time
+
+        long beginTime, endTime;
+        for(int i = 0; i<7; i++){
+            beginTime = calendar.getTimeInMillis();
+            calendar.add(Calendar.DAY_OF_MONTH, 1);
+            endTime = calendar.getTimeInMillis();
+            if(time >= beginTime && time < endTime){
+                return i;
+            }
+        }
+
+        return 8;   //高于7则说明不在最近（7天）范围内
     }
 
     public static String formatDate(long time){
@@ -184,23 +218,89 @@ public class Functions {
 
     static String autoFormatDate(long time){
 
-        if(isToday(time)){
-            //这里判断等于“00:00”是判断有没有设置指定的提醒时间，如果没有，则只显示日期，如果有则连同时间一起显示
-            //按照目前这样看，有一个bug
-            //如果用户自己设置为00:00,会出现只显示日期的情况,
-            //我打算将没有时间只有日期的任务在00:00进行提醒,这就能避免错过提醒的情况发生.
-            if(formatTime(time).equals("00:00")){
-                return "今天";
+//        if(isToday(time)){
+//            //这里判断等于“00:00”是判断有没有设置指定的提醒时间，如果没有，则只显示日期，如果有则连同时间一起显示
+//            //按照目前这样看，有一个bug
+//            //如果用户自己设置为00:00,会出现只显示日期的情况,
+//            //我打算将没有时间只有日期的任务在00:00进行提醒,这就能避免错过提醒的情况发生.
+//            if(formatTime(time).equals("00:00")){
+//                return "今天";
+//            }else{
+//                return "今天 " + formatTime(time);
+//            }
+//        }
+
+        int nextDays = next_day(time);
+//        switch (nextDays){
+//            case -1:
+//                return "已过期";
+//            case 0:
+//                if(formatTime(time).equals("00:00")){
+//                    return "今天";
+//                }else{
+//                    return "今天 " + formatTime(time);
+//                }
+//            case 1:
+//                return "明天";
+//            case 2:
+//                return "后天";
+//            case 3:
+//
+//        }
+
+        if(nextDays == -1){
+            return "已过期";
+        }else if (nextDays == 0){
+            String day = "今天";
+            String sTime = formatTime(time);
+
+            if(sTime.equals("00:00")){
+                return day;
             }else{
-                return "今天 " + formatTime(time);
+                return day +" "+ sTime;
+            }
+        }else if (nextDays == 1){
+            String day = "明天";
+            String sTime = formatTime(time);
+
+            if(sTime.equals("00:00")){
+                return day;
+            }else{
+                return day +" "+ sTime;
+            }
+        }else if (nextDays == 2){
+            String day = "后天";
+            String sTime = formatTime(time);
+
+            if(sTime.equals("00:00")){
+                return day;
+            }else{
+                return day +" "+ sTime;
+            }
+        }else if (nextDays >2 && nextDays<7){
+            SimpleDateFormat simpleDateFormat = new SimpleDateFormat("EEE", Locale.CHINA);
+            String day = simpleDateFormat.format(new Date(time));
+            String sTime = formatTime(time);
+
+            if(sTime.equals("00:00")){
+                return day;
+            }else{
+                return day +" "+ sTime;
+            }
+
+        }else {
+            if(formatTime(time).equals("00:00")){
+                return formatDate(time);
+            }else {
+                return formatDate_All(time);
             }
         }
 
-        if(formatTime(time).equals("00:00")){
-            return formatDate(time);
-        }
-
-        return formatDate_All(time);
+//        if(formatTime(time).equals("00:00")){
+//            return formatDate(time);
+//        }
+//
+//        return formatDate_All(time);
     }
 
 }
