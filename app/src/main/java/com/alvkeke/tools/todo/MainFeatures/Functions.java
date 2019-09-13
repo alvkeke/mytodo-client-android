@@ -218,35 +218,7 @@ public class Functions {
 
     static String autoFormatDate(long time){
 
-//        if(isToday(time)){
-//            //这里判断等于“00:00”是判断有没有设置指定的提醒时间，如果没有，则只显示日期，如果有则连同时间一起显示
-//            //按照目前这样看，有一个bug
-//            //如果用户自己设置为00:00,会出现只显示日期的情况,
-//            //我打算将没有时间只有日期的任务在00:00进行提醒,这就能避免错过提醒的情况发生.
-//            if(formatTime(time).equals("00:00")){
-//                return "今天";
-//            }else{
-//                return "今天 " + formatTime(time);
-//            }
-//        }
-
         int nextDays = next_day(time);
-//        switch (nextDays){
-//            case -1:
-//                return "已过期";
-//            case 0:
-//                if(formatTime(time).equals("00:00")){
-//                    return "今天";
-//                }else{
-//                    return "今天 " + formatTime(time);
-//                }
-//            case 1:
-//                return "明天";
-//            case 2:
-//                return "后天";
-//            case 3:
-//
-//        }
 
         if(nextDays == -1){
             return "已过期";
@@ -296,11 +268,6 @@ public class Functions {
             }
         }
 
-//        if(formatTime(time).equals("00:00")){
-//            return formatDate(time);
-//        }
-//
-//        return formatDate_All(time);
     }
 
 }

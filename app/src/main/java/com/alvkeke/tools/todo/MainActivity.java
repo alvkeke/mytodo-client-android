@@ -424,7 +424,8 @@ public class MainActivity extends AppCompatActivity implements LoginCallback, Sy
             Log.e("debug", "return data is null");
             return;
         }
-        if(requestCode == REQUEST_CODE_ADD_TASK){
+        if(requestCode == REQUEST_CODE_ADD_TASK)
+        {
             if(resultCode == RESULT_CODE_ADD_TASK){
 
                 long proId = data.getLongExtra("projectId", -1);
@@ -548,17 +549,19 @@ public class MainActivity extends AppCompatActivity implements LoginCallback, Sy
                 //添加任务
                 if(netkey <=0) {
                     addTask(Functions.generateId(), proId, task, tmpTime, level);
+                    //新建任务时,刷新当前显示的列表
+                    refreshCurrentTaskList();
                 }else {
                     NetworkOperator operator = new NetworkOperator(MainActivity.this, netkey, serverIP, serverPort);
                     operator.createTask(Functions.generateId(), proId, task, tmpTime, level);
                 }
 
-                //新建任务时,刷新当前显示的列表
-                refreshCurrentTaskList();
 
             }
 
-        }else if(requestCode == REQUEST_CODE_SETTING_PROJECT){
+        }
+        else if(requestCode == REQUEST_CODE_SETTING_PROJECT)
+        {
             long proId;
             switch (resultCode){
                 case RESULT_CANCEL:
@@ -589,9 +592,11 @@ public class MainActivity extends AppCompatActivity implements LoginCallback, Sy
                     }
 
             }
-            refreshCurrentTaskList();
+//            refreshCurrentTaskList();
 
-        }else if (requestCode == REQUEST_CODE_ADD_PROJECT){
+        }
+        else if (requestCode == REQUEST_CODE_ADD_PROJECT)
+        {
             if(resultCode != RESULT_CANCEL) {
                 long id = data.getLongExtra("proId", -1);
                 String proName = data.getStringExtra("proName");
@@ -606,7 +611,9 @@ public class MainActivity extends AppCompatActivity implements LoginCallback, Sy
 
                 exitProjectSettingMode();
             }
-        }else if (requestCode == REQUEST_CODE_SETTING_TASK){
+        }
+        else if (requestCode == REQUEST_CODE_SETTING_TASK)
+        {
             if(resultCode == RESULT_CANCEL){
                 return;
             }
@@ -643,14 +650,16 @@ public class MainActivity extends AppCompatActivity implements LoginCallback, Sy
 
             if(netkey <= 0) {
                 modifyTask(taskId, oldProId, newProId, task, time, level, isFinished);
+                refreshCurrentTaskList();
             }else{
                 NetworkOperator operator = new NetworkOperator(this, netkey, serverIP, serverPort);
                 operator.modifyTask(taskId, oldProId, newProId, task, time, level, isFinished);
             }
 
-            refreshCurrentTaskList();
 
-        }else if(requestCode == REQUEST_CODE_LOGIN){
+        }
+        else if(requestCode == REQUEST_CODE_LOGIN)
+        {
             finish();
         }
     }
@@ -1188,9 +1197,9 @@ public class MainActivity extends AppCompatActivity implements LoginCallback, Sy
                 netkey = 0;
                 String strShow = username + "(离线)";
                 tvUsername.setText(strShow);
+                refreshLayout.setRefreshing(false);
             }
         });
-        refreshLayout.setRefreshing(false);
         heartBeat.stop();
 
     }
@@ -1222,10 +1231,10 @@ public class MainActivity extends AppCompatActivity implements LoginCallback, Sy
                 proAdapter.notifyDataSetChanged();
                 refreshCurrentTaskList();
                 Toast.makeText(getApplicationContext(), "同步完成", Toast.LENGTH_SHORT).show();
+                refreshLayout.setRefreshing(false);
             }
         });
 
-        refreshLayout.setRefreshing(false);
     }
 
     /**call back of the network operator**/
@@ -1237,12 +1246,12 @@ public class MainActivity extends AppCompatActivity implements LoginCallback, Sy
         projects.add(project);
 
         db = SQLiteDatabase.openOrCreateDatabase(dbfile, null);
-        runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-
-            }
-        });
+//        runOnUiThread(new Runnable() {
+//            @Override
+//            public void run() {
+//
+//            }
+//        });
         if(!DBFun.createProject(db, project)){
             runOnUiThread(new Runnable() {
                 @Override
@@ -1403,8 +1412,8 @@ public class MainActivity extends AppCompatActivity implements LoginCallback, Sy
                 return;
             }
             newProject.addTask(taskItem);
-            oldProject.getTaskList().remove(taskItem);
             taskItem.setProId(newProId);
+            oldProject.getTaskList().remove(taskItem);
         }
 
         //存储到本地
